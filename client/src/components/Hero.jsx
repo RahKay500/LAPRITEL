@@ -4,12 +4,13 @@ import heroImage from '../assets/images/ivy_bag_white.jpeg'
 function Hero() {
   return (
     <section
-      className="flex min-h-[70vh] items-center bg-cover bg-center px-4 sm:px-6 lg:min-h-[85vh] lg:px-12"
+      className="flex min-h-[70vh] items-center bg-cover px-4 sm:px-6 lg:px-12"
       style={{
         backgroundImage: `linear-gradient(135deg, rgba(0,0,0,0.55), rgba(0,0,0,0.25)), url(${heroImage})`,
+        backgroundPosition: 'center 80%',
       }}
     >
-      <div className="max-w-xl py-20 text-white lg:py-0">
+      <div className="max-w-xl text-white">
         <h1 className="font-heading text-4xl leading-tight sm:text-5xl lg:text-6xl">
           The Ivy Bag
         </h1>

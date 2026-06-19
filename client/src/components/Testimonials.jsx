@@ -2,17 +2,17 @@ import { Star } from 'lucide-react'
 
 const testimonials = [
   {
-    name: 'Adwoa K.',
+    name: 'Mella.',
     quote:
       'The quality is stunning. You can tell every bead was placed with care. I get compliments every time I wear it.',
   },
   {
-    name: 'Naa A.',
+    name: 'Naa Korkor.',
     quote:
       'My Ivy Bag arrived beautifully packaged and exceeded my expectations. Truly a statement piece.',
   },
   {
-    name: 'Efua S.',
+    name: 'Prilla.',
     quote:
       'Elegant, well-made, and so unique. LAPRITEL has become my go-to gift for special occasions.',
   },

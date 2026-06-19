@@ -5,11 +5,13 @@ function FeaturedProduct() {
   return (
     <section className="px-4 py-16 sm:px-6 lg:px-12 lg:py-24">
       <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-2 lg:gap-16">
-        <img
-          src={featuredImage}
-          alt="The Ivy Bag in hot pink"
-          className="aspect-square w-full rounded-2xl object-cover lg:order-2"
-        />
+        <div className="flex aspect-square w-full items-center justify-center rounded-2xl bg-burgundy-tint p-6 lg:order-2">
+          <img
+            src={featuredImage}
+            alt="The Ivy Bag in hot pink"
+            className="h-full w-full object-contain"
+          />
+        </div>
         <div className="lg:order-1">
           <p className="text-sm font-semibold uppercase tracking-widest text-burgundy">
             Featured

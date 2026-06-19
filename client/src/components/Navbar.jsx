@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { Menu, ShoppingBag, User, X } from 'lucide-react'
+import { useCart } from '../context/useCart'
 
 const navLinks = [
   { label: 'Home', to: '/' },
@@ -11,7 +12,7 @@ const navLinks = [
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const cartCount = 0
+  const { count: cartCount } = useCart()
 
   return (
     <header className="sticky top-0 z-50 border-b border-burgundy-tint bg-white">

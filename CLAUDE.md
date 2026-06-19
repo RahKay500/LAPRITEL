@@ -13,7 +13,7 @@ This project is being built from scratch — there is no existing codebase yet. 
 - Site flow and shopping experience: staysixteen.com (announcement bar, nav, collection pages, PDP, cart, checkout)
 
 ### Brand styling
-- Primary: Burgundy `#580D0D`
+- Primary: Burgundy `#800020`
 - Background: White `#FFFFFF`
 - Accent (light sections): `#f5e6ea`
 - Text: Near-black `#1a1a1a`
