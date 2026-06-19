@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { Menu, ShoppingBag, User, X } from 'lucide-react'
 import { useCart } from '../context/useCart'
+import { useAuth } from '../context/useAuth'
 
 const navLinks = [
   { label: 'Home', to: '/' },
@@ -13,6 +14,7 @@ const navLinks = [
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { count: cartCount } = useCart()
+  const { user } = useAuth()
 
   return (
     <header className="sticky top-0 z-50 border-b border-burgundy-tint bg-white">
@@ -39,7 +41,11 @@ function Navbar() {
         </ul>
 
         <div className="flex items-center gap-4">
-          <Link to="/account" aria-label="Account" className="text-ink hover:text-burgundy">
+          <Link
+            to={user ? '/profile' : '/login'}
+            aria-label="Account"
+            className="text-ink hover:text-burgundy"
+          >
             <User size={22} strokeWidth={1.5} />
           </Link>
           <Link to="/cart" aria-label="Cart" className="relative text-ink hover:text-burgundy">

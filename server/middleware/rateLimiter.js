@@ -15,3 +15,11 @@ export const authLimiter = rateLimit({
   legacyHeaders: false,
   message: { message: 'Too many attempts, please try again later.' },
 })
+
+export const paymentLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: 'Too many payment attempts, please try again later.' },
+})

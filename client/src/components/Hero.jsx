@@ -22,7 +22,7 @@ function Hero() {
           to="/shop"
           className="mt-8 inline-block rounded-full bg-burgundy px-8 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90"
         >
-          Shop the Ivy Bag
+          Shop Now  
         </Link>
       </div>
     </section>

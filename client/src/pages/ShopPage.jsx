@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { Check, ChevronDown, Filter } from 'lucide-react'
 import { ivyBagVariants } from '../data/ivyBagVariants'
 import { useCart } from '../context/useCart'
@@ -151,24 +151,26 @@ function ShopPage() {
                 key={variant.slug}
                 className="rounded-2xl bg-white p-3 shadow-sm transition-shadow hover:shadow-md"
               >
-                {variant.image ? (
-                  <div className="flex aspect-square w-full items-center justify-center rounded-xl bg-burgundy-tint/40 p-2">
-                    <img
-                      src={variant.image}
-                      alt={`The Ivy Bag in ${variant.name}`}
-                      className="h-full w-full object-contain"
-                    />
-                  </div>
-                ) : (
-                  <div className="flex aspect-square w-full items-center justify-center rounded-xl bg-burgundy-tint/40">
-                    <span
-                      className="block h-14 w-14 rounded-full border border-black/10"
-                      style={{ backgroundColor: variant.hex }}
-                    />
-                  </div>
-                )}
-                <p className="mt-3 text-sm font-medium text-ink">{variant.name}</p>
-                <p className="mt-1 text-xs text-ink/60">GHS {variant.price}</p>
+                <Link to={`/shop/ivy-bag?color=${variant.slug}`}>
+                  {variant.image ? (
+                    <div className="flex aspect-square w-full items-center justify-center rounded-xl bg-burgundy-tint/40 p-2">
+                      <img
+                        src={variant.image}
+                        alt={`The Ivy Bag in ${variant.name}`}
+                        className="h-full w-full object-contain"
+                      />
+                    </div>
+                  ) : (
+                    <div className="flex aspect-square w-full items-center justify-center rounded-xl bg-burgundy-tint/40">
+                      <span
+                        className="block h-14 w-14 rounded-full border border-black/10"
+                        style={{ backgroundColor: variant.hex }}
+                      />
+                    </div>
+                  )}
+                  <p className="mt-3 text-sm font-medium text-ink">{variant.name}</p>
+                  <p className="mt-1 text-xs text-ink/60">GHS {variant.price}</p>
+                </Link>
                 <button
                   type="button"
                   onClick={() => handleQuickAdd(variant)}
