@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@theme {
+  --font-heading: "Playfair Display", serif;
+  --font-sans: "Inter", sans-serif;
+
+  --color-burgundy: #580d0d;
+  --color-burgundy-tint: #f5e6ea;
+  --color-ink: #1a1a1a;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: #ffffff;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+}

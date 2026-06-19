@@ -1,0 +1,52 @@
+import { Star } from 'lucide-react'
+
+const testimonials = [
+  {
+    name: 'Adwoa K.',
+    quote:
+      'The quality is stunning. You can tell every bead was placed with care. I get compliments every time I wear it.',
+  },
+  {
+    name: 'Naa A.',
+    quote:
+      'My Ivy Bag arrived beautifully packaged and exceeded my expectations. Truly a statement piece.',
+  },
+  {
+    name: 'Efua S.',
+    quote:
+      'Elegant, well-made, and so unique. LAPRITEL has become my go-to gift for special occasions.',
+  },
+]
+
+function Testimonials() {
+  return (
+    <section className="px-4 py-16 sm:px-6 lg:px-12 lg:py-24">
+      <div className="mx-auto max-w-6xl text-center">
+        <h2 className="font-heading text-3xl text-ink sm:text-4xl">
+          What Our Customers Say
+        </h2>
+
+        <div className="mt-10 grid gap-6 sm:grid-cols-3">
+          {testimonials.map((testimonial) => (
+            <div
+              key={testimonial.name}
+              className="rounded-2xl bg-burgundy-tint p-6 text-left"
+            >
+              <div className="flex gap-1 text-burgundy">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <Star key={index} size={16} fill="currentColor" strokeWidth={0} />
+                ))}
+              </div>
+              <p className="mt-4 text-sm text-ink/80">“{testimonial.quote}”</p>
+              <p className="mt-4 text-sm font-semibold text-ink">
+                {testimonial.name}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export default Testimonials
