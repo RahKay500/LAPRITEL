@@ -25,7 +25,7 @@ function signToken(user) {
 }
 
 function setAuthCookie(res, token) {
-  const isProduction = process.env.NODE_ENV === 'production'
+  const isProduction = process.env.NODE_ENV?.trim() === 'production'
   res.cookie('token', token, {
     httpOnly: true,
     // Client (Vercel) and server (Render) live on different domains in
@@ -85,7 +85,7 @@ export async function login(req, res) {
 }
 
 export function logout(req, res) {
-  const isProduction = process.env.NODE_ENV === 'production'
+  const isProduction = process.env.NODE_ENV?.trim() === 'production'
   res.clearCookie('token', {
     httpOnly: true,
     secure: isProduction,
