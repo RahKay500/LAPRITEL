@@ -1,5 +1,11 @@
 import nodemailer from 'nodemailer'
 
+const HTML_ESCAPES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (char) => HTML_ESCAPES[char])
+}
+
 let transporter
 
 function getTransporter() {
@@ -27,7 +33,7 @@ export async function sendOrderConfirmationEmail({ reference, customer, items, s
     .map(
       (item) => `
         <tr>
-          <td style="padding:8px 0;">The Ivy Bag (${item.name}) x${item.quantity}</td>
+          <td style="padding:8px 0;">The Ivy Bag (${escapeHtml(item.name)}) x${Number(item.quantity)}</td>
           <td style="padding:8px 0;text-align:right;">GHS ${(item.price * item.quantity).toFixed(2)}</td>
         </tr>`
     )
@@ -36,7 +42,7 @@ export async function sendOrderConfirmationEmail({ reference, customer, items, s
   const html = `
     <div style="font-family:Arial,sans-serif;color:#1a1a1a;max-width:480px;margin:0 auto;">
       <h1 style="color:#800020;font-size:20px;">Thank you for your order!</h1>
-      <p>Hi ${customer.fullName}, your LAPRITEL order <strong>${reference}</strong> has been received and paid for.</p>
+      <p>Hi ${escapeHtml(customer.fullName)}, your LAPRITEL order <strong>${escapeHtml(reference)}</strong> has been received and paid for.</p>
       <table style="width:100%;border-collapse:collapse;margin-top:16px;">
         ${itemRows}
         <tr>
@@ -44,7 +50,7 @@ export async function sendOrderConfirmationEmail({ reference, customer, items, s
           <td style="padding:12px 0;border-top:1px solid #eee;text-align:right;font-weight:bold;">GHS ${subtotal.toFixed(2)}</td>
         </tr>
       </table>
-      <p style="margin-top:16px;">We'll deliver to:<br>${customer.address}, ${customer.city}, ${customer.region}</p>
+      <p style="margin-top:16px;">We'll deliver to:<br>${escapeHtml(customer.address)}, ${escapeHtml(customer.city)}, ${escapeHtml(customer.region)}</p>
       <p style="margin-top:24px;color:#666;font-size:13px;">— The LAPRITEL Team</p>
     </div>
   `

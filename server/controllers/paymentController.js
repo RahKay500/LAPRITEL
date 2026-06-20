@@ -46,8 +46,14 @@ export async function verifyPayment(req, res) {
   const isSuccessful = transaction.status === 'success'
   const isCorrectAmount = transaction.amount === expectedChargePesewas
   const isCorrectCurrency = transaction.currency === 'GHS'
+  // Without this, an attacker could pay for their own order, then submit an
+  // arbitrary customer object (any recipient email, unescaped HTML in
+  // address/name fields) — sending a spoofed "order confirmed" email from
+  // our own SMTP sender to a victim of their choosing.
+  const isCorrectCustomer =
+    transaction.customer?.email?.toLowerCase() === customer.email?.toLowerCase()
 
-  if (!isSuccessful || !isCorrectAmount || !isCorrectCurrency) {
+  if (!isSuccessful || !isCorrectAmount || !isCorrectCurrency || !isCorrectCustomer) {
     return res.status(400).json({
       verified: false,
       message: 'Payment could not be verified',
