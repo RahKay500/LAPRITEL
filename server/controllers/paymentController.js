@@ -1,27 +1,36 @@
-import { ivyBagVariants } from '../data/ivyBagVariants.js'
+import { getActiveVariantPriceMap } from '../models/products.js'
 import { verifyTransaction, isValidWebhookSignature } from '../utils/paystack.js'
+import { grossUpForPaystackFee } from '../utils/pricing.js'
 import {
   createOrder,
   getOrderByReference,
   updateOrderStatusByReference,
 } from '../models/orders.js'
 
-function calculateExpectedAmount(items) {
-  return items.reduce((total, item) => {
-    const variant = ivyBagVariants.find((v) => v.slug === item.slug)
-    if (!variant) {
+async function calculateExpectedAmounts(items) {
+  const priceMap = await getActiveVariantPriceMap()
+
+  const subtotalPesewas = items.reduce((total, item) => {
+    const price = priceMap.get(item.slug)
+    if (price === undefined) {
       throw new Error(`Unknown product variant: ${item.slug}`)
     }
-    return total + variant.price * item.quantity
+    return total + Math.round(price * 100) * item.quantity
   }, 0)
+
+  return {
+    subtotal: subtotalPesewas / 100,
+    expectedChargePesewas: grossUpForPaystackFee(subtotalPesewas),
+  }
 }
 
 export async function verifyPayment(req, res) {
   const { reference, items, customer } = req.body
 
-  let expectedAmount
+  let subtotal
+  let expectedChargePesewas
   try {
-    expectedAmount = calculateExpectedAmount(items)
+    ;({ subtotal, expectedChargePesewas } = await calculateExpectedAmounts(items))
   } catch (error) {
     return res.status(400).json({ verified: false, message: error.message })
   }
@@ -33,9 +42,8 @@ export async function verifyPayment(req, res) {
     return res.status(400).json({ verified: false, message: error.message })
   }
 
-  const paidAmount = transaction.amount / 100
   const isSuccessful = transaction.status === 'success'
-  const isCorrectAmount = paidAmount === expectedAmount
+  const isCorrectAmount = transaction.amount === expectedChargePesewas
   const isCorrectCurrency = transaction.currency === 'GHS'
 
   if (!isSuccessful || !isCorrectAmount || !isCorrectCurrency) {
@@ -51,13 +59,13 @@ export async function verifyPayment(req, res) {
       reference,
       status: 'paid',
       customer,
-      subtotal: paidAmount,
+      subtotal,
       items,
       userId: req.user?.id,
     })
   }
 
-  res.json({ verified: true, reference, amount: paidAmount })
+  res.json({ verified: true, reference, amount: transaction.amount / 100 })
 }
 
 export async function handleWebhook(req, res) {

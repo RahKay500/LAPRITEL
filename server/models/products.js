@@ -15,6 +15,19 @@ export async function getActiveProducts() {
   return data
 }
 
+export async function getActiveVariantPriceMap() {
+  const { data, error } = await supabase
+    .from('product_variants')
+    .select('color_slug, price')
+    .eq('is_active', true)
+
+  if (error) {
+    throw new Error(`Failed to fetch variant prices: ${error.message}`)
+  }
+
+  return new Map(data.map((variant) => [variant.color_slug, Number(variant.price)]))
+}
+
 export async function getAllProductsForAdmin() {
   const { data, error } = await supabase
     .from('products')

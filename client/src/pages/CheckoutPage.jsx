@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import PaystackPop from '@paystack/inline-js'
 import { useCart } from '../context/useCart'
 import { api } from '../services/api'
+import { grossUpForPaystackFee } from '../utils/pricing'
 
 const ghanaRegions = [
   'Greater Accra',
@@ -54,6 +55,11 @@ function CheckoutPage() {
 
   const publicKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY
 
+  const subtotalPesewas = Math.round(subtotal * 100)
+  const totalPesewas = grossUpForPaystackFee(subtotalPesewas)
+  const processingFee = (totalPesewas - subtotalPesewas) / 100
+  const totalToPay = totalPesewas / 100
+
   function handleChange(event) {
     const { name, value } = event.target
     setForm((current) => ({ ...current, [name]: value }))
@@ -72,7 +78,7 @@ function CheckoutPage() {
     paystack.newTransaction({
       key: publicKey,
       email: form.email,
-      amount: subtotal * 100,
+      amount: totalPesewas,
       currency: 'GHS',
       onSuccess: async (transaction) => {
         try {
@@ -282,10 +288,21 @@ function CheckoutPage() {
                   </div>
                 ))}
               </div>
+              <div className="mt-4 space-y-2 border-t border-black/10 pt-4 text-sm">
+                <div className="flex justify-between text-ink/70">
+                  <span>Subtotal</span>
+                  <span>GHS {subtotal}</span>
+                </div>
+                <div className="flex justify-between text-ink/70">
+                  <span>Payment Processing Fee</span>
+                  <span>GHS {processingFee.toFixed(2)}</span>
+                </div>
+              </div>
+
               <div className="mt-4 flex justify-between border-t border-black/10 pt-4 text-base">
-                <span className="font-medium text-ink">Total</span>
+                <span className="font-medium text-ink">Total to Pay</span>
                 <span className="font-heading text-xl text-burgundy">
-                  GHS {subtotal}
+                  GHS {totalToPay.toFixed(2)}
                 </span>
               </div>
 

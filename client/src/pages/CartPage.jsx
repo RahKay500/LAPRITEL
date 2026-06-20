@@ -104,16 +104,19 @@ function CartPage() {
           ))}
         </div>
 
-        <div className="mt-8 flex flex-col items-end gap-4">
-          <div className="flex w-full max-w-xs justify-between text-base sm:max-w-sm">
+        <div className="mt-8 flex flex-col gap-4 sm:items-end">
+          <div className="flex w-full justify-between text-base sm:max-w-sm">
             <span className="font-medium text-ink">Subtotal</span>
             <span className="font-heading text-xl text-burgundy">
               GHS {subtotal}
             </span>
           </div>
+          <p className="-mt-2 w-full text-right text-xs text-ink/50 sm:max-w-sm">
+            A small payment processing fee is added at checkout.
+          </p>
           <Link
             to="/checkout"
-            className="w-full max-w-xs rounded-full bg-burgundy px-8 py-3 text-center text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90 sm:max-w-sm"
+            className="w-full rounded-full bg-burgundy px-8 py-3 text-center text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90 sm:max-w-sm"
           >
             Proceed to Checkout
           </Link>
