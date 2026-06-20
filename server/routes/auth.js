@@ -6,6 +6,8 @@ import {
   logout,
   getMe,
   updateProfile,
+  requestPasswordReset,
+  resetPassword,
 } from '../controllers/authController.js'
 import { requireAuth, attachUserIfPresent } from '../middleware/auth.js'
 import { authLimiter } from '../middleware/rateLimiter.js'
@@ -42,6 +44,22 @@ router.post(
 )
 
 router.post('/logout', logout)
+
+router.post(
+  '/forgot-password',
+  authLimiter,
+  [body('email').isEmail()],
+  validate,
+  requestPasswordReset
+)
+
+router.post(
+  '/reset-password',
+  authLimiter,
+  [body('token').isString().trim().notEmpty(), body('password').isString().isLength({ min: 8 })],
+  validate,
+  resetPassword
+)
 
 router.get('/me', attachUserIfPresent, getMe)
 

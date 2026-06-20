@@ -1,6 +1,12 @@
 import jwt from 'jsonwebtoken'
 import { supabase } from '../config/supabase.js'
 import { supabaseAuth } from '../config/supabaseAuth.js'
+import {
+  createResetToken,
+  findValidResetToken,
+  invalidateResetTokensForUser,
+} from '../models/passwordResetTokens.js'
+import { sendPasswordResetEmail } from '../utils/email.js'
 
 const COOKIE_MAX_AGE = 7 * 24 * 60 * 60 * 1000
 
@@ -91,6 +97,55 @@ export async function getMe(req, res) {
   }
 
   res.json({ user: toPublicUser(data.user) })
+}
+
+export async function requestPasswordReset(req, res) {
+  const { email } = req.body
+  const genericResponse = {
+    message: "If an account exists for that email, we've sent a reset link.",
+  }
+
+  const { data, error } = await supabase.auth.admin.listUsers()
+  if (error) {
+    throw new Error(`Failed to look up user: ${error.message}`)
+  }
+
+  const user = data.users.find((u) => u.email?.toLowerCase() === email.toLowerCase())
+  if (!user) {
+    return res.json(genericResponse)
+  }
+
+  const rawToken = await createResetToken(user.id)
+  const resetUrl = `${process.env.CLIENT_URL}/reset-password?token=${rawToken}`
+
+  // Don't make the user wait on SMTP latency for what should be an instant
+  // "check your email" response — send in the background, best-effort.
+  sendPasswordResetEmail({
+    email: user.email,
+    fullName: user.user_metadata?.full_name || '',
+    resetUrl,
+  }).catch((emailError) => {
+    console.error('Failed to send password reset email:', emailError.message)
+  })
+
+  res.json(genericResponse)
+}
+
+export async function resetPassword(req, res) {
+  const { token, password } = req.body
+
+  const resetToken = await findValidResetToken(token)
+  if (!resetToken) {
+    return res.status(400).json({ message: 'This reset link is invalid or has expired.' })
+  }
+
+  const { error } = await supabase.auth.admin.updateUserById(resetToken.user_id, { password })
+  if (error) {
+    return res.status(400).json({ message: error.message })
+  }
+
+  await invalidateResetTokensForUser(resetToken.user_id)
+  res.json({ message: 'Password updated. You can now log in.' })
 }
 
 export async function updateProfile(req, res) {
