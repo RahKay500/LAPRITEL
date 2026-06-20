@@ -13,6 +13,7 @@ import ordersRouter from './routes/orders.js'
 import authRouter from './routes/auth.js'
 import productsRouter from './routes/products.js'
 import adminRouter from './routes/admin.js'
+import contactRouter from './routes/contact.js'
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -44,6 +45,7 @@ app.use('/api/orders', ordersRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/admin', adminRouter)
+app.use('/api/contact', contactRouter)
 
 app.use(notFoundHandler)
 app.use(errorHandler)
