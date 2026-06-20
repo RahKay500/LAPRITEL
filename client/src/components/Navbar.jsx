@@ -18,12 +18,24 @@ function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-burgundy-tint bg-white">
-      <nav className="flex h-16 items-center justify-between px-4 sm:px-6 lg:h-20 lg:px-12">
-        <Link to="/" className="font-heading text-2xl tracking-wide text-burgundy">
+      <nav className="flex h-16 items-center px-4 sm:px-6 md:justify-between lg:h-20 lg:px-12">
+        <button
+          type="button"
+          aria-label="Toggle menu"
+          className="order-1 text-ink md:hidden"
+          onClick={() => setIsMenuOpen((open) => !open)}
+        >
+          {isMenuOpen ? <X size={24} strokeWidth={1.5} /> : <Menu size={24} strokeWidth={1.5} />}
+        </button>
+
+        <Link
+          to="/"
+          className="order-2 mx-auto font-heading text-2xl tracking-wide text-burgundy md:order-1 md:mx-0"
+        >
           LAPRITEL
         </Link>
 
-        <ul className="hidden items-center gap-8 md:flex">
+        <ul className="order-3 hidden items-center gap-8 md:order-2 md:flex">
           {navLinks.map((link) => (
             <li key={link.to}>
               <NavLink
@@ -40,7 +52,7 @@ function Navbar() {
           ))}
         </ul>
 
-        <div className="flex items-center gap-4">
+        <div className="order-3 flex items-center gap-4 md:order-3">
           {user?.role === 'admin' && (
             <Link
               to="/admin"
@@ -65,14 +77,6 @@ function Navbar() {
               </span>
             )}
           </Link>
-          <button
-            type="button"
-            aria-label="Toggle menu"
-            className="text-ink md:hidden"
-            onClick={() => setIsMenuOpen((open) => !open)}
-          >
-            {isMenuOpen ? <X size={24} strokeWidth={1.5} /> : <Menu size={24} strokeWidth={1.5} />}
-          </button>
         </div>
       </nav>
 

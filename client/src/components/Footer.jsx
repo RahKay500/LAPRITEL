@@ -3,8 +3,8 @@ import { Camera, MessageCircle } from 'lucide-react'
 
 function Footer() {
   return (
-    <footer className="border-t border-burgundy-tint bg-white px-4 py-12 sm:px-6 lg:px-12">
-      <div className="mx-auto grid max-w-6xl gap-10 sm:grid-cols-2 lg:grid-cols-4">
+    <footer className="border-t border-burgundy-tint bg-white px-4 py-8 sm:px-6 sm:py-10 lg:px-12 lg:py-12">
+      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 lg:grid-cols-4 lg:gap-10">
         <div>
           <p className="font-heading text-xl text-burgundy">LAPRITEL</p>
           <p className="mt-3 max-w-xs text-sm text-ink/70">
@@ -76,7 +76,7 @@ function Footer() {
         </div>
       </div>
 
-      <p className="mx-auto mt-10 max-w-6xl border-t border-burgundy-tint pt-6 text-center text-xs text-ink/50">
+      <p className="mx-auto mt-5 max-w-6xl border-t border-burgundy-tint pt-3 text-center text-xs text-ink/50">
         © {new Date().getFullYear()} LAPRITEL. All rights reserved.
       </p>
     </footer>
