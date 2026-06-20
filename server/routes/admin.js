@@ -4,6 +4,7 @@ import { body, param, validationResult } from 'express-validator'
 import { requireAdmin } from '../middleware/auth.js'
 import { listOrders, setOrderStatus } from '../controllers/adminOrdersController.js'
 import { listCustomers } from '../controllers/adminCustomersController.js'
+import { listContactMessages } from '../controllers/adminContactController.js'
 import {
   listProducts,
   addVariant,
@@ -48,6 +49,8 @@ router.patch(
 )
 
 router.get('/customers', listCustomers)
+
+router.get('/contact-messages', listContactMessages)
 
 router.get('/products', listProducts)
 

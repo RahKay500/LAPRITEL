@@ -20,6 +20,7 @@ import AdminLayout from './pages/admin/AdminLayout'
 import AdminOrdersPage from './pages/admin/AdminOrdersPage'
 import AdminProductsPage from './pages/admin/AdminProductsPage'
 import AdminCustomersPage from './pages/admin/AdminCustomersPage'
+import AdminMessagesPage from './pages/admin/AdminMessagesPage'
 
 function App() {
   return (
@@ -66,6 +67,7 @@ function App() {
             <Route path="orders" element={<AdminOrdersPage />} />
             <Route path="products" element={<AdminProductsPage />} />
             <Route path="customers" element={<AdminCustomersPage />} />
+            <Route path="messages" element={<AdminMessagesPage />} />
           </Route>
         </Routes>
       </main>

@@ -22,6 +22,10 @@ export function fetchAdminCustomers() {
   return api.get('/admin/customers')
 }
 
+export function fetchAdminContactMessages() {
+  return api.get('/admin/contact-messages')
+}
+
 export function fetchAdminProducts() {
   return api.get('/admin/products')
 }
