@@ -77,6 +77,19 @@ export async function getOrdersByUserId(userId) {
   return orders
 }
 
+export async function getAllOrders() {
+  const { data: orders, error } = await supabase
+    .from('orders')
+    .select('*, order_items(*)')
+    .order('created_at', { ascending: false })
+
+  if (error) {
+    throw new Error(`Failed to fetch orders: ${error.message}`)
+  }
+
+  return orders
+}
+
 export async function updateOrderStatusByReference(reference, status) {
   const { error } = await supabase
     .from('orders')

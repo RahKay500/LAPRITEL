@@ -15,6 +15,15 @@ export function requireAuth(req, res, next) {
   }
 }
 
+export function requireAdmin(req, res, next) {
+  requireAuth(req, res, () => {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Admin access required' })
+    }
+    next()
+  })
+}
+
 export function attachUserIfPresent(req, _res, next) {
   const token = req.cookies.token
 

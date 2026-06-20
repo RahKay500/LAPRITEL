@@ -11,6 +11,7 @@ function signToken(user) {
       email: user.email,
       fullName: user.user_metadata?.full_name || '',
       phone: user.user_metadata?.phone || '',
+      role: user.app_metadata?.role || 'customer',
     },
     process.env.JWT_SECRET,
     { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
@@ -32,6 +33,7 @@ function toPublicUser(user) {
     email: user.email,
     fullName: user.user_metadata?.full_name || '',
     phone: user.user_metadata?.phone || '',
+    role: user.app_metadata?.role || 'customer',
   }
 }
 

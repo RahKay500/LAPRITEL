@@ -11,6 +11,8 @@ import paymentWebhookRouter from './routes/paymentWebhook.js'
 import paymentsRouter from './routes/payments.js'
 import ordersRouter from './routes/orders.js'
 import authRouter from './routes/auth.js'
+import productsRouter from './routes/products.js'
+import adminRouter from './routes/admin.js'
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -40,6 +42,8 @@ app.get('/api/health', (req, res) => {
 app.use('/api/payments', paymentsRouter)
 app.use('/api/orders', ordersRouter)
 app.use('/api/auth', authRouter)
+app.use('/api/products', productsRouter)
+app.use('/api/admin', adminRouter)
 
 app.use(notFoundHandler)
 app.use(errorHandler)
