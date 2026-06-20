@@ -1,8 +1,9 @@
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import AnnouncementBar from './components/AnnouncementBar'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import RequireAuth from './components/RequireAuth'
+import RequireAdmin from './components/RequireAdmin'
 import HomePage from './pages/HomePage'
 import ShopPage from './pages/ShopPage'
 import ProductPage from './pages/ProductPage'
@@ -13,6 +14,10 @@ import RegisterPage from './pages/RegisterPage'
 import LoginPage from './pages/LoginPage'
 import ProfilePage from './pages/ProfilePage'
 import MyOrdersPage from './pages/MyOrdersPage'
+import AdminLayout from './pages/admin/AdminLayout'
+import AdminOrdersPage from './pages/admin/AdminOrdersPage'
+import AdminProductsPage from './pages/admin/AdminProductsPage'
+import AdminCustomersPage from './pages/admin/AdminCustomersPage'
 
 function App() {
   return (
@@ -45,6 +50,19 @@ function App() {
               </RequireAuth>
             }
           />
+          <Route
+            path="/admin"
+            element={
+              <RequireAdmin>
+                <AdminLayout />
+              </RequireAdmin>
+            }
+          >
+            <Route index element={<Navigate to="orders" replace />} />
+            <Route path="orders" element={<AdminOrdersPage />} />
+            <Route path="products" element={<AdminProductsPage />} />
+            <Route path="customers" element={<AdminCustomersPage />} />
+          </Route>
         </Routes>
       </main>
       <Footer />

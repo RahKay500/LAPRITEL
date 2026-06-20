@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { Menu, ShoppingBag, User, X } from 'lucide-react'
+import { LayoutDashboard, Menu, ShoppingBag, User, X } from 'lucide-react'
 import { useCart } from '../context/useCart'
 import { useAuth } from '../context/useAuth'
 
@@ -41,6 +41,15 @@ function Navbar() {
         </ul>
 
         <div className="flex items-center gap-4">
+          {user?.role === 'admin' && (
+            <Link
+              to="/admin"
+              aria-label="Admin Dashboard"
+              className="text-ink hover:text-burgundy"
+            >
+              <LayoutDashboard size={22} strokeWidth={1.5} />
+            </Link>
+          )}
           <Link
             to={user ? '/profile' : '/login'}
             aria-label="Account"
