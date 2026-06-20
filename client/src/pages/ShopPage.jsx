@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Check, ChevronDown, Filter } from 'lucide-react'
-import { ivyBagVariants } from '../data/ivyBagVariants'
+import { useIvyBagVariants } from '../hooks/useIvyBagVariants'
 import { useCart } from '../context/useCart'
 
 const sortOptions = [
@@ -14,6 +14,7 @@ function ShopPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const activeColor = searchParams.get('color') || 'all'
   const [sortOrder, setSortOrder] = useState('default')
+  const { product, variants: ivyBagVariants, isLoading, error } = useIvyBagVariants()
   const { addItem } = useCart()
   const [addedSlug, setAddedSlug] = useState(null)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
@@ -53,12 +54,73 @@ function ShopPage() {
       return [...filtered].sort((a, b) => b.price - a.price)
     }
     return filtered
-  }, [activeColor, sortOrder])
+  }, [activeColor, sortOrder, ivyBagVariants])
 
   function handleQuickAdd(variant) {
     addItem(variant)
     setAddedSlug(variant.slug)
     setTimeout(() => setAddedSlug(null), 1500)
+  }
+
+  let gridContent
+  if (isLoading) {
+    gridContent = <p className="mt-16 text-center text-ink/60">Loading collections…</p>
+  } else if (error) {
+    gridContent = (
+      <p className="mt-16 text-center text-ink/60">
+        We couldn't load the collection right now. Please try again shortly.
+      </p>
+    )
+  } else if (visibleVariants.length === 0) {
+    gridContent = (
+      <p className="mt-16 text-center text-ink/60">No bags match that color right now.</p>
+    )
+  } else {
+    gridContent = (
+      <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
+        {visibleVariants.map((variant) => (
+          <div
+            key={variant.slug}
+            className="rounded-2xl bg-white p-3 shadow-sm transition-shadow hover:shadow-md"
+          >
+            <Link to={`/shop/ivy-bag?color=${variant.slug}`}>
+              {variant.image ? (
+                <div className="flex aspect-square w-full items-center justify-center rounded-xl bg-burgundy-tint/40 p-2">
+                  <img
+                    src={variant.image}
+                    alt={`${product.name} in ${variant.name}`}
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+              ) : (
+                <div className="flex aspect-square w-full items-center justify-center rounded-xl bg-burgundy-tint/40">
+                  <span
+                    className="block h-14 w-14 rounded-full border border-black/10"
+                    style={{ backgroundColor: variant.hex }}
+                  />
+                </div>
+              )}
+              <p className="mt-3 text-sm font-medium text-ink">{variant.name}</p>
+              <p className="mt-1 text-xs text-ink/60">GHS {variant.price}</p>
+            </Link>
+            <button
+              type="button"
+              onClick={() => handleQuickAdd(variant)}
+              className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-full bg-burgundy px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90"
+            >
+              {addedSlug === variant.slug ? (
+                <>
+                  <Check size={14} strokeWidth={2} />
+                  Added
+                </>
+              ) : (
+                'Quick Add'
+              )}
+            </button>
+          </div>
+        ))}
+      </div>
+    )
   }
 
   return (
@@ -140,55 +202,7 @@ function ShopPage() {
           </label>
         </div>
 
-        {visibleVariants.length === 0 ? (
-          <p className="mt-16 text-center text-ink/60">
-            No bags match that color right now.
-          </p>
-        ) : (
-          <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
-            {visibleVariants.map((variant) => (
-              <div
-                key={variant.slug}
-                className="rounded-2xl bg-white p-3 shadow-sm transition-shadow hover:shadow-md"
-              >
-                <Link to={`/shop/ivy-bag?color=${variant.slug}`}>
-                  {variant.image ? (
-                    <div className="flex aspect-square w-full items-center justify-center rounded-xl bg-burgundy-tint/40 p-2">
-                      <img
-                        src={variant.image}
-                        alt={`The Ivy Bag in ${variant.name}`}
-                        className="h-full w-full object-contain"
-                      />
-                    </div>
-                  ) : (
-                    <div className="flex aspect-square w-full items-center justify-center rounded-xl bg-burgundy-tint/40">
-                      <span
-                        className="block h-14 w-14 rounded-full border border-black/10"
-                        style={{ backgroundColor: variant.hex }}
-                      />
-                    </div>
-                  )}
-                  <p className="mt-3 text-sm font-medium text-ink">{variant.name}</p>
-                  <p className="mt-1 text-xs text-ink/60">GHS {variant.price}</p>
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => handleQuickAdd(variant)}
-                  className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-full bg-burgundy px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90"
-                >
-                  {addedSlug === variant.slug ? (
-                    <>
-                      <Check size={14} strokeWidth={2} />
-                      Added
-                    </>
-                  ) : (
-                    'Quick Add'
-                  )}
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
+        {gridContent}
       </div>
     </div>
   )

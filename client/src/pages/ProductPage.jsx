@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Check, ChevronDown, ChevronUp } from 'lucide-react'
-import { ivyBagVariants } from '../data/ivyBagVariants'
+import { useIvyBagVariants } from '../hooks/useIvyBagVariants'
 import { useCart } from '../context/useCart'
 
 function ProductPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const colorParam = searchParams.get('color')
+  const { product, variants: ivyBagVariants, isLoading, error } = useIvyBagVariants()
   const selectedVariant =
     ivyBagVariants.find((variant) => variant.slug === colorParam) || ivyBagVariants[0]
 
@@ -22,6 +23,22 @@ function ProductPage() {
     addItem(selectedVariant)
     setIsAdded(true)
     setTimeout(() => setIsAdded(false), 1500)
+  }
+
+  if (isLoading) {
+    return (
+      <div className="px-4 py-12 text-center text-ink/60 sm:px-6 lg:px-12 lg:py-16">
+        Loading product…
+      </div>
+    )
+  }
+
+  if (error || !product || !selectedVariant) {
+    return (
+      <div className="px-4 py-12 text-center text-ink/60 sm:px-6 lg:px-12 lg:py-16">
+        We couldn't load this product right now. Please try again shortly.
+      </div>
+    )
   }
 
   const relatedVariants = ivyBagVariants.filter(
@@ -40,7 +57,7 @@ function ProductPage() {
             <div className="aspect-[9/16] w-full overflow-hidden rounded-2xl bg-burgundy-tint">
               <img
                 src={selectedVariant.image}
-                alt={`The Ivy Bag in ${selectedVariant.name}`}
+                alt={`${product.name} in ${selectedVariant.name}`}
                 className="h-full w-full object-cover"
               />
             </div>
@@ -58,7 +75,7 @@ function ProductPage() {
 
           <div>
             <p className="text-sm font-semibold uppercase tracking-widest text-burgundy">
-              The Ivy Bag
+              {product.name}
             </p>
             <h1 className="mt-2 font-heading text-3xl text-ink sm:text-4xl">
               {selectedVariant.name}
@@ -67,11 +84,7 @@ function ProductPage() {
               GHS {selectedVariant.price}
             </p>
 
-            <p className="mt-6 max-w-md text-ink/70">
-              Each Ivy Bag is hand-beaded by skilled artisans, taking hours of
-              careful work to complete. A statement piece designed to be worn
-              for years to come.
-            </p>
+            <p className="mt-6 max-w-md text-ink/70">{product.description}</p>
 
             <div className="mt-8">
               <p className="text-sm font-medium text-ink">
@@ -157,7 +170,7 @@ function ProductPage() {
                   <div className="flex aspect-square w-full items-center justify-center rounded-xl bg-burgundy-tint/40 p-1">
                     <img
                       src={variant.image}
-                      alt={`The Ivy Bag in ${variant.name}`}
+                      alt={`${product.name} in ${variant.name}`}
                       className="h-full w-full object-contain"
                     />
                   </div>
