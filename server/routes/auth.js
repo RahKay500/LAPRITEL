@@ -7,7 +7,7 @@ import {
   getMe,
   updateProfile,
 } from '../controllers/authController.js'
-import { requireAuth } from '../middleware/auth.js'
+import { requireAuth, attachUserIfPresent } from '../middleware/auth.js'
 import { authLimiter } from '../middleware/rateLimiter.js'
 
 const router = express.Router()
@@ -43,7 +43,7 @@ router.post(
 
 router.post('/logout', logout)
 
-router.get('/me', requireAuth, getMe)
+router.get('/me', attachUserIfPresent, getMe)
 
 router.patch(
   '/me',

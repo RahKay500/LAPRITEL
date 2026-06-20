@@ -80,10 +80,14 @@ export function logout(req, res) {
 }
 
 export async function getMe(req, res) {
+  if (!req.user) {
+    return res.json({ user: null })
+  }
+
   const { data, error } = await supabase.auth.admin.getUserById(req.user.id)
 
   if (error || !data.user) {
-    return res.status(404).json({ message: 'User not found' })
+    return res.json({ user: null })
   }
 
   res.json({ user: toPublicUser(data.user) })
