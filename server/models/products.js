@@ -86,9 +86,27 @@ export async function updateVariant(id, variant) {
 }
 
 export async function deleteVariant(id) {
+  const { data: variant, error: fetchError } = await supabase
+    .from('product_variants')
+    .select('image_url')
+    .eq('id', id)
+    .single()
+
+  if (fetchError) {
+    throw new Error(`Failed to fetch variant: ${fetchError.message}`)
+  }
+
   const { error } = await supabase.from('product_variants').delete().eq('id', id)
 
   if (error) {
     throw new Error(`Failed to delete variant: ${error.message}`)
+  }
+
+  const filename = variant.image_url?.split('/product-images/')[1]
+  if (filename) {
+    const { error: storageError } = await supabase.storage.from('product-images').remove([filename])
+    if (storageError) {
+      console.error(`Failed to delete variant image ${filename}:`, storageError.message)
+    }
   }
 }
