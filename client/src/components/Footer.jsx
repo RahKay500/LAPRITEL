@@ -46,6 +46,11 @@ function Footer() {
                 About LAPRITEL
               </Link>
             </li>
+            <li>
+              <Link to="/privacy-policy" className="hover:text-burgundy">
+                Privacy Policy
+              </Link>
+            </li>
           </ul>
         </div>
 
