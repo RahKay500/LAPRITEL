@@ -131,6 +131,7 @@ function CheckoutPage() {
 
         <form
           onSubmit={handlePayment}
+          noValidate
           className="mt-8 grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:gap-16"
         >
           <div className="space-y-8">

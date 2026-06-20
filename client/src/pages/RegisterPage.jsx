@@ -63,7 +63,7 @@ function RegisterPage() {
           </Link>
         </p>
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+        <form onSubmit={handleSubmit} noValidate className="mt-8 space-y-4">
           <div>
             <label htmlFor="fullName" className="text-sm text-ink/70">
               Full Name

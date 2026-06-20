@@ -71,7 +71,7 @@ function ContactPage() {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} noValidate className="space-y-4">
                 <div>
                   <label htmlFor="fullName" className="text-sm text-ink/70">
                     Full Name

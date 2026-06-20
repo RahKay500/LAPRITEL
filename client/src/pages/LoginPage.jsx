@@ -2,11 +2,19 @@ import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 
+function validate(form) {
+  const errors = {}
+  if (!/^\S+@\S+\.\S+$/.test(form.email)) errors.email = 'Enter a valid email address'
+  if (!form.password) errors.password = 'Password is required'
+  return errors
+}
+
 function LoginPage() {
   const { login } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
   const [form, setForm] = useState({ email: '', password: '' })
+  const [errors, setErrors] = useState({})
   const [error, setError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -17,6 +25,10 @@ function LoginPage() {
 
   async function handleSubmit(event) {
     event.preventDefault()
+    const validationErrors = validate(form)
+    setErrors(validationErrors)
+    if (Object.keys(validationErrors).length > 0) return
+
     setError('')
     setIsSubmitting(true)
     try {
@@ -40,7 +52,7 @@ function LoginPage() {
           </Link>
         </p>
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+        <form onSubmit={handleSubmit} noValidate className="mt-8 space-y-4">
           <div>
             <label htmlFor="email" className="text-sm text-ink/70">
               Email
@@ -51,9 +63,9 @@ function LoginPage() {
               type="email"
               value={form.email}
               onChange={handleChange}
-              required
               className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
             />
+            {errors.email && <p className="mt-1 text-xs text-burgundy">{errors.email}</p>}
           </div>
 
           <div>
@@ -66,9 +78,9 @@ function LoginPage() {
               type="password"
               value={form.password}
               onChange={handleChange}
-              required
               className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
             />
+            {errors.password && <p className="mt-1 text-xs text-burgundy">{errors.password}</p>}
           </div>
 
           {error && <p className="text-sm text-burgundy">{error}</p>}
