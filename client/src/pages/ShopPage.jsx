@@ -151,9 +151,9 @@ function ShopPage() {
                 type="button"
                 onClick={() => setIsFilterOpen((open) => !open)}
                 className={`flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
-                  activeColor !== 'all'
-                    ? 'border-burgundy bg-burgundy text-white'
-                    : 'border-black/10 text-ink hover:border-burgundy'
+                  activeColor === 'all'
+                    ? 'border-black/10 text-ink hover:border-burgundy'
+                    : 'border-burgundy bg-burgundy text-white'
                 }`}
               >
                 <Filter size={14} strokeWidth={1.5} />

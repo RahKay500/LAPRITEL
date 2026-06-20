@@ -54,7 +54,7 @@ function ProductPage() {
 
         <div className="mt-6 grid gap-10 lg:grid-cols-2 lg:gap-16">
           {selectedVariant.image ? (
-            <div className="aspect-[9/16] w-full overflow-hidden rounded-2xl bg-burgundy-tint">
+            <div className="aspect-9/16 w-full overflow-hidden rounded-2xl bg-burgundy-tint">
               <img
                 src={selectedVariant.image}
                 alt={`${product.name} in ${selectedVariant.name}`}
