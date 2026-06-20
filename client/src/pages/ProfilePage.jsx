@@ -2,10 +2,20 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 
+function validate(form) {
+  const errors = {}
+  if (!/^[A-Za-z\s'-]+$/.test(form.fullName.trim())) {
+    errors.fullName = 'Enter a valid name (letters only)'
+  }
+  if (!/^[0-9]{10}$/.test(form.phone.trim())) errors.phone = 'Enter a valid 10-digit phone number'
+  return errors
+}
+
 function ProfilePage() {
   const { user, updateProfile, logout } = useAuth()
   const navigate = useNavigate()
   const [form, setForm] = useState({ fullName: user.fullName, phone: user.phone })
+  const [errors, setErrors] = useState({})
   const [isEditing, setIsEditing] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [error, setError] = useState('')
@@ -18,6 +28,10 @@ function ProfilePage() {
 
   async function handleSubmit(event) {
     event.preventDefault()
+    const validationErrors = validate(form)
+    setErrors(validationErrors)
+    if (Object.keys(validationErrors).length > 0) return
+
     setError('')
     setIsSaving(true)
     try {
@@ -42,7 +56,7 @@ function ProfilePage() {
         <h1 className="font-heading text-3xl text-ink sm:text-4xl">My Profile</h1>
 
         {isEditing ? (
-          <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+          <form onSubmit={handleSubmit} noValidate className="mt-8 space-y-4">
             <div>
               <label htmlFor="fullName" className="text-sm text-ink/70">
                 Full Name
@@ -55,6 +69,9 @@ function ProfilePage() {
                 onChange={handleChange}
                 className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
               />
+              {errors.fullName && (
+                <p className="mt-1 text-xs text-burgundy">{errors.fullName}</p>
+              )}
             </div>
             <div>
               <label htmlFor="phone" className="text-sm text-ink/70">
@@ -66,8 +83,10 @@ function ProfilePage() {
                 type="tel"
                 value={form.phone}
                 onChange={handleChange}
+                maxLength={10}
                 className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
               />
+              {errors.phone && <p className="mt-1 text-xs text-burgundy">{errors.phone}</p>}
             </div>
 
             {error && <p className="text-sm text-burgundy">{error}</p>}

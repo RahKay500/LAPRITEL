@@ -22,3 +22,13 @@ h3,
 h4 {
   font-family: var(--font-heading);
 }
+
+/* iOS Safari auto-zooms the page when focusing an input rendered below
+   16px — keep form fields at 16px on mobile to prevent that jump. */
+@media (max-width: 767px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}

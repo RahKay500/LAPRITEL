@@ -36,9 +36,11 @@ const initialForm = {
 
 function validate(form) {
   const errors = {}
-  if (!form.fullName.trim()) errors.fullName = 'Full name is required'
+  if (!/^[A-Za-z\s'-]+$/.test(form.fullName.trim())) {
+    errors.fullName = 'Enter a valid name (letters only)'
+  }
   if (!/^\S+@\S+\.\S+$/.test(form.email)) errors.email = 'Enter a valid email address'
-  if (!/^[0-9+\s-]{9,15}$/.test(form.phone)) errors.phone = 'Enter a valid phone number'
+  if (!/^[0-9]{10}$/.test(form.phone.trim())) errors.phone = 'Enter a valid 10-digit phone number'
   if (!form.address.trim()) errors.address = 'Delivery address is required'
   if (!form.city.trim()) errors.city = 'City/town is required'
   if (!form.region) errors.region = 'Select a region'
@@ -184,6 +186,7 @@ function CheckoutPage() {
                       type="tel"
                       value={form.phone}
                       onChange={handleChange}
+                      maxLength={10}
                       className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
                     />
                     {errors.phone && (

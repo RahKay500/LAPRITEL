@@ -6,7 +6,9 @@ const initialForm = { fullName: '', email: '', message: '' }
 
 function validate(form) {
   const errors = {}
-  if (!form.fullName.trim()) errors.fullName = 'Full name is required'
+  if (!/^[A-Za-z\s'-]+$/.test(form.fullName.trim())) {
+    errors.fullName = 'Enter a valid name (letters only)'
+  }
   if (!/^\S+@\S+\.\S+$/.test(form.email)) errors.email = 'Enter a valid email address'
   if (!form.message.trim()) errors.message = 'Message is required'
   return errors

@@ -24,9 +24,9 @@ router.post(
   '/register',
   authLimiter,
   [
-    body('fullName').isString().trim().notEmpty(),
+    body('fullName').isString().trim().matches(/^[A-Za-z\s'-]+$/),
     body('email').isEmail(),
-    body('phone').isString().trim().notEmpty(),
+    body('phone').isString().trim().matches(/^[0-9]{10}$/),
     body('password').isString().isLength({ min: 8 }),
   ],
   validate,
@@ -48,7 +48,10 @@ router.get('/me', attachUserIfPresent, getMe)
 router.patch(
   '/me',
   requireAuth,
-  [body('fullName').isString().trim().notEmpty(), body('phone').isString().trim().notEmpty()],
+  [
+    body('fullName').isString().trim().matches(/^[A-Za-z\s'-]+$/),
+    body('phone').isString().trim().matches(/^[0-9]{10}$/),
+  ],
   validate,
   updateProfile
 )

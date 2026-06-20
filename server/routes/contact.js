@@ -15,7 +15,7 @@ function validate(req, res, next) {
 router.post(
   '/',
   [
-    body('fullName').isString().trim().notEmpty().isLength({ max: 100 }),
+    body('fullName').isString().trim().matches(/^[A-Za-z\s'-]+$/).isLength({ max: 100 }),
     body('email').isEmail(),
     body('message').isString().trim().notEmpty().isLength({ max: 2000 }),
   ],
