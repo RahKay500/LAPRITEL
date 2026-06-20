@@ -187,7 +187,7 @@ function ShopPage() {
           </div>
 
           <label className="flex items-center gap-2 text-sm text-ink">
-            Sort by
+            <span>Sort by</span>
             <select
               value={sortOrder}
               onChange={(event) => setSortOrder(event.target.value)}
