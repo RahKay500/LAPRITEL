@@ -18,11 +18,11 @@ function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-burgundy-tint bg-white">
-      <nav className="flex h-16 items-center px-4 sm:px-6 md:justify-between lg:h-20 lg:px-12">
+      <nav className="relative flex h-16 items-center justify-between px-4 sm:px-6 lg:h-20 lg:px-12">
         <button
           type="button"
           aria-label="Toggle menu"
-          className="order-1 text-ink md:hidden"
+          className="text-ink md:hidden"
           onClick={() => setIsMenuOpen((open) => !open)}
         >
           {isMenuOpen ? <X size={24} strokeWidth={1.5} /> : <Menu size={24} strokeWidth={1.5} />}
@@ -30,12 +30,12 @@ function Navbar() {
 
         <Link
           to="/"
-          className="order-2 mx-auto font-heading text-2xl tracking-wide text-burgundy md:order-1 md:mx-0"
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-heading text-2xl tracking-wide text-burgundy md:static md:left-auto md:top-auto md:order-1 md:translate-x-0 md:translate-y-0"
         >
           LAPRITEL
         </Link>
 
-        <ul className="order-3 hidden items-center gap-8 md:order-2 md:flex">
+        <ul className="hidden items-center gap-8 md:order-2 md:flex">
           {navLinks.map((link) => (
             <li key={link.to}>
               <NavLink
@@ -52,7 +52,7 @@ function Navbar() {
           ))}
         </ul>
 
-        <div className="order-3 flex items-center gap-4 md:order-3">
+        <div className="flex items-center gap-4 md:order-3">
           {user?.role === 'admin' && (
             <Link
               to="/admin"
