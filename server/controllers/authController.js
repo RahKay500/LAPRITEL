@@ -25,10 +25,14 @@ function signToken(user) {
 }
 
 function setAuthCookie(res, token) {
+  const isProduction = process.env.NODE_ENV === 'production'
   res.cookie('token', token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    // Client (Vercel) and server (Render) live on different domains in
+    // production, so the cookie must be SameSite=None to be sent on
+    // cross-origin API calls — which itself requires Secure (HTTPS).
+    secure: isProduction,
+    sameSite: isProduction ? 'none' : 'lax',
     maxAge: COOKIE_MAX_AGE,
   })
 }
@@ -81,7 +85,12 @@ export async function login(req, res) {
 }
 
 export function logout(req, res) {
-  res.clearCookie('token')
+  const isProduction = process.env.NODE_ENV === 'production'
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? 'none' : 'lax',
+  })
   res.json({ message: 'Logged out' })
 }
 
