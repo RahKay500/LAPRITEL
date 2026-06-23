@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Camera, MessageCircle } from 'lucide-react'
+import { FaInstagram, FaWhatsapp } from 'react-icons/fa'
 
 function Footer() {
   return (
@@ -11,6 +11,18 @@ function Footer() {
             Handmade beaded bags, crafted with care for the modern, elegant
             woman.
           </p>
+          <ul className="mt-4 space-y-1.5 text-sm text-ink/70">
+            <li>
+              <a href="https://wa.me/233243416943" className="hover:text-burgundy">
+                +233 24 341 6943
+              </a>
+            </li>
+            <li>
+              <a href="mailto:lapritel@gmail.com" className="hover:text-burgundy">
+                lapritel@gmail.com
+              </a>
+            </li>
+          </ul>
         </div>
 
         <div>
@@ -51,6 +63,16 @@ function Footer() {
                 Privacy Policy
               </Link>
             </li>
+            <li>
+              <Link to="/terms-of-service" className="hover:text-burgundy">
+                Terms of Service
+              </Link>
+            </li>
+            <li>
+              <Link to="/refund-policy" className="hover:text-burgundy">
+                Refund Policy
+              </Link>
+            </li>
           </ul>
         </div>
 
@@ -66,16 +88,16 @@ function Footer() {
               aria-label="Instagram"
               className="hover:text-burgundy"
             >
-              <Camera size={20} strokeWidth={1.5} />
+              <FaInstagram size={22} />
             </a>
             <a
-              href="https://wa.me/233000000000"
+              href="https://wa.me/233243416943"
               target="_blank"
               rel="noreferrer"
               aria-label="WhatsApp"
               className="hover:text-burgundy"
             >
-              <MessageCircle size={20} strokeWidth={1.5} />
+              <FaWhatsapp size={22} />
             </a>
           </div>
         </div>

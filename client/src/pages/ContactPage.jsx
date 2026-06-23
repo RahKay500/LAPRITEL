@@ -142,7 +142,7 @@ function ContactPage() {
             </p>
 
             <a
-              href="https://wa.me/233000000000"
+              href="https://wa.me/233243416943"
               target="_blank"
               rel="noreferrer"
               className="mt-4 flex items-center gap-3 rounded-2xl border border-black/10 p-4 transition-colors hover:border-burgundy"
