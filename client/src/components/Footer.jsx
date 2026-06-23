@@ -4,25 +4,13 @@ import { FaInstagram, FaWhatsapp } from 'react-icons/fa'
 function Footer() {
   return (
     <footer className="border-t border-burgundy-tint bg-white px-4 py-8 sm:px-6 sm:py-10 lg:px-12 lg:py-12">
-      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 lg:grid-cols-4 lg:gap-10">
+      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 lg:grid-cols-5 lg:gap-8">
         <div>
           <p className="font-heading text-xl text-burgundy">LAPRITEL</p>
           <p className="mt-3 max-w-xs text-sm text-ink/70">
             Handmade beaded bags, crafted with care for the modern, elegant
             woman.
           </p>
-          <ul className="mt-4 space-y-1.5 text-sm text-ink/70">
-            <li>
-              <a href="https://wa.me/233243416943" className="hover:text-burgundy">
-                +233 24 341 6943
-              </a>
-            </li>
-            <li>
-              <a href="mailto:lapritel@gmail.com" className="hover:text-burgundy">
-                lapritel@gmail.com
-              </a>
-            </li>
-          </ul>
         </div>
 
         <div>
@@ -45,14 +33,27 @@ function Footer() {
 
         <div>
           <p className="text-sm font-semibold uppercase tracking-wide text-ink">
+            Contact Us
+          </p>
+          <ul className="mt-4 space-y-1.5 text-sm text-ink/70">
+            <li>
+              <a href="https://wa.me/233243416943" className="hover:text-burgundy">
+                +233 24 341 6943
+              </a>
+            </li>
+            <li>
+              <a href="mailto:lapritel@gmail.com" className="hover:text-burgundy">
+                lapritel@gmail.com
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <p className="text-sm font-semibold uppercase tracking-wide text-ink">
             Help
           </p>
           <ul className="mt-4 space-y-2 text-sm text-ink/70">
-            <li>
-              <Link to="/contact" className="hover:text-burgundy">
-                Contact Us
-              </Link>
-            </li>
             <li>
               <Link to="/about" className="hover:text-burgundy">
                 About LAPRITEL
