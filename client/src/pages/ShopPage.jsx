@@ -96,7 +96,7 @@ function ShopPage() {
                 <div className="flex aspect-square w-full items-center justify-center rounded-xl bg-burgundy-tint/40">
                   <span
                     className="block h-14 w-14 rounded-full border border-black/10"
-                    style={{ backgroundColor: variant.hex }}
+                    style={{ background: variant.hex }}
                   />
                 </div>
               )}
@@ -176,7 +176,7 @@ function ShopPage() {
                     >
                       <span
                         className="block h-3 w-3 rounded-full border border-black/10"
-                        style={{ backgroundColor: variant.hex }}
+                        style={{ background: variant.hex }}
                       />
                       {variant.name}
                     </button>

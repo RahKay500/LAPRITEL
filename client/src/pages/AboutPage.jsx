@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Gem, Heart, Leaf } from 'lucide-react'
 import storyImage from '../assets/images/ivy_bag_green.jpeg'
-import craftImage from '../assets/images/ivy_bag_hotpink.jpeg'
+import craftImage from '../assets/images/ivy_bag_orange.jpg'
 
 const values = [
   {

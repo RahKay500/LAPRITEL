@@ -66,7 +66,7 @@ function ProductPage() {
               <div className="text-center">
                 <span
                   className="mx-auto block h-20 w-20 rounded-full border border-black/10"
-                  style={{ backgroundColor: selectedVariant.hex }}
+                  style={{ background: selectedVariant.hex }}
                 />
                 <p className="mt-4 text-sm text-ink/50">Photo coming soon</p>
               </div>
@@ -105,7 +105,7 @@ function ProductPage() {
                   >
                     <span
                       className="block h-full w-full rounded-full border border-black/10"
-                      style={{ backgroundColor: variant.hex }}
+                      style={{ background: variant.hex }}
                     />
                   </button>
                 ))}
@@ -178,7 +178,7 @@ function ProductPage() {
                   <div className="flex aspect-square w-full items-center justify-center rounded-xl bg-burgundy-tint/40">
                     <span
                       className="block h-10 w-10 rounded-full border border-black/10"
-                      style={{ backgroundColor: variant.hex }}
+                      style={{ background: variant.hex }}
                     />
                   </div>
                 )}

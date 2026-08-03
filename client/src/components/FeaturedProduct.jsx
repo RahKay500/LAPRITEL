@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import featuredImage from '../assets/images/ivy_bag_hotpink.jpeg'
+import featuredImage from '../assets/images/ivy_bag_hotpink.jpg'
 
 function FeaturedProduct() {
   return (

@@ -1,7 +1,15 @@
 import { Link } from 'react-router-dom'
 import { ivyBagVariants } from '../data/ivyBagVariants'
 
+const COUNT_WORDS = [
+  'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight',
+  'nine', 'ten', 'eleven', 'twelve',
+]
+
 function ColorVariants() {
+  const colorCount = ivyBagVariants.length
+  const colorCountWord = COUNT_WORDS[colorCount] ?? colorCount
+
   return (
     <section className="bg-burgundy-tint px-4 py-16 sm:px-6 lg:px-12 lg:py-24">
       <div className="mx-auto max-w-6xl text-center">
@@ -9,7 +17,7 @@ function ColorVariants() {
           Choose Your Color
         </h2>
         <p className="mx-auto mt-3 max-w-md text-ink/70">
-          The Ivy Bag, hand-beaded in eight signature colorways.
+          The Ivy Bag, hand-beaded in {colorCountWord} signature colorways.
         </p>
 
         <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
@@ -31,7 +39,7 @@ function ColorVariants() {
                 <div className="flex aspect-square w-full items-center justify-center rounded-xl bg-burgundy-tint/40">
                   <span
                     className="block h-14 w-14 rounded-full border border-black/10"
-                    style={{ backgroundColor: variant.hex }}
+                    style={{ background: variant.hex }}
                   />
                 </div>
               )}

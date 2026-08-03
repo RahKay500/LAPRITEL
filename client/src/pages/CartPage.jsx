@@ -53,7 +53,7 @@ function CartPage() {
                 <div className="flex h-24 w-24 flex-none items-center justify-center rounded-xl bg-burgundy-tint/40 sm:h-28 sm:w-28">
                   <span
                     className="block h-10 w-10 rounded-full border border-black/10"
-                    style={{ backgroundColor: item.hex }}
+                    style={{ background: item.hex }}
                   />
                 </div>
               )}

@@ -1,9 +1,23 @@
 import { Camera } from 'lucide-react'
 import ivyBagWhite from '../assets/images/ivy_bag_white.jpeg'
-import ivyBagHotPink from '../assets/images/ivy_bag_hotpink.jpeg'
+import ivyBagHotPink from '../assets/images/ivy_bag_hotpink.jpg'
 import ivyBagGreen from '../assets/images/ivy_bag_green.jpeg'
+import ivyBagRed from '../assets/images/ivy_bag_red.jpg'
+import ivyBagPurple from '../assets/images/ivy_bag_purple.jpg'
+import ivyBagSeaBlue from '../assets/images/ivy_bag_seablue.jpg'
+import ivyBagOrange from '../assets/images/ivy_bag_orange.jpg'
+import ivyBagRainbow from '../assets/images/ivy_bag_rainbow.jpg'
 
-const tiles = [ivyBagWhite, ivyBagHotPink, ivyBagGreen]
+const tiles = [
+  ivyBagRainbow,
+  ivyBagHotPink,
+  ivyBagOrange,
+  ivyBagPurple,
+  ivyBagWhite,
+  ivyBagSeaBlue,
+  ivyBagGreen,
+  ivyBagRed,
+]
 
 function InstagramStrip() {
   return (
