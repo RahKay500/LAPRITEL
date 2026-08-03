@@ -1,31 +1,121 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import heroImage from '../assets/images/ivy_bag_hero.jpg'
+import { ivyBagVariants } from '../data/ivyBagVariants'
+import hotPinkMobile from '../assets/images/ivy_bag_hotpink_mobile.jpg'
+import seaBlueMobile from '../assets/images/ivy_bag_seablue_mobile.jpg'
+import redMobile from '../assets/images/ivy_bag_red_mobile.jpg'
+import purpleMobile from '../assets/images/ivy_bag_purple_mobile.jpg'
+
+const stats = [
+  { value: '2,400+', label: 'Bags Sold' },
+  { value: '48 hrs', label: 'Per Bag' },
+  { value: `${ivyBagVariants.length}`, label: 'Colourways' },
+]
+
+const MOBILE_IMAGES = {
+  'hot-pink': hotPinkMobile,
+  'sea-blue': seaBlueMobile,
+  red: redMobile,
+  purple: purpleMobile,
+}
+
+const HERO_SLUGS = ['hot-pink', 'sea-blue', 'red', 'purple']
+const photoVariants = HERO_SLUGS.map((slug) =>
+  ivyBagVariants.find((variant) => variant.slug === slug)
+).filter((variant) => variant?.image)
+const ROTATE_MS = 4000
 
 function Hero() {
+  const [cycle, setCycle] = useState(0)
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setCycle((n) => n + 1)
+    }, ROTATE_MS)
+    return () => clearInterval(id)
+  }, [])
+
+  const count = photoVariants.length
+  const leftVariant = photoVariants[cycle % count]
+  const rightVariant = photoVariants[(cycle + Math.floor(count / 2)) % count]
+
   return (
-    <section className="px-4 py-12 sm:px-6 lg:px-12 lg:py-20">
-      <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-2 lg:gap-16">
-        <div>
-          <h1 className="font-heading text-4xl leading-tight text-ink sm:text-5xl lg:text-6xl">
-            The Ivy Bag
-          </h1>
-          <p className="mt-4 max-w-md text-base text-ink/70 sm:text-lg">
-            Handmade beaded bags, crafted one bead at a time. Elegant,
-            timeless, and made for you.
-          </p>
-          <Link
-            to="/shop"
-            className="mt-8 inline-block rounded-full bg-burgundy px-8 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90"
-          >
-            Shop Now
-          </Link>
-        </div>
-        <div className="flex aspect-square w-full items-center justify-center rounded-2xl bg-burgundy-tint p-6">
+    <section className="relative overflow-hidden bg-burgundy">
+      {leftVariant?.image && (
+        <img
+          key={`mobile-bg-${leftVariant.slug}`}
+          src={MOBILE_IMAGES[leftVariant.slug] ?? leftVariant.image}
+          alt={`The Ivy Bag in ${leftVariant.name}`}
+          className="hero-fade absolute inset-0 h-full w-full object-cover sm:hidden"
+        />
+      )}
+      <span className="absolute inset-0 bg-burgundy/40 mix-blend-multiply sm:hidden" />
+      <span className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/25 to-black/75 sm:hidden" />
+
+      <div className="relative px-4 py-5 sm:px-6 sm:py-16 lg:px-12 lg:py-24">
+        <span className="pointer-events-none absolute inset-0 flex items-center justify-center select-none font-heading text-[22vw] font-bold leading-none text-white/5 sm:text-[18vw]">
+          LAPRITEL
+        </span>
+
+        {leftVariant?.image && (
           <img
-            src={heroImage}
-            alt="The Ivy Bag in purple"
-            className="h-full w-full object-contain"
+            key={`left-${leftVariant.slug}`}
+            src={leftVariant.image}
+            alt={`The Ivy Bag in ${leftVariant.name}`}
+            className="hero-swoop-left absolute left-2 top-1/2 hidden w-40 rounded-2xl object-cover shadow-2xl sm:block lg:left-10 lg:w-72"
           />
+        )}
+        {rightVariant?.image && (
+          <img
+            key={`right-${rightVariant.slug}`}
+            src={rightVariant.image}
+            alt={`The Ivy Bag in ${rightVariant.name}`}
+            className="hero-swoop-right absolute right-2 top-1/2 hidden w-40 rounded-2xl object-cover shadow-2xl sm:block lg:right-10 lg:w-72"
+          />
+        )}
+
+        <div className="relative mx-auto max-w-2xl text-center [text-shadow:0_1px_8px_rgba(0,0,0,0.5)] sm:[text-shadow:none]">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60 sm:text-xs">
+            The Ivy Bag &middot; New Season
+          </p>
+
+          <h1 className="mt-2 font-heading text-4xl leading-[0.95] text-white sm:mt-6 sm:text-7xl lg:text-8xl">
+            Carry
+            <br />
+            <span className="text-burgundy-tint">art.</span>
+          </h1>
+
+          <p className="mx-auto mt-3 max-w-sm text-sm leading-snug text-white/70 sm:mt-6 sm:text-lg">
+            Hand-beaded over 48 hours.
+            <br />
+            {ivyBagVariants.length} exclusive colourways.
+          </p>
+
+          <div className="mt-4 flex flex-row items-center justify-center gap-3 sm:mt-8 sm:gap-4">
+            <Link
+              to="/shop"
+              className="rounded-full bg-white px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-burgundy transition-colors hover:bg-burgundy-tint sm:px-8 sm:py-3 sm:text-sm"
+            >
+              Shop the Ivy Bag
+            </Link>
+            <Link
+              to="/shop"
+              className="rounded-full border border-white/40 px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-white transition-colors hover:border-white sm:px-8 sm:py-3 sm:text-sm"
+            >
+              See All Colours
+            </Link>
+          </div>
+
+          <div className="mt-4 flex items-center justify-center gap-7 sm:mt-10 sm:gap-16">
+            {stats.map((stat) => (
+              <div key={stat.label}>
+                <p className="font-heading text-xl text-white sm:text-3xl">{stat.value}</p>
+                <p className="mt-0.5 text-[10px] uppercase tracking-wide text-white/50 sm:mt-1 sm:text-[11px]">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
