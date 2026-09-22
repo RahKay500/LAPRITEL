@@ -1,23 +1,23 @@
 import { Camera } from 'lucide-react'
 import Reveal from './Reveal'
-import ivyBagWhite from '../assets/images/ivy_bag_white.jpeg'
 import ivyBagHotPink from '../assets/images/ivy_bag_hotpink.jpg'
-import ivyBagGreen from '../assets/images/ivy_bag_green.jpeg'
-import ivyBagRed from '../assets/images/ivy_bag_red.jpg'
-import ivyBagPurple from '../assets/images/ivy_bag_purple.jpg'
-import ivyBagSeaBlue from '../assets/images/ivy_bag_seablue.jpg'
 import ivyBagOrange from '../assets/images/ivy_bag_orange.jpg'
-import ivyBagRainbow from '../assets/images/ivy_bag_rainbow.jpg'
+import ivyBagWhite from '../assets/images/ivy_bag_white.jpeg'
+import ivyBagSeaBlue from '../assets/images/ivy_bag_seablue.jpg'
+import ivyBagRed from '../assets/images/ivy_bag_red.jpg'
+import igPhoto from '../assets/images/ivy_bag_ig_photo.jpg'
+import igVideo1 from '../assets/images/ivy_bag_ig_video1.mp4'
+import igVideo2 from '../assets/images/ivy_bag_ig_video2.mp4'
 
 const tiles = [
-  ivyBagRainbow,
-  ivyBagHotPink,
-  ivyBagOrange,
-  ivyBagPurple,
-  ivyBagWhite,
-  ivyBagSeaBlue,
-  ivyBagGreen,
-  ivyBagRed,
+  { type: 'video', src: igVideo1 },
+  { type: 'image', src: ivyBagHotPink, fit: 'contain' },
+  { type: 'image', src: ivyBagOrange, fit: 'contain' },
+  { type: 'video', src: igVideo2 },
+  { type: 'image', src: ivyBagWhite, fit: 'contain' },
+  { type: 'image', src: ivyBagSeaBlue, fit: 'contain' },
+  { type: 'image', src: igPhoto, fit: 'cover' },
+  { type: 'image', src: ivyBagRed, fit: 'contain' },
 ]
 
 function InstagramStrip() {
@@ -39,21 +39,35 @@ function InstagramStrip() {
       </Reveal>
 
       <div className="mt-8 grid grid-cols-3 gap-1 sm:gap-2">
-        {tiles.map((image) => (
+        {tiles.map((tile) => (
           <a
-            key={image}
+            key={tile.src}
             href="https://instagram.com/lapritel"
             target="_blank"
             rel="noreferrer"
-            className="flex aspect-square items-center justify-center bg-burgundy-tint/40 p-2"
+            className={`flex aspect-square items-center justify-center bg-burgundy-tint/40 ${
+              tile.fit === 'cover' || tile.type === 'video' ? '' : 'p-2'
+            }`}
           >
-            <img
-              src={image}
-              alt="LAPRITEL handmade beaded bag"
-              className="h-full w-full object-contain"
-              loading="lazy"
-              decoding="async"
-            />
+            {tile.type === 'video' ? (
+              <video
+                src={tile.src}
+                className="h-full w-full object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+              />
+            ) : (
+              <img
+                src={tile.src}
+                alt="LAPRITEL handmade beaded bag"
+                className={`h-full w-full ${tile.fit === 'cover' ? 'object-cover' : 'object-contain'}`}
+                loading="lazy"
+                decoding="async"
+              />
+            )}
           </a>
         ))}
       </div>
