@@ -79,7 +79,7 @@ function Footer() {
 
         <div>
           <p className="text-sm font-semibold uppercase tracking-wide text-ink">
-            Follow
+            Follow Us
           </p>
           <div className="mt-4 flex gap-3">
             <a
