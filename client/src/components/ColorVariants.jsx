@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ivyBagVariants } from '../data/ivyBagVariants'
+import Reveal from './Reveal'
 
 const COUNT_WORDS = [
   'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight',
@@ -13,14 +14,16 @@ function ColorVariants() {
   return (
     <section className="bg-burgundy-tint px-4 py-16 sm:px-6 lg:px-12 lg:py-24">
       <div className="mx-auto max-w-6xl text-center">
-        <h2 className="font-heading text-3xl text-ink sm:text-4xl">
-          Choose Your Color
-        </h2>
-        <p className="mx-auto mt-3 max-w-md text-ink/70">
-          The Ivy Bag, hand-beaded in {colorCountWord} signature colorways.
-        </p>
+        <Reveal>
+          <h2 className="font-heading text-3xl text-ink sm:text-4xl">
+            Choose Your Color
+          </h2>
+          <p className="mx-auto mt-3 max-w-md text-ink/70">
+            The Ivy Bag, hand-beaded in {colorCountWord} signature colorways.
+          </p>
+        </Reveal>
 
-        <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
+        <Reveal delay={100} className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
           {ivyBagVariants.map((variant) => (
             <Link
               key={variant.slug}
@@ -47,7 +50,7 @@ function ColorVariants() {
               <p className="mt-1 text-xs text-ink/60">GHS {variant.price}</p>
             </Link>
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   )

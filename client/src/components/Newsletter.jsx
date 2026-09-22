@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Reveal from './Reveal'
 
 function Newsletter() {
   const [email, setEmail] = useState('')
@@ -12,7 +13,7 @@ function Newsletter() {
 
   return (
     <section className="bg-burgundy px-4 py-16 text-center sm:px-6 lg:px-12 lg:py-20">
-      <div className="mx-auto max-w-md">
+      <Reveal className="mx-auto max-w-md">
         <h2 className="font-heading text-2xl text-white sm:text-3xl">
           Join the LAPRITEL Circle
         </h2>
@@ -50,7 +51,7 @@ function Newsletter() {
             </button>
           </form>
         )}
-      </div>
+      </Reveal>
     </section>
   )
 }

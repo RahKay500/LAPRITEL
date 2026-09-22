@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { ivyBagVariants } from '../data/ivyBagVariants'
 import hotPinkMobile from '../assets/images/ivy_bag_hotpink_mobile.jpg'
 import seaBlueMobile from '../assets/images/ivy_bag_seablue_mobile.jpg'
-import redMobile from '../assets/images/ivy_bag_red_mobile.jpg'
+import greenMobile from '../assets/images/ivy_bag_green_mobile.jpg'
 import purpleMobile from '../assets/images/ivy_bag_purple_mobile.jpg'
 
 const stats = [
@@ -15,11 +15,11 @@ const stats = [
 const MOBILE_IMAGES = {
   'hot-pink': hotPinkMobile,
   'sea-blue': seaBlueMobile,
-  red: redMobile,
+  green: greenMobile,
   purple: purpleMobile,
 }
 
-const HERO_SLUGS = ['hot-pink', 'sea-blue', 'red', 'purple']
+const HERO_SLUGS = ['hot-pink', 'sea-blue', 'green', 'purple']
 const photoVariants = HERO_SLUGS.map((slug) =>
   ivyBagVariants.find((variant) => variant.slug === slug)
 ).filter((variant) => variant?.image)
@@ -42,17 +42,63 @@ function Hero() {
   return (
     <section className="relative overflow-hidden bg-burgundy">
       {leftVariant?.image && (
-        <img
-          key={`mobile-bg-${leftVariant.slug}`}
-          src={MOBILE_IMAGES[leftVariant.slug] ?? leftVariant.image}
-          alt={`The Ivy Bag in ${leftVariant.name}`}
-          className="hero-fade absolute inset-0 h-full w-full object-cover sm:hidden"
-        />
-      )}
-      <span className="absolute inset-0 bg-burgundy/40 mix-blend-multiply sm:hidden" />
-      <span className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/25 to-black/75 sm:hidden" />
+        <div className="relative h-[45vh] w-full sm:hidden">
+          <img
+            key={`mobile-bg-${leftVariant.slug}`}
+            src={MOBILE_IMAGES[leftVariant.slug] ?? leftVariant.image}
+            alt={`The Ivy Bag in ${leftVariant.name}`}
+            className="hero-fade h-full w-full object-cover"
+          />
+          <span className="absolute inset-0 bg-burgundy/40 mix-blend-multiply" />
+          <span className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/25 to-black/80" />
 
-      <div className="relative px-4 py-5 sm:px-6 sm:py-16 lg:px-12 lg:py-24">
+          <div className="absolute inset-x-0 bottom-0 px-4 pb-6 text-center [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60">
+              The Ivy Bag &middot; New Season
+            </p>
+
+            <h1 className="mt-2 font-heading text-4xl leading-[0.95] text-white">
+              Carry
+              <br />
+              <span className="text-burgundy-tint">art.</span>
+            </h1>
+
+            <p className="mx-auto mt-3 max-w-sm text-sm leading-snug text-white/70">
+              Hand-beaded over 48 hours.
+              <br />
+              {ivyBagVariants.length} exclusive colourways.
+            </p>
+
+            <div className="mt-4 flex flex-row items-center justify-center gap-3">
+              <Link
+                to="/shop"
+                className="rounded-full bg-white px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-burgundy transition-colors hover:bg-burgundy-tint"
+              >
+                Shop the Ivy Bag
+              </Link>
+              <Link
+                to="/shop"
+                className="rounded-full border border-white/40 px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-white transition-colors hover:border-white"
+              >
+                See All Colours
+              </Link>
+            </div>
+
+            <div className="mt-4 flex items-center justify-center gap-7">
+              {stats.map((stat) => (
+                <div key={stat.label}>
+                  <p className="font-heading text-xl text-white">{stat.value}</p>
+                  <p className="mt-0.5 text-[10px] uppercase tracking-wide text-white/50">
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="relative hidden px-4 py-5 sm:block sm:px-6 sm:py-16 lg:px-12 lg:py-24">
         <span className="pointer-events-none absolute inset-0 flex items-center justify-center select-none font-heading text-[22vw] font-bold leading-none text-white/5 sm:text-[18vw]">
           LAPRITEL
         </span>
