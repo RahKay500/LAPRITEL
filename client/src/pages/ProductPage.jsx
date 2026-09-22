@@ -257,10 +257,10 @@ function ProductPage() {
                     {isAdded ? (
                       <>
                         <Check size={16} strokeWidth={2} />
-                        Added to Bag
+                        Added to Cart
                       </>
                     ) : (
-                      `Add to Bag — GHS ${selectedVariant.price * quantity}`
+                      `Add to Cart — GHS ${selectedVariant.price * quantity}`
                     )}
                   </button>
 
