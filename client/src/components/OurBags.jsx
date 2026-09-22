@@ -5,7 +5,7 @@ import Reveal from './Reveal'
 
 function OurBags() {
   const [products, setProducts] = useState([])
-  const [selectedColors, setSelectedColors] = useState({})
+  const [selectedColors, setSelectedColors] = useState({ 'ivy-bag': 'purple' })
   const seasonYear = new Date().getFullYear()
 
   useEffect(() => {
