@@ -56,10 +56,10 @@ function Hero() {
               The Ivy Bag &middot; New Season
             </p>
 
-            <h1 className="mt-2 font-heading text-4xl leading-[0.95] text-white">
+            <h1 className="mt-2 text-4xl font-extrabold uppercase leading-[0.95] tracking-tight text-white">
               Carry
               <br />
-              <span className="text-burgundy-tint">art.</span>
+              art.
             </h1>
 
             <p className="mx-auto mt-3 max-w-sm text-sm leading-snug text-white/70">
@@ -71,7 +71,7 @@ function Hero() {
             <div className="mt-4 flex flex-row items-center justify-center gap-5">
               <Link
                 to="/shop"
-                className="rounded-full bg-white px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-burgundy transition-colors hover:bg-burgundy-tint"
+                className="rounded-full border-2 border-white px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-burgundy"
               >
                 Shop the Ivy Bag
               </Link>
@@ -86,7 +86,7 @@ function Hero() {
             <div className="mt-4 flex items-center justify-center gap-7">
               {stats.map((stat) => (
                 <div key={stat.label}>
-                  <p className="font-heading text-xl text-white">{stat.value}</p>
+                  <p className="text-xl font-extrabold text-white">{stat.value}</p>
                   <p className="mt-0.5 text-[10px] uppercase tracking-wide text-white/50">
                     {stat.label}
                   </p>
@@ -98,7 +98,7 @@ function Hero() {
       )}
 
       <div className="relative hidden px-4 py-12 sm:block sm:px-6 sm:py-16 lg:px-12 lg:py-20">
-        <span className="pointer-events-none absolute inset-0 flex items-center justify-center select-none font-heading text-[18vw] font-bold leading-none text-white/5">
+        <span className="pointer-events-none absolute inset-0 flex items-center justify-center select-none text-[18vw] font-extrabold leading-none text-white/5">
           LAPRITEL
         </span>
 
@@ -108,10 +108,10 @@ function Hero() {
               The Ivy Bag &middot; New Season
             </p>
 
-            <h1 className="mt-6 font-heading text-6xl leading-[0.95] text-white lg:text-7xl">
+            <h1 className="mt-6 text-6xl font-extrabold uppercase leading-[0.95] tracking-tight text-white lg:text-7xl">
               Carry
               <br />
-              <span className="text-burgundy-tint">art.</span>
+              art.
             </h1>
 
             <p className="mx-auto mt-6 max-w-sm text-lg leading-snug text-white/70 lg:mx-0">
@@ -123,7 +123,7 @@ function Hero() {
             <div className="mt-8 flex flex-row items-center justify-center gap-6 lg:justify-start">
               <Link
                 to="/shop"
-                className="rounded-full bg-white px-8 py-3 text-sm font-semibold uppercase tracking-wide text-burgundy transition-colors hover:bg-burgundy-tint"
+                className="rounded-full border-2 border-white px-8 py-3 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-burgundy"
               >
                 Shop the Ivy Bag
               </Link>
@@ -138,7 +138,7 @@ function Hero() {
             <div className="mt-10 flex items-center justify-center gap-10 lg:justify-start lg:gap-16">
               {stats.map((stat) => (
                 <div key={stat.label}>
-                  <p className="font-heading text-3xl text-white">{stat.value}</p>
+                  <p className="text-3xl font-extrabold text-white">{stat.value}</p>
                   <p className="mt-1 text-[11px] uppercase tracking-wide text-white/50">
                     {stat.label}
                   </p>
@@ -148,15 +148,15 @@ function Hero() {
           </div>
 
           {leftVariant?.image && (
-            <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-2xl shadow-2xl lg:max-w-md">
+            <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden lg:max-w-md">
               <img
                 key={`hero-panel-${leftVariant.slug}`}
                 src={leftVariant.image}
                 alt={`The Ivy Bag in ${leftVariant.name}`}
                 className="hero-fade h-full w-full object-cover"
               />
-              <div className="absolute bottom-4 left-4 rounded-lg bg-black/40 px-3 py-1.5 backdrop-blur-sm">
-                <p className="font-heading text-sm italic text-white">
+              <div className="absolute bottom-0 left-0 bg-black/50 px-3 py-1.5">
+                <p className="text-xs font-bold uppercase tracking-widest text-white">
                   {leftVariant.name}
                 </p>
               </div>

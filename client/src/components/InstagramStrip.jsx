@@ -24,7 +24,7 @@ function InstagramStrip() {
   return (
     <section className="py-16 lg:py-24">
       <Reveal className="px-4 text-center sm:px-6 lg:px-12">
-        <h2 className="font-heading text-3xl text-ink sm:text-4xl">
+        <h2 className="text-3xl font-extrabold uppercase tracking-tight text-ink sm:text-4xl">
           Follow Along
         </h2>
         <a

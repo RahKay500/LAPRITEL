@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --font-heading: "Fraunces", serif;
+  --font-heading: "Karla", sans-serif;
   --font-sans: "Karla", sans-serif;
 
   --color-burgundy: #800020;

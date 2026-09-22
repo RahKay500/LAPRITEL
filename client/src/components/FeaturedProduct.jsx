@@ -50,10 +50,10 @@ function FeaturedProduct() {
 
         <div className="min-w-0 flex-1">
           <Reveal>
-            <h2 className="font-heading text-5xl leading-[0.95] text-ink sm:text-6xl">
+            <h2 className="text-5xl font-extrabold uppercase leading-[0.95] tracking-tight text-ink sm:text-6xl">
               Ivy
               <br />
-              <span className="italic text-burgundy">Bag.</span>
+              <span className="text-burgundy">Bag.</span>
             </h2>
             <p className="mt-4 max-w-md text-ink/60">
               Fully beaded. Rigid shell. Hand-stitched over 48 hours.{' '}
@@ -63,7 +63,7 @@ function FeaturedProduct() {
 
           <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-16">
             {selectedVariant.image ? (
-              <Reveal delay={100} className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-burgundy-tint shadow-xl">
+              <Reveal delay={100} className="relative aspect-[4/5] w-full overflow-hidden bg-burgundy-tint">
                 <img
                   key={selectedVariant.slug}
                   src={selectedVariant.image}
@@ -71,14 +71,14 @@ function FeaturedProduct() {
                   className="hero-fade h-full w-full object-cover"
                   decoding="async"
                 />
-                <div className="absolute bottom-4 left-4 rounded-lg bg-black/40 px-3 py-1.5 backdrop-blur-sm">
-                  <p className="font-heading text-sm italic text-white">
+                <div className="absolute bottom-0 left-0 bg-black/50 px-3 py-1.5">
+                  <p className="text-xs font-bold uppercase tracking-widest text-white">
                     {selectedVariant.name}
                   </p>
                 </div>
               </Reveal>
             ) : (
-              <Reveal delay={100} className="flex aspect-[4/5] w-full items-center justify-center rounded-2xl bg-burgundy-tint shadow-xl">
+              <Reveal delay={100} className="flex aspect-[4/5] w-full items-center justify-center bg-burgundy-tint">
                 <span
                   className="mx-auto block h-20 w-20 rounded-full border border-black/10"
                   style={{ background: selectedVariant.hex }}
@@ -87,7 +87,7 @@ function FeaturedProduct() {
             )}
 
             <Reveal delay={200}>
-              <p className="font-heading text-3xl text-burgundy">
+              <p className="text-3xl font-extrabold text-burgundy">
                 GHS {selectedVariant.price}
               </p>
 
@@ -117,7 +117,7 @@ function FeaturedProduct() {
                 </div>
               </div>
 
-              <div className="mt-6 overflow-hidden rounded-xl border border-black/5">
+              <div className="mt-6 overflow-hidden border border-black/5">
                 {SPECS.map((spec, index) => (
                   <div
                     key={spec.label}
@@ -134,7 +134,7 @@ function FeaturedProduct() {
               </div>
 
               <div className="mt-6 flex items-center gap-3">
-                <div className="flex items-center rounded-full border border-black/10 bg-white">
+                <div className="flex items-center border border-black/10 bg-white">
                   <button
                     type="button"
                     aria-label="Decrease quantity"
@@ -159,7 +159,7 @@ function FeaturedProduct() {
                 <button
                   type="button"
                   onClick={handleAddToCart}
-                  className="flex flex-1 items-center justify-center gap-2 rounded-full bg-burgundy px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90"
+                  className="flex flex-1 items-center justify-center gap-2 rounded-full border-2 border-burgundy px-6 py-2.5 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white"
                 >
                   {isAdded ? (
                     <>

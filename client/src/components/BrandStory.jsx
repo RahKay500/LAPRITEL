@@ -10,7 +10,7 @@ function BrandStory() {
           <img
             src={storyImage}
             alt="LAPRITEL Ivy Bag handcrafted with beads"
-            className="aspect-[4/3] w-full rounded-2xl object-cover"
+            className="aspect-[4/3] w-full object-cover"
             loading="lazy"
             decoding="async"
           />
@@ -19,7 +19,7 @@ function BrandStory() {
           <p className="text-sm font-semibold uppercase tracking-widest text-burgundy">
             Our Story
           </p>
-          <h2 className="mt-3 font-heading text-3xl text-ink sm:text-4xl">
+          <h2 className="mt-3 text-3xl font-extrabold uppercase tracking-tight text-ink sm:text-4xl">
             Crafted by Hand, Made to Last
           </h2>
           <p className="mt-4 max-w-md text-ink/70">

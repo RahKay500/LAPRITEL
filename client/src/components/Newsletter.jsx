@@ -14,7 +14,7 @@ function Newsletter() {
   return (
     <section className="bg-burgundy px-4 py-16 text-center sm:px-6 lg:px-12 lg:py-20">
       <Reveal className="mx-auto max-w-md">
-        <h2 className="font-heading text-2xl text-white sm:text-3xl">
+        <h2 className="text-2xl font-extrabold uppercase tracking-tight text-white sm:text-3xl">
           Join the LAPRITEL Circle
         </h2>
         <p className="mt-3 text-sm text-white/80">
@@ -41,11 +41,11 @@ function Newsletter() {
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               placeholder="Your email address"
-              className="w-full rounded-full border border-white/40 bg-transparent px-5 py-3 text-sm text-white placeholder-white/70 outline-none focus:ring-2 focus:ring-white"
+              className="w-full border border-white/40 bg-transparent px-5 py-3 text-sm text-white placeholder-white/70 outline-none focus:ring-2 focus:ring-white"
             />
             <button
               type="submit"
-              className="rounded-full bg-white px-6 py-3 text-sm font-semibold uppercase tracking-wide text-burgundy transition-colors hover:bg-burgundy-tint"
+              className="rounded-full border-2 border-white px-6 py-3 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-burgundy"
             >
               Subscribe
             </button>
