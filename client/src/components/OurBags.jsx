@@ -5,6 +5,7 @@ import Reveal from './Reveal'
 
 function OurBags() {
   const [products, setProducts] = useState([])
+  const [selectedColors, setSelectedColors] = useState({})
   const seasonYear = new Date().getFullYear()
 
   useEffect(() => {
@@ -45,36 +46,70 @@ function OurBags() {
 
             <div className="mt-10 grid gap-8 sm:grid-cols-3">
               {products.map((product, index) => {
+                const standardVariants = product.product_variants.filter(
+                  (v) => v.image_url && !v.is_custom
+                )
                 const variant =
-                  product.product_variants.find((v) => v.image_url && !v.is_custom) ||
+                  standardVariants.find((v) => v.color_slug === selectedColors[product.slug]) ||
+                  standardVariants[0] ||
                   product.product_variants[0]
                 if (!variant) return null
                 return (
                   <Reveal key={product.slug} delay={index * 100}>
-                    <Link to={`/shop/${product.slug}`} className="group block">
-                      <div className="relative aspect-square w-full overflow-hidden bg-burgundy-tint">
-                        {variant.image_url ? (
-                          <img
-                            src={variant.image_url}
-                            alt={product.name}
-                            className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
-                            loading="lazy"
-                            decoding="async"
-                          />
-                        ) : (
-                          <div className="flex h-full w-full items-center justify-center">
-                            <span
-                              className="block h-16 w-16 rounded-full border border-black/10"
-                              style={{ background: variant.hex }}
+                    <div>
+                      <Link to={`/shop/${product.slug}?color=${variant.color_slug}`} className="group block">
+                        <div className="relative aspect-square w-full overflow-hidden bg-burgundy-tint">
+                          {variant.image_url ? (
+                            <img
+                              src={variant.image_url}
+                              alt={product.name}
+                              className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+                              loading="lazy"
+                              decoding="async"
                             />
-                          </div>
-                        )}
-                      </div>
-                      <p className="mt-4 text-lg font-extrabold uppercase tracking-tight text-ink">
-                        {product.name}
-                      </p>
-                      <p className="mt-1 text-sm text-ink/60">GHS {variant.price}</p>
-                    </Link>
+                          ) : (
+                            <div className="flex h-full w-full items-center justify-center">
+                              <span
+                                className="block h-16 w-16 rounded-full border border-black/10"
+                                style={{ background: variant.hex }}
+                              />
+                            </div>
+                          )}
+                        </div>
+                        <p className="mt-4 text-lg font-extrabold uppercase tracking-tight text-ink">
+                          {product.name}
+                        </p>
+                        <p className="mt-1 text-sm text-ink/60">GHS {variant.price}</p>
+                      </Link>
+
+                      {standardVariants.length > 1 && (
+                        <div className="mt-3 flex flex-wrap gap-1.5">
+                          {standardVariants.map((v) => (
+                            <button
+                              key={v.color_slug}
+                              type="button"
+                              aria-label={v.color_name}
+                              onClick={() =>
+                                setSelectedColors((current) => ({
+                                  ...current,
+                                  [product.slug]: v.color_slug,
+                                }))
+                              }
+                              className={`h-6 w-6 rounded-full border-2 transition-colors ${
+                                v.color_slug === variant.color_slug
+                                  ? 'border-burgundy'
+                                  : 'border-transparent hover:border-black/20'
+                              }`}
+                            >
+                              <span
+                                className="block h-full w-full rounded-full border border-black/10"
+                                style={{ background: v.hex }}
+                              />
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </Reveal>
                 )
               })}
