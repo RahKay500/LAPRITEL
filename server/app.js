@@ -7,6 +7,7 @@ import morgan from 'morgan'
 
 import { apiLimiter } from './middleware/rateLimiter.js'
 import { notFoundHandler, errorHandler } from './middleware/errorHandler.js'
+import { supabase } from './config/supabase.js'
 import paymentWebhookRouter from './routes/paymentWebhook.js'
 import paymentsRouter from './routes/payments.js'
 import ordersRouter from './routes/orders.js'
@@ -40,7 +41,16 @@ app.use('/api/payments/webhook', paymentWebhookRouter)
 app.use(express.json())
 app.use('/api', apiLimiter)
 
-app.get('/api/health', (req, res) => {
+// A scheduled GitHub Actions job pings this on a cron (see
+// .github/workflows/keep-alive.yml) to stop Vercel from cold-starting this
+// function after idle periods, and touching the database here keeps
+// Supabase's free-tier project from auto-pausing after a week of inactivity.
+app.get('/api/health', async (req, res) => {
+  try {
+    await supabase.from('products').select('id').limit(1)
+  } catch (error) {
+    console.error('Health check DB ping failed:', error.message)
+  }
   res.json({ status: 'ok' })
 })
 

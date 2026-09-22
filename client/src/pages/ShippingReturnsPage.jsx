@@ -15,8 +15,9 @@ function ShippingReturnsPage() {
           <section>
             <h2 className="text-xl font-extrabold uppercase tracking-tight text-ink">Shipping</h2>
             <p className="mt-3">
-              Every bag is made to order and hand-beaded once you place your order, so it ships in
-              3&ndash;5 weeks. We'll keep you posted on your order status by email.
+              Every bag is made to order and hand-beaded once you place your order. Production
+              takes 5&ndash;7 working days, and your order ships as soon as it's done. We'll keep
+              you posted on your order status by email.
             </p>
           </section>
 

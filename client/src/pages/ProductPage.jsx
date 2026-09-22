@@ -505,7 +505,9 @@ function ProductPage() {
                     <div className="mt-3 space-y-2 text-sm text-ink/70">
                       <p>
                         Every bag is made to order and hand-beaded once you
-                        place your order, so it ships in 3&ndash;5 weeks.
+                        place your order &mdash; production takes 5&ndash;7
+                        working days, and your order ships as soon as it's
+                        done.
                       </p>
                       <p>
                         Because each piece is handmade, we don't accept
@@ -548,8 +550,8 @@ function ProductPage() {
                       <div>
                         <p className="font-semibold text-ink">How long will my order take?</p>
                         <p className="mt-1">
-                          Since each bag is made to order, it ships in 3&ndash;5 weeks from the
-                          date you order.
+                          Since each bag is made to order, production takes 5&ndash;7 working
+                          days, and your order ships as soon as it's done.
                         </p>
                       </div>
                       {customVariants.length > 0 && (

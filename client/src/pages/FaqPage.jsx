@@ -9,7 +9,8 @@ const FAQS = [
   },
   {
     question: 'How long will my order take?',
-    answer: 'Since each bag is made to order, it ships in 3–5 weeks from the date you order.',
+    answer:
+      "Since each bag is made to order, production takes 5–7 working days, and your order ships as soon as it's done.",
   },
   {
     question: 'Can I request a custom colour?',
