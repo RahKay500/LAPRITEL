@@ -104,9 +104,8 @@ function Footer() {
             >
               <FaWhatsapp size={18} />
             </a>
-            {/* TODO: replace with the real TikTok profile URL once provided */}
             <a
-              href="https://tiktok.com"
+              href="https://www.tiktok.com/@lapritel"
               target="_blank"
               rel="noreferrer"
               aria-label="TikTok"
