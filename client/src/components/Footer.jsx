@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { FaInstagram, FaWhatsapp } from 'react-icons/fa'
+import { FaInstagram, FaTiktok, FaWhatsapp } from 'react-icons/fa'
 
 const linkClass =
   'underline underline-offset-2 decoration-burgundy/30 text-ink/70 transition-colors hover:text-burgundy hover:decoration-burgundy'
@@ -81,24 +81,38 @@ function Footer() {
           <p className="text-sm font-semibold uppercase tracking-wide text-ink">
             Follow
           </p>
-          <div className="mt-4 flex gap-4 text-ink/70">
+          <div className="mt-4 flex gap-3">
             <a
               href="https://instagram.com/lapritel"
               target="_blank"
               rel="noreferrer"
               aria-label="Instagram"
-              className="transition-colors hover:text-burgundy"
+              className="flex h-9 w-9 items-center justify-center rounded-full text-white transition-transform hover:scale-110"
+              style={{
+                background:
+                  'linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)',
+              }}
             >
-              <FaInstagram size={22} />
+              <FaInstagram size={18} />
             </a>
             <a
               href="https://wa.me/233243416943"
               target="_blank"
               rel="noreferrer"
               aria-label="WhatsApp"
-              className="transition-colors hover:text-burgundy"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-[#25D366] text-white transition-transform hover:scale-110"
             >
-              <FaWhatsapp size={22} />
+              <FaWhatsapp size={18} />
+            </a>
+            {/* TODO: replace with the real TikTok profile URL once provided */}
+            <a
+              href="https://tiktok.com"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="TikTok"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white transition-transform hover:scale-110"
+            >
+              <FaTiktok size={16} />
             </a>
           </div>
         </div>
