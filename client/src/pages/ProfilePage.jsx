@@ -108,7 +108,7 @@ function ProfilePage() {
               </p>
             )}
 
-            <div className="flex gap-3">
+            <div className="flex items-center gap-6">
               <button
                 type="submit"
                 disabled={isSaving}
@@ -119,7 +119,7 @@ function ProfilePage() {
               <button
                 type="button"
                 onClick={() => setIsEditing(false)}
-                className="rounded-full border border-black/10 px-8 py-3 text-sm font-semibold uppercase tracking-wide text-ink"
+                className="text-sm font-semibold uppercase tracking-wide text-ink/70 underline-offset-4 transition-colors hover:text-burgundy hover:underline"
               >
                 Cancel
               </button>
@@ -145,7 +145,7 @@ function ProfilePage() {
               <p className="text-ink">{user.phone}</p>
             </div>
 
-            <div className="flex flex-wrap gap-3 pt-2">
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-2">
               <button
                 type="button"
                 onClick={() => setIsEditing(true)}
@@ -155,14 +155,14 @@ function ProfilePage() {
               </button>
               <Link
                 to="/orders"
-                className="rounded-full border border-black/10 px-8 py-3 text-sm font-semibold uppercase tracking-wide text-ink"
+                className="text-sm font-semibold uppercase tracking-wide text-ink/70 underline-offset-4 transition-colors hover:text-burgundy hover:underline"
               >
                 My Orders
               </Link>
               <button
                 type="button"
                 onClick={handleLogout}
-                className="rounded-full border border-black/10 px-8 py-3 text-sm font-semibold uppercase tracking-wide text-ink"
+                className="text-sm font-semibold uppercase tracking-wide text-ink/70 underline-offset-4 transition-colors hover:text-burgundy hover:underline"
               >
                 Log Out
               </button>

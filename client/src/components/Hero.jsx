@@ -69,7 +69,7 @@ function Hero() {
               {ivyBagVariants.length} exclusive colourways.
             </p>
 
-            <div className="mt-4 flex flex-row items-center justify-center gap-3">
+            <div className="mt-4 flex flex-row items-center justify-center gap-5">
               <Link
                 to="/shop"
                 className="rounded-full bg-white px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-burgundy transition-colors hover:bg-burgundy-tint"
@@ -78,7 +78,7 @@ function Hero() {
               </Link>
               <Link
                 to="/shop"
-                className="rounded-full border border-white/40 px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-white transition-colors hover:border-white"
+                className="text-xs font-semibold uppercase tracking-wide text-white/80 underline-offset-4 transition-colors hover:text-white hover:underline"
               >
                 See All Colours
               </Link>
@@ -137,7 +137,7 @@ function Hero() {
             {ivyBagVariants.length} exclusive colourways.
           </p>
 
-          <div className="mt-4 flex flex-row items-center justify-center gap-3 sm:mt-8 sm:gap-4">
+          <div className="mt-4 flex flex-row items-center justify-center gap-5 sm:mt-8 sm:gap-6">
             <Link
               to="/shop"
               className="rounded-full bg-white px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-burgundy transition-colors hover:bg-burgundy-tint sm:px-8 sm:py-3 sm:text-sm"
@@ -146,7 +146,7 @@ function Hero() {
             </Link>
             <Link
               to="/shop"
-              className="rounded-full border border-white/40 px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-white transition-colors hover:border-white sm:px-8 sm:py-3 sm:text-sm"
+              className="text-xs font-semibold uppercase tracking-wide text-white/80 underline-offset-4 transition-colors hover:text-white hover:underline sm:text-sm"
             >
               See All Colours
             </Link>

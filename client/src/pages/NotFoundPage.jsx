@@ -15,7 +15,7 @@ function NotFoundPage() {
           We couldn't find the page you were looking for. It may have been
           moved, or the link might be outdated.
         </p>
-        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
           <Link
             to="/"
             className="rounded-full bg-burgundy px-8 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90"
@@ -24,7 +24,7 @@ function NotFoundPage() {
           </Link>
           <Link
             to="/shop"
-            className="rounded-full border border-black/10 px-8 py-3 text-sm font-semibold uppercase tracking-wide text-ink transition-colors hover:border-burgundy/40 hover:text-burgundy"
+            className="text-sm font-semibold uppercase tracking-wide text-ink/70 underline-offset-4 transition-colors hover:text-burgundy hover:underline"
           >
             Shop the Ivy Bag
           </Link>

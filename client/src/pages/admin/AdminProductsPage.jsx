@@ -159,7 +159,7 @@ function VariantForm({ initialValues, onSubmit, onCancel, isSaving, showActiveTo
 
       {error && <p className="text-sm text-burgundy sm:col-span-2">{error}</p>}
 
-      <div className="flex gap-3 sm:col-span-2">
+      <div className="flex items-center gap-6 sm:col-span-2">
         <button
           type="submit"
           disabled={isSaving || isUploading}
@@ -170,7 +170,7 @@ function VariantForm({ initialValues, onSubmit, onCancel, isSaving, showActiveTo
         <button
           type="button"
           onClick={onCancel}
-          className="rounded-full border border-black/10 px-6 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink"
+          className="text-sm font-semibold uppercase tracking-wide text-ink/70 underline-offset-4 transition-colors hover:text-burgundy hover:underline"
         >
           Cancel
         </button>
