@@ -158,7 +158,19 @@ function ShopPage() {
           </h1>
         </div>
 
-        <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-wrap items-end justify-between gap-3">
+          <h2 className="text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
+            The Ivy Bag
+          </h2>
+          <Link
+            to="/shop/ivy-bag#custom-colors"
+            className="text-sm font-medium text-burgundy underline-offset-4 hover:underline"
+          >
+            + Custom colors available
+          </Link>
+        </div>
+
+        <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
             <button
               type="button"

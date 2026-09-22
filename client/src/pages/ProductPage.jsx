@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { Check, ChevronDown, ChevronUp, Heart, Minus, Plus } from 'lucide-react'
 import { useProductVariants } from '../hooks/useProductVariants'
@@ -40,6 +40,12 @@ function ProductPage() {
   const [isCareOpen, setIsCareOpen] = useState(false)
   const [isWishlisted, setIsWishlisted] = useState(false)
   const [quantity, setQuantity] = useState(1)
+
+  useEffect(() => {
+    if (window.location.hash === '#custom-colors' && customVariants.length > 0) {
+      document.getElementById('custom-colors')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [customVariants.length])
 
   function selectColor(slug) {
     setSearchParams({ color: slug })
@@ -174,7 +180,7 @@ function ProductPage() {
                 )}
 
                 {customVariants.length > 0 && (
-                  <div className="mt-6 border-t border-black/10 pt-6">
+                  <div id="custom-colors" className="mt-6 scroll-mt-24 border-t border-black/10 pt-6">
                     <p className="text-xs font-semibold uppercase tracking-widest text-ink/60">
                       Want a different shade? &mdash; Custom colours, made to order
                     </p>
