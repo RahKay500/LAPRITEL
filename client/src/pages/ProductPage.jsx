@@ -26,6 +26,23 @@ function ProductPage() {
     allVariants.find((variant) => variant.slug === colorParam) || standardVariants[0]
   const displayName = product?.name.replace(/^The /i, '') || ''
 
+  const [customMode, setCustomMode] = useState('single')
+  const [topSlug, setTopSlug] = useState(null)
+  const [bottomSlug, setBottomSlug] = useState(null)
+  const topVariant = customVariants.find((variant) => variant.slug === topSlug)
+  const bottomVariant = customVariants.find((variant) => variant.slug === bottomSlug)
+  const isTwoToneReady = customMode === 'two-tone' && Boolean(topVariant) && Boolean(bottomVariant)
+  const twoToneVariant = isTwoToneReady
+    ? {
+        ...topVariant,
+        name: `${topVariant.name} (Top) & ${bottomVariant.name} (Bottom)`,
+        hex: `linear-gradient(to bottom, ${topVariant.hex} 50%, ${bottomVariant.hex} 50%)`,
+        image: undefined,
+      }
+    : null
+  const effectiveVariant = twoToneVariant || selectedVariant
+  const canAddToCart = customMode !== 'two-tone' || isTwoToneReady
+
   usePageMeta(
     product && selectedVariant
       ? hasColorChoice
@@ -38,6 +55,8 @@ function ProductPage() {
   const { addItem } = useCart()
   const [isAdded, setIsAdded] = useState(false)
   const [isCareOpen, setIsCareOpen] = useState(false)
+  const [isShippingOpen, setIsShippingOpen] = useState(false)
+  const [isFaqOpen, setIsFaqOpen] = useState(false)
   const [isWishlisted, setIsWishlisted] = useState(false)
   const [quantity, setQuantity] = useState(1)
 
@@ -50,10 +69,22 @@ function ProductPage() {
   function selectColor(slug) {
     setSearchParams({ color: slug })
     setQuantity(1)
+    setCustomMode('single')
+  }
+
+  function selectTwoToneMode() {
+    setCustomMode('two-tone')
+    setTopSlug(null)
+    setBottomSlug(null)
   }
 
   function handleAddToCart() {
-    addItem(selectedVariant, quantity)
+    if (!canAddToCart) return
+    addItem(
+      effectiveVariant,
+      quantity,
+      isTwoToneReady ? { name: effectiveVariant.name, hex: effectiveVariant.hex } : null
+    )
     setIsAdded(true)
     setTimeout(() => setIsAdded(false), 1500)
   }
@@ -116,16 +147,16 @@ function ProductPage() {
             <p className="mt-4 max-w-md text-ink/60">{product.description}</p>
 
             <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-16">
-              {selectedVariant.image ? (
+              {effectiveVariant.image ? (
                 <div className="relative aspect-square w-full overflow-hidden bg-burgundy-tint">
                   <img
-                    src={selectedVariant.image}
-                    alt={`${product.name} in ${selectedVariant.name}`}
+                    src={effectiveVariant.image}
+                    alt={`${product.name} in ${effectiveVariant.name}`}
                     className="h-full w-full object-contain"
                   />
                   <div className="absolute bottom-0 left-0 bg-black/50 px-3 py-1.5">
                     <p className="text-xs font-bold uppercase tracking-widest text-white">
-                      {selectedVariant.name}
+                      {effectiveVariant.name}
                     </p>
                   </div>
                 </div>
@@ -134,12 +165,14 @@ function ProductPage() {
                   <div className="text-center">
                     <span
                       className="mx-auto block h-20 w-20 rounded-full border border-black/10"
-                      style={{ background: selectedVariant.hex }}
+                      style={{ background: effectiveVariant.hex }}
                     />
                     <p className="mt-4 text-sm text-ink/50">
-                      {selectedVariant.isCustom
-                        ? 'Custom colour — made to order, no preview photo'
-                        : 'Photo coming soon'}
+                      {isTwoToneReady
+                        ? 'Custom two-tone colour — no preview photo'
+                        : effectiveVariant.isCustom
+                          ? 'Custom colour — made to order, no preview photo'
+                          : 'Photo coming soon'}
                     </p>
                   </div>
                 </div>
@@ -147,7 +180,7 @@ function ProductPage() {
 
               <div>
                 <p className="text-3xl font-extrabold text-burgundy">
-                  GHS {selectedVariant.price}
+                  GHS {effectiveVariant.price}
                 </p>
 
                 <div className="mt-6 flex items-center gap-3">
@@ -176,7 +209,8 @@ function ProductPage() {
                   <button
                     type="button"
                     onClick={handleAddToCart}
-                    className="flex flex-1 items-center justify-center gap-2 rounded-full border-2 border-burgundy px-6 py-2.5 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white"
+                    disabled={!canAddToCart}
+                    className="flex flex-1 items-center justify-center gap-2 rounded-full border-2 border-burgundy px-6 py-2.5 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white disabled:cursor-not-allowed disabled:border-black/20 disabled:text-ink/40 disabled:hover:bg-transparent"
                   >
                     {isAdded ? (
                       <>
@@ -184,7 +218,7 @@ function ProductPage() {
                         Added to Cart
                       </>
                     ) : (
-                      `Add to Cart — GHS ${selectedVariant.price * quantity}`
+                      `Add to Cart — GHS ${effectiveVariant.price * quantity}`
                     )}
                   </button>
 
@@ -240,28 +274,121 @@ function ProductPage() {
                     <p className="text-xs font-semibold uppercase tracking-widest text-ink/60">
                       Want a different shade? &mdash; Custom colours, made to order
                     </p>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {customVariants.map((variant) => (
+
+                    {customVariants.length > 1 && (
+                      <div className="mt-3 flex gap-2">
                         <button
-                          key={variant.slug}
                           type="button"
-                          aria-label={`${variant.name} (custom)`}
-                          onClick={() => selectColor(variant.slug)}
-                          className={`h-9 w-9 rounded-full border-2 transition-colors ${
-                            variant.slug === selectedVariant.slug
-                              ? 'border-burgundy'
-                              : 'border-transparent hover:border-black/20'
+                          onClick={() => setCustomMode('single')}
+                          className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-wide transition-colors ${
+                            customMode === 'single'
+                              ? 'border-burgundy bg-burgundy text-white'
+                              : 'border-black/10 text-ink/60 hover:border-burgundy'
                           }`}
                         >
-                          <span
-                            className="block h-full w-full rounded-full border border-black/10"
-                            style={{ background: variant.hex }}
-                          />
+                          One Colour
                         </button>
-                      ))}
-                    </div>
-                    <p className="mt-2 text-xs text-ink/50">
-                      Hand-beaded to order in your chosen colour — no preview photo, same price.
+                        <button
+                          type="button"
+                          onClick={selectTwoToneMode}
+                          className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-wide transition-colors ${
+                            customMode === 'two-tone'
+                              ? 'border-burgundy bg-burgundy text-white'
+                              : 'border-black/10 text-ink/60 hover:border-burgundy'
+                          }`}
+                        >
+                          Two Colours
+                        </button>
+                      </div>
+                    )}
+
+                    {customMode === 'single' ? (
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {customVariants.map((variant) => (
+                          <button
+                            key={variant.slug}
+                            type="button"
+                            aria-label={`${variant.name} (custom)`}
+                            onClick={() => selectColor(variant.slug)}
+                            className={`h-9 w-9 rounded-full border-2 transition-colors ${
+                              variant.slug === selectedVariant.slug
+                                ? 'border-burgundy'
+                                : 'border-transparent hover:border-black/20'
+                            }`}
+                          >
+                            <span
+                              className="block h-full w-full rounded-full border border-black/10"
+                              style={{ background: variant.hex }}
+                            />
+                          </button>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="mt-4 space-y-4">
+                        <div>
+                          <p className="text-[11px] font-semibold uppercase tracking-wide text-ink/50">
+                            Top colour{topVariant ? ` — ${topVariant.name}` : ''}
+                          </p>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            {customVariants
+                              .filter((variant) => variant.slug !== bottomSlug)
+                              .map((variant) => (
+                                <button
+                                  key={variant.slug}
+                                  type="button"
+                                  aria-label={`${variant.name} (top, custom)`}
+                                  onClick={() => setTopSlug(variant.slug)}
+                                  className={`h-9 w-9 rounded-full border-2 transition-colors ${
+                                    variant.slug === topSlug
+                                      ? 'border-burgundy'
+                                      : 'border-transparent hover:border-black/20'
+                                  }`}
+                                >
+                                  <span
+                                    className="block h-full w-full rounded-full border border-black/10"
+                                    style={{ background: variant.hex }}
+                                  />
+                                </button>
+                              ))}
+                          </div>
+                        </div>
+
+                        <div>
+                          <p className="text-[11px] font-semibold uppercase tracking-wide text-ink/50">
+                            Bottom colour{bottomVariant ? ` — ${bottomVariant.name}` : ''}
+                          </p>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            {customVariants
+                              .filter((variant) => variant.slug !== topSlug)
+                              .map((variant) => (
+                                <button
+                                  key={variant.slug}
+                                  type="button"
+                                  aria-label={`${variant.name} (bottom, custom)`}
+                                  onClick={() => setBottomSlug(variant.slug)}
+                                  className={`h-9 w-9 rounded-full border-2 transition-colors ${
+                                    variant.slug === bottomSlug
+                                      ? 'border-burgundy'
+                                      : 'border-transparent hover:border-black/20'
+                                  }`}
+                                >
+                                  <span
+                                    className="block h-full w-full rounded-full border border-black/10"
+                                    style={{ background: variant.hex }}
+                                  />
+                                </button>
+                              ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    <p className="mt-3 text-xs text-ink/50">
+                      {customMode === 'two-tone'
+                        ? isTwoToneReady
+                          ? 'Hand-beaded to order in your two chosen colours — no preview photo, same price.'
+                          : 'Pick a top and a bottom colour to continue.'
+                        : 'Hand-beaded to order in your chosen colour — no preview photo, same price.'}
                     </p>
                   </div>
                 )}
@@ -304,6 +431,98 @@ function ProductPage() {
                         beadwork.
                       </p>
                       <p>Store in the provided pouch when not in use.</p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="mt-4 border-t border-black/10 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setIsShippingOpen((open) => !open)}
+                    className="flex w-full items-center justify-between text-left text-sm font-semibold text-ink"
+                  >
+                    Shipping & Returns
+                    {isShippingOpen ? (
+                      <ChevronUp size={16} strokeWidth={1.5} />
+                    ) : (
+                      <ChevronDown size={16} strokeWidth={1.5} />
+                    )}
+                  </button>
+                  {isShippingOpen && (
+                    <div className="mt-3 space-y-2 text-sm text-ink/70">
+                      <p>
+                        Every bag is made to order and hand-beaded once you
+                        place your order, so it ships in 3&ndash;5 weeks.
+                      </p>
+                      <p>
+                        Because each piece is handmade, we don't accept
+                        returns or exchanges for change of mind. If your bag
+                        arrives damaged, defective, or isn't what you ordered,
+                        contact us within 48 hours of delivery and we'll sort
+                        out a replacement or refund.
+                      </p>
+                      <p>
+                        <Link to="/refund-policy" className="text-burgundy hover:underline">
+                          Read the full Refund Policy
+                        </Link>
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="mt-4 border-t border-black/10 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setIsFaqOpen((open) => !open)}
+                    className="flex w-full items-center justify-between text-left text-sm font-semibold text-ink"
+                  >
+                    FAQ
+                    {isFaqOpen ? (
+                      <ChevronUp size={16} strokeWidth={1.5} />
+                    ) : (
+                      <ChevronDown size={16} strokeWidth={1.5} />
+                    )}
+                  </button>
+                  {isFaqOpen && (
+                    <div className="mt-3 space-y-4 text-sm text-ink/70">
+                      <div>
+                        <p className="font-semibold text-ink">Is this bag really handmade?</p>
+                        <p className="mt-1">
+                          Yes — every bag is hand-beaded by skilled artisans, taking hours of
+                          careful work to complete.
+                        </p>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-ink">How long will my order take?</p>
+                        <p className="mt-1">
+                          Since each bag is made to order, it ships in 3&ndash;5 weeks from the
+                          date you order.
+                        </p>
+                      </div>
+                      {customVariants.length > 0 && (
+                        <div>
+                          <p className="font-semibold text-ink">Can I request a custom colour?</p>
+                          <p className="mt-1">
+                            Yes — scroll up to{' '}
+                            <a href="#custom-colors" className="text-burgundy hover:underline">
+                              Custom Colours
+                            </a>{' '}
+                            to pick one colour, or two colours for a top-and-bottom combination,
+                            at no extra cost.
+                          </p>
+                        </div>
+                      )}
+                      <div>
+                        <p className="font-semibold text-ink">What if my bag arrives damaged?</p>
+                        <p className="mt-1">
+                          Contact us within 48 hours of delivery and we'll arrange a replacement
+                          or refund — see our{' '}
+                          <Link to="/refund-policy" className="text-burgundy hover:underline">
+                            Refund Policy
+                          </Link>{' '}
+                          for details.
+                        </p>
+                      </div>
                     </div>
                   )}
                 </div>

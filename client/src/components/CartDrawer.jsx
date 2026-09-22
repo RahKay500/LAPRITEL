@@ -19,11 +19,11 @@ function CartDrawer() {
 
   function handleDecrease(item) {
     if (item.quantity <= 1) return
-    updateQuantity(item.slug, item.quantity - 1)
+    updateQuantity(item.key, item.quantity - 1)
   }
 
   function handleIncrease(item) {
-    updateQuantity(item.slug, item.quantity + 1)
+    updateQuantity(item.key, item.quantity + 1)
   }
 
   return (
@@ -71,7 +71,7 @@ function CartDrawer() {
           <>
             <div className="flex-1 divide-y divide-black/10 overflow-y-auto px-5">
               {items.map((item) => (
-                <div key={item.slug} className="flex gap-4 py-5">
+                <div key={item.key} className="flex gap-4 py-5">
                   {item.image ? (
                     <div className="flex h-20 w-20 flex-none items-center justify-center bg-burgundy-tint/40">
                       <img
@@ -98,7 +98,7 @@ function CartDrawer() {
                       <button
                         type="button"
                         aria-label="Remove item"
-                        onClick={() => removeItem(item.slug)}
+                        onClick={() => removeItem(item.key)}
                         className="text-ink/50 hover:text-burgundy"
                       >
                         <Trash2 size={16} strokeWidth={1.5} />

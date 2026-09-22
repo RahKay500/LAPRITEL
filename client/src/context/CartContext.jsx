@@ -25,11 +25,26 @@ function toVariant(variant, productName) {
 // products ever reuse the same color_slug this resolves to whichever one
 // appears first -- fine today since active slugs don't collide across
 // products, but worth knowing if that ever changes.
+//
+// entry.key identifies a cart line and defaults to entry.slug. A two-tone
+// custom order carries a real variant slug (for price/checkout validation)
+// but a distinct key of `${slug}::${customName}`, so it never merges with a
+// plain single-color line for the same base slug. entry.customName/
+// customHex, when present, override the resolved variant's display name and
+// swatch color without touching its slug or price.
 function resolveItems(entries, variants) {
   return entries
     .map((entry) => {
       const variant = variants.find((item) => item.slug === entry.slug)
-      return variant ? { ...variant, quantity: entry.quantity } : null
+      if (!variant) return null
+      return {
+        ...variant,
+        quantity: entry.quantity,
+        key: entry.key || entry.slug,
+        name: entry.customName || variant.name,
+        hex: entry.customHex || variant.hex,
+        isTwoTone: Boolean(entry.customName),
+      }
     })
     .filter(Boolean)
 }
@@ -75,27 +90,33 @@ export function CartProvider({ children }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(entries))
   }, [entries])
 
-  function addItem(product, quantity = 1) {
+  function addItem(product, quantity = 1, customColor = null) {
+    const key = customColor ? `${product.slug}::${customColor.name}` : product.slug
     setEntries((current) => {
-      const existing = current.find((entry) => entry.slug === product.slug)
+      const existing = current.find((entry) => (entry.key || entry.slug) === key)
       if (existing) {
         return current.map((entry) =>
-          entry.slug === product.slug
-            ? { slug: entry.slug, quantity: entry.quantity + quantity }
+          (entry.key || entry.slug) === key
+            ? { ...entry, quantity: entry.quantity + quantity }
             : entry
         )
       }
-      return [...current, { slug: product.slug, quantity }]
+      const entry = { key, slug: product.slug, quantity }
+      if (customColor) {
+        entry.customName = customColor.name
+        entry.customHex = customColor.hex
+      }
+      return [...current, entry]
     })
   }
 
-  function removeItem(slug) {
-    setEntries((current) => current.filter((entry) => entry.slug !== slug))
+  function removeItem(key) {
+    setEntries((current) => current.filter((entry) => (entry.key || entry.slug) !== key))
   }
 
-  function updateQuantity(slug, quantity) {
+  function updateQuantity(key, quantity) {
     setEntries((current) =>
-      current.map((entry) => (entry.slug === slug ? { slug: entry.slug, quantity } : entry))
+      current.map((entry) => ((entry.key || entry.slug) === key ? { ...entry, quantity } : entry))
     )
   }
 

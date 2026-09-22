@@ -313,7 +313,7 @@ function CheckoutPage() {
               </h2>
               <div className="mt-4 space-y-3">
                 {items.map((item) => (
-                  <div key={item.slug} className="flex justify-between text-sm">
+                  <div key={item.key} className="flex justify-between text-sm">
                     <span className="text-ink/70">
                       {item.productName} ({item.name}) x{item.quantity}
                     </span>
