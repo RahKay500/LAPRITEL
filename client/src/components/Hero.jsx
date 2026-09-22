@@ -7,8 +7,8 @@ import purpleMobile from '../assets/images/ivy_bag_purple_mobile.jpg'
 
 const stats = [
   { value: '2,400+', label: 'Bags Sold' },
-  { value: '48 hrs', label: 'Per Bag' },
-  { value: '30 Days', label: 'Free Returns' },
+  { value: '🇬🇭', label: 'Made in Ghana' },
+  { value: '🌍', label: 'Worldwide Delivery' },
 ]
 
 const MOBILE_IMAGES = {

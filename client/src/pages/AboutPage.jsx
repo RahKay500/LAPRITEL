@@ -41,11 +41,15 @@ function AboutPage() {
           <h1 className="mt-3 text-3xl font-extrabold uppercase tracking-tight text-ink sm:text-4xl lg:text-5xl">
             Every Bead Tells a Story
           </h1>
+          <p className="mt-3 text-base font-medium text-burgundy">
+            Luxurious Handcrafted Timeless Pieces
+          </p>
           <p className="mx-auto mt-4 max-w-2xl text-ink/70">
-            LAPRITEL is a handmade beaded bag brand built around a single,
-            deliberate idea: that beauty and craftsmanship should never be
-            rushed. We make the Ivy Bag, one design, perfected, in a range of
-            colors as expressive as the women who carry it.
+            LAPRITEL is a handmade beaded bag brand where African artistry
+            meets luxurious design, built around a single, deliberate idea:
+            that beauty and craftsmanship should never be rushed. We make the
+            Ivy Bag, one design, perfected, in a range of colors as
+            expressive as the women who carry it.
           </p>
         </div>
 
