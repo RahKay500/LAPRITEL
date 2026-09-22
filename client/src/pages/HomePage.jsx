@@ -1,5 +1,5 @@
 import Hero from '../components/Hero'
-import FeaturedProduct from '../components/FeaturedProduct'
+import OurBags from '../components/OurBags'
 import ColorVariants from '../components/ColorVariants'
 import BrandStory from '../components/BrandStory'
 import InstagramStrip from '../components/InstagramStrip'
@@ -12,7 +12,7 @@ function HomePage() {
   return (
     <>
       <Hero />
-      <FeaturedProduct />
+      <OurBags />
       <BrandStory />
       <ColorVariants />
       <InstagramStrip />
