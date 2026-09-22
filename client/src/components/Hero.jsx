@@ -8,7 +8,7 @@ import purpleMobile from '../assets/images/ivy_bag_purple_mobile.jpg'
 const stats = [
   { value: '2,400+', label: 'Bags Sold' },
   { value: '48 hrs', label: 'Per Bag' },
-  { value: `${ivyBagVariants.length}`, label: 'Colourways' },
+  { value: '30 Days', label: 'Free Returns' },
 ]
 
 const MOBILE_IMAGES = {
@@ -63,7 +63,7 @@ function Hero() {
             <p className="mx-auto mt-3 max-w-sm text-sm leading-snug text-white/70">
               Hand-beaded over 48 hours.
               <br />
-              {ivyBagVariants.length} exclusive colourways.
+              Signature and custom colourways.
             </p>
 
             <div className="mt-4 flex flex-row items-center justify-center gap-5">
@@ -115,7 +115,7 @@ function Hero() {
             <p className="mx-auto mt-6 max-w-sm text-lg leading-snug text-white/70 lg:mx-0">
               Hand-beaded over 48 hours.
               <br />
-              {ivyBagVariants.length} exclusive colourways.
+              Signature and custom colourways.
             </p>
 
             <div className="mt-8 flex flex-row items-center justify-center gap-6 lg:justify-start">
