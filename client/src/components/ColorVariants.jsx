@@ -23,34 +23,36 @@ function ColorVariants() {
           </p>
         </Reveal>
 
-        <Reveal delay={100} className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
-          {ivyBagVariants.map((variant) => (
-            <Link key={variant.slug} to={`/shop?color=${variant.slug}`} className="group">
-              {variant.image ? (
-                <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint/40">
-                  <img
-                    src={variant.image}
-                    alt={`Bag Ivy in ${variant.name}`}
-                    className="h-full w-full object-contain"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-              ) : (
-                <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint/40">
-                  <span
-                    className="block h-14 w-14 rounded-full border border-black/10"
-                    style={{ background: variant.hex }}
-                  />
-                </div>
-              )}
-              <p className="mt-3 text-sm font-semibold uppercase tracking-wide text-ink">
-                {variant.name}
-              </p>
-              <p className="mt-1 text-xs text-ink/60">GHS {variant.price}</p>
-            </Link>
+        <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
+          {ivyBagVariants.map((variant, index) => (
+            <Reveal key={variant.slug} delay={(index % 4) * 75}>
+              <Link to={`/shop?color=${variant.slug}`} className="group">
+                {variant.image ? (
+                  <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint/40">
+                    <img
+                      src={variant.image}
+                      alt={`Bag Ivy in ${variant.name}`}
+                      className="h-full w-full object-contain"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                ) : (
+                  <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint/40">
+                    <span
+                      className="block h-14 w-14 rounded-full border border-black/10"
+                      style={{ background: variant.hex }}
+                    />
+                  </div>
+                )}
+                <p className="mt-3 text-sm font-semibold uppercase tracking-wide text-ink">
+                  {variant.name}
+                </p>
+                <p className="mt-1 text-xs text-ink/60">GHS {variant.price}</p>
+              </Link>
+            </Reveal>
           ))}
-        </Reveal>
+        </div>
       </div>
     </section>
   )
