@@ -54,7 +54,7 @@ function AboutPage() {
         </div>
 
         <div className="mt-14 grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <div className="flex aspect-[4/3] w-full items-center justify-center bg-burgundy-tint/40">
+          <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint/40">
             <img
               src={storyImage}
               alt="Bag Ivy, handcrafted with beads"

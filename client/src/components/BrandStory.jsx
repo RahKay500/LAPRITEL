@@ -7,7 +7,7 @@ function BrandStory() {
     <section className="px-4 py-16 sm:px-6 lg:px-12 lg:py-24">
       <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-2 lg:gap-16">
         <Reveal>
-          <div className="flex aspect-[4/3] w-full items-center justify-center bg-burgundy-tint/40">
+          <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint/40">
             <img
               src={storyImage}
               alt="LAPRITEL Bag Ivy handcrafted with beads"
