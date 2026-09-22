@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import AnnouncementBar from './components/AnnouncementBar'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import CartDrawer from './components/CartDrawer'
 import RequireAuth from './components/RequireAuth'
 import RequireAdmin from './components/RequireAdmin'
 import HomePage from './pages/HomePage'
@@ -85,6 +86,7 @@ function App() {
         </Routes>
       </main>
       <Footer />
+      <CartDrawer />
     </div>
   )
 }

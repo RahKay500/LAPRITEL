@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { LayoutDashboard, ShoppingBag, User } from 'lucide-react'
+import { LayoutDashboard, ShoppingCart, User } from 'lucide-react'
 import { useCart } from '../context/useCart'
 import { useAuth } from '../context/useAuth'
 
@@ -13,7 +13,7 @@ const navLinks = [
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const { count: cartCount } = useCart()
+  const { count: cartCount, openDrawer } = useCart()
   const { user } = useAuth()
 
   return (
@@ -79,14 +79,15 @@ function Navbar() {
           >
             <User size={22} strokeWidth={1.5} />
           </Link>
-          <Link to="/cart" aria-label="Cart" className="relative text-ink hover:text-burgundy">
-            <ShoppingBag size={22} strokeWidth={1.5} />
-            {cartCount > 0 && (
-              <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-burgundy text-[10px] font-semibold text-white">
-                {cartCount}
-              </span>
-            )}
-          </Link>
+          <button
+            type="button"
+            aria-label="Cart"
+            onClick={openDrawer}
+            className="flex items-center gap-1.5 text-ink hover:text-burgundy"
+          >
+            <ShoppingCart size={22} strokeWidth={1.5} />
+            <span className="text-sm font-semibold">{cartCount}</span>
+          </button>
         </div>
       </nav>
 

@@ -26,6 +26,15 @@ export function CartProvider({ children }) {
       return []
     }
   })
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+
+  function openDrawer() {
+    setIsDrawerOpen(true)
+  }
+
+  function closeDrawer() {
+    setIsDrawerOpen(false)
+  }
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(entries))
@@ -65,7 +74,18 @@ export function CartProvider({ children }) {
 
   return (
     <CartContext.Provider
-      value={{ items, addItem, removeItem, updateQuantity, clearCart, count, subtotal }}
+      value={{
+        items,
+        addItem,
+        removeItem,
+        updateQuantity,
+        clearCart,
+        count,
+        subtotal,
+        isDrawerOpen,
+        openDrawer,
+        closeDrawer,
+      }}
     >
       {children}
     </CartContext.Provider>
