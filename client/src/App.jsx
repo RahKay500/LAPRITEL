@@ -26,6 +26,7 @@ import AdminOrdersPage from './pages/admin/AdminOrdersPage'
 import AdminProductsPage from './pages/admin/AdminProductsPage'
 import AdminCustomersPage from './pages/admin/AdminCustomersPage'
 import AdminMessagesPage from './pages/admin/AdminMessagesPage'
+import NotFoundPage from './pages/NotFoundPage'
 
 function App() {
   return (
@@ -78,7 +79,9 @@ function App() {
             <Route path="products" element={<AdminProductsPage />} />
             <Route path="customers" element={<AdminCustomersPage />} />
             <Route path="messages" element={<AdminMessagesPage />} />
+            <Route path="*" element={<Navigate to="orders" replace />} />
           </Route>
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
       <Footer />
