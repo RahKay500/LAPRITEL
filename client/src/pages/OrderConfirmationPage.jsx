@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { api } from '../services/api'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 function OrderConfirmationPage() {
+  usePageMeta('Order Confirmed', 'Thank you for your order — here are your order details.')
+
   const [searchParams] = useSearchParams()
   const reference = searchParams.get('reference')
   const [order, setOrder] = useState(null)

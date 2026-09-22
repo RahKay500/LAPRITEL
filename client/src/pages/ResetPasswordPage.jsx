@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 function validate(form) {
   const errors = {}
@@ -10,6 +11,8 @@ function validate(form) {
 }
 
 function ResetPasswordPage() {
+  usePageMeta('Reset Password', 'Choose a new password for your LAPRITEL account.')
+
   const { resetPassword } = useAuth()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()

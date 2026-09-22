@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom'
 import { Minus, Plus, Trash2 } from 'lucide-react'
 import { useCart } from '../context/useCart'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 function CartPage() {
+  usePageMeta('Your Cart', 'Review the items in your cart before checking out.')
+
   const { items, removeItem, updateQuantity, subtotal } = useCart()
 
   function handleDecrease(item) {

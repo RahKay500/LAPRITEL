@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 function ForgotPasswordPage() {
+  usePageMeta('Forgot Password', 'Reset the password for your LAPRITEL account.')
+
   const { forgotPassword } = useAuth()
   const [email, setEmail] = useState('')
   const [error, setError] = useState('')

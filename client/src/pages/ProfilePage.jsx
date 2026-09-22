@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 function validate(form) {
   const errors = {}
@@ -12,6 +13,8 @@ function validate(form) {
 }
 
 function ProfilePage() {
+  usePageMeta('My Profile', 'Manage your LAPRITEL account details.')
+
   const { user, updateProfile, logout } = useAuth()
   const navigate = useNavigate()
   const [form, setForm] = useState({ fullName: user.fullName, phone: user.phone })

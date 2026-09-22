@@ -1,4 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom'
+import { usePageMeta } from '../../hooks/usePageMeta'
 
 const tabs = [
   { label: 'Orders', to: '/admin/orders' },
@@ -8,6 +9,8 @@ const tabs = [
 ]
 
 function AdminLayout() {
+  usePageMeta('Admin Dashboard')
+
   return (
     <div className="px-4 py-12 sm:px-6 lg:px-12 lg:py-16">
       <div className="mx-auto max-w-6xl">

@@ -5,8 +5,11 @@ import BrandStory from '../components/BrandStory'
 import Testimonials from '../components/Testimonials'
 import InstagramStrip from '../components/InstagramStrip'
 import Newsletter from '../components/Newsletter'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 function HomePage() {
+  usePageMeta()
+
   return (
     <>
       <Hero />

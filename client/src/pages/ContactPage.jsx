@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Camera, MessageCircle } from 'lucide-react'
 import { submitContactForm } from '../services/contact'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 const initialForm = { fullName: '', email: '', message: '' }
 
@@ -15,6 +16,8 @@ function validate(form) {
 }
 
 function ContactPage() {
+  usePageMeta('Contact Us', 'Get in touch with LAPRITEL — send us a message or reach out on WhatsApp.')
+
   const [form, setForm] = useState(initialForm)
   const [errors, setErrors] = useState({})
   const [serverError, setServerError] = useState('')

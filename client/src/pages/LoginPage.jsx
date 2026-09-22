@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 function validate(form) {
   const errors = {}
@@ -10,6 +11,8 @@ function validate(form) {
 }
 
 function LoginPage() {
+  usePageMeta('Log In', 'Log in to your LAPRITEL account to view orders and manage your profile.')
+
   const { login } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()

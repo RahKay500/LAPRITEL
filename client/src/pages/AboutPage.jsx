@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { Gem, Heart, Leaf } from 'lucide-react'
 import storyImage from '../assets/images/ivy_bag_green.jpeg'
 import craftImage from '../assets/images/ivy_bag_orange.jpg'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 const values = [
   {
@@ -25,6 +26,11 @@ const values = [
 ]
 
 function AboutPage() {
+  usePageMeta(
+    'About Us',
+    'The story behind LAPRITEL and the artisans who hand-bead every Ivy Bag.'
+  )
+
   return (
     <div className="px-4 py-12 sm:px-6 lg:px-12 lg:py-16">
       <div className="mx-auto max-w-6xl">

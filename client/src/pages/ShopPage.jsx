@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { Check, ChevronDown, Filter } from 'lucide-react'
 import { useIvyBagVariants } from '../hooks/useIvyBagVariants'
 import { useCart } from '../context/useCart'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 const sortOptions = [
   { value: 'default', label: 'Featured' },
@@ -11,6 +12,11 @@ const sortOptions = [
 ]
 
 function ShopPage() {
+  usePageMeta(
+    'Shop the Ivy Bag',
+    'Browse the Ivy Bag in every hand-beaded colorway. Filter by color and sort by price.'
+  )
+
   const [searchParams, setSearchParams] = useSearchParams()
   const activeColor = searchParams.get('color') || 'all'
   const [sortOrder, setSortOrder] = useState('default')

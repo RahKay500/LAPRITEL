@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { api } from '../services/api'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 function MyOrdersPage() {
+  usePageMeta('My Orders', 'View your past LAPRITEL orders and their status.')
+
   const [orders, setOrders] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')

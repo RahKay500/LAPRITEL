@@ -4,6 +4,7 @@ import PaystackPop from '@paystack/inline-js'
 import { useCart } from '../context/useCart'
 import { api } from '../services/api'
 import { grossUpForPaystackFee } from '../utils/pricing'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 const ghanaRegions = [
   'Greater Accra',
@@ -48,6 +49,8 @@ function validate(form) {
 }
 
 function CheckoutPage() {
+  usePageMeta('Checkout', 'Enter your delivery details and complete payment securely.')
+
   const { items, subtotal, clearCart } = useCart()
   const navigate = useNavigate()
   const [form, setForm] = useState(initialForm)

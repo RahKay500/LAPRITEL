@@ -1,4 +1,8 @@
+import { usePageMeta } from '../hooks/usePageMeta'
+
 function RefundPolicyPage() {
+  usePageMeta('Refund Policy', 'When a refund or exchange is available for your Ivy Bag order.')
+
   return (
     <div className="px-4 py-12 sm:px-6 lg:px-12 lg:py-16">
       <div className="mx-auto max-w-2xl">

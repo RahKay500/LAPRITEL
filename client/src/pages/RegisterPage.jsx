@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 const initialForm = {
   fullName: '',
@@ -23,6 +24,8 @@ function validate(form) {
 }
 
 function RegisterPage() {
+  usePageMeta('Create an Account', 'Create a LAPRITEL account to track orders and check out faster.')
+
   const { register } = useAuth()
   const navigate = useNavigate()
   const [form, setForm] = useState(initialForm)

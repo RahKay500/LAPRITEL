@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { Check, ChevronDown, ChevronUp, Heart, Minus, Plus, Star } from 'lucide-react'
 import { useIvyBagVariants } from '../hooks/useIvyBagVariants'
 import { useCart } from '../context/useCart'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 const SPECS = [
   { label: 'Style', value: 'Structured beaded handbag' },
@@ -22,6 +23,11 @@ function ProductPage() {
   const { product, variants: ivyBagVariants, isLoading, error } = useIvyBagVariants()
   const selectedVariant =
     ivyBagVariants.find((variant) => variant.slug === colorParam) || ivyBagVariants[0]
+
+  usePageMeta(
+    selectedVariant ? `Ivy Bag — ${selectedVariant.name}` : 'The Ivy Bag',
+    product?.description
+  )
 
   const { addItem } = useCart()
   const [isAdded, setIsAdded] = useState(false)

@@ -1,4 +1,8 @@
+import { usePageMeta } from '../hooks/usePageMeta'
+
 function PrivacyPolicyPage() {
+  usePageMeta('Privacy Policy', 'How LAPRITEL collects, uses, and protects your information.')
+
   return (
     <div className="px-4 py-12 sm:px-6 lg:px-12 lg:py-16">
       <div className="mx-auto max-w-2xl">
