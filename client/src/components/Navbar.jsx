@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { LayoutDashboard, Menu, ShoppingBag, User, X } from 'lucide-react'
+import { LayoutDashboard, ShoppingBag, User } from 'lucide-react'
 import { useCart } from '../context/useCart'
 import { useAuth } from '../context/useAuth'
 
@@ -22,10 +22,20 @@ function Navbar() {
         <button
           type="button"
           aria-label="Toggle menu"
-          className="text-ink md:hidden"
+          aria-expanded={isMenuOpen}
+          className="flex h-6 w-8 flex-col items-center justify-center gap-[7px] md:hidden"
           onClick={() => setIsMenuOpen((open) => !open)}
         >
-          {isMenuOpen ? <X size={24} strokeWidth={1.5} /> : <Menu size={24} strokeWidth={1.5} />}
+          <span
+            className={`block h-[2px] w-8 bg-ink transition-transform duration-300 ease-out ${
+              isMenuOpen ? 'translate-y-[4.5px] rotate-45' : ''
+            }`}
+          />
+          <span
+            className={`block h-[2px] w-8 bg-ink transition-transform duration-300 ease-out ${
+              isMenuOpen ? '-translate-y-[4.5px] -rotate-45' : ''
+            }`}
+          />
         </button>
 
         <Link
@@ -57,7 +67,7 @@ function Navbar() {
             <Link
               to="/admin"
               aria-label="Admin Dashboard"
-              className="text-ink hover:text-burgundy"
+              className="hidden text-ink hover:text-burgundy md:block"
             >
               <LayoutDashboard size={22} strokeWidth={1.5} />
             </Link>
@@ -65,7 +75,7 @@ function Navbar() {
           <Link
             to={user ? '/profile' : '/login'}
             aria-label="Account"
-            className="text-ink hover:text-burgundy"
+            className="hidden text-ink hover:text-burgundy md:block"
           >
             <User size={22} strokeWidth={1.5} />
           </Link>
@@ -81,23 +91,48 @@ function Navbar() {
       </nav>
 
       {isMenuOpen && (
-        <ul className="flex flex-col gap-1 border-t border-burgundy-tint bg-white px-4 py-3 md:hidden">
-          {navLinks.map((link) => (
-            <li key={link.to}>
-              <NavLink
-                to={link.to}
+        <div className="border-t border-burgundy-tint bg-white px-4 py-3 md:hidden">
+          <ul className="flex flex-col gap-1">
+            {navLinks.map((link) => (
+              <li key={link.to}>
+                <NavLink
+                  to={link.to}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={({ isActive }) =>
+                    `block px-2 py-2.5 text-sm font-semibold uppercase tracking-widest ${
+                      isActive ? 'text-burgundy' : 'text-ink'
+                    }`
+                  }
+                >
+                  {link.label}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+
+          <ul className="mt-2 flex flex-col gap-1 border-t border-burgundy-tint pt-2">
+            {user?.role === 'admin' && (
+              <li>
+                <Link
+                  to="/admin"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block px-2 py-2.5 text-sm font-semibold uppercase tracking-widest text-ink"
+                >
+                  Admin Dashboard
+                </Link>
+              </li>
+            )}
+            <li>
+              <Link
+                to={user ? '/profile' : '/login'}
                 onClick={() => setIsMenuOpen(false)}
-                className={({ isActive }) =>
-                  `block rounded-md px-2 py-2.5 text-sm font-medium ${
-                    isActive ? 'text-burgundy' : 'text-ink'
-                  }`
-                }
+                className="block px-2 py-2.5 text-sm font-semibold uppercase tracking-widest text-ink"
               >
-                {link.label}
-              </NavLink>
+                {user ? 'My Account' : 'Login'}
+              </Link>
             </li>
-          ))}
-        </ul>
+          </ul>
+        </div>
       )}
     </header>
   )
