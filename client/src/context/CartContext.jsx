@@ -9,7 +9,7 @@ const STORAGE_KEY = 'lapritel_cart'
 // a price/image change, a color renamed in the admin dashboard, or a custom
 // color added after the fact can never leave a stale cart item pointing at
 // data that no longer exists.
-function toVariant(variant) {
+function toVariant(variant, productName) {
   return {
     name: variant.color_name,
     slug: variant.color_slug,
@@ -17,9 +17,14 @@ function toVariant(variant) {
     price: Number(variant.price),
     image: variant.image_url || undefined,
     isCustom: Boolean(variant.is_custom),
+    productName,
   }
 }
 
+// color_slug is only unique per product, not globally, so if two active
+// products ever reuse the same color_slug this resolves to whichever one
+// appears first -- fine today since active slugs don't collide across
+// products, but worth knowing if that ever changes.
 function resolveItems(entries, variants) {
   return entries
     .map((entry) => {
@@ -46,8 +51,11 @@ export function CartProvider({ children }) {
     fetchProducts()
       .then((products) => {
         if (!isMounted) return
-        const ivyBag = products.find((item) => item.slug === 'ivy-bag')
-        setVariants(ivyBag ? ivyBag.product_variants.map(toVariant) : [])
+        setVariants(
+          products.flatMap((item) =>
+            item.product_variants.map((variant) => toVariant(variant, item.name))
+          )
+        )
       })
       .catch(() => {})
     return () => {

@@ -48,7 +48,7 @@ function CartPage() {
                 <div className="flex h-24 w-24 flex-none items-center justify-center bg-burgundy-tint/40 sm:h-28 sm:w-28">
                   <img
                     src={item.image}
-                    alt={`The Ivy Bag in ${item.name}`}
+                    alt={`${item.productName} in ${item.name}`}
                     className="h-full w-full object-contain"
                     loading="lazy"
                     decoding="async"
@@ -66,7 +66,7 @@ function CartPage() {
               <div className="flex flex-1 flex-col justify-between">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="text-sm font-medium text-ink">The Ivy Bag</p>
+                    <p className="text-sm font-medium text-ink">{item.productName}</p>
                     <p className="text-sm text-ink/60">{item.name}</p>
                   </div>
                   <button

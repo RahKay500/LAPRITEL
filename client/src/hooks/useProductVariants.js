@@ -12,7 +12,7 @@ function toVariant(variant) {
   }
 }
 
-export function useIvyBagVariants() {
+export function useProductVariants(slug) {
   const [product, setProduct] = useState(null)
   const [variants, setVariants] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -24,9 +24,9 @@ export function useIvyBagVariants() {
     fetchProducts()
       .then((products) => {
         if (!isMounted) return
-        const ivyBag = products.find((item) => item.slug === 'ivy-bag')
-        setProduct(ivyBag ? { name: ivyBag.name, description: ivyBag.description } : null)
-        setVariants(ivyBag ? ivyBag.product_variants.map(toVariant) : [])
+        const match = products.find((item) => item.slug === slug)
+        setProduct(match ? { name: match.name, slug: match.slug, description: match.description } : null)
+        setVariants(match ? match.product_variants.map(toVariant) : [])
       })
       .catch((err) => {
         if (isMounted) setError(err.message)
@@ -38,7 +38,7 @@ export function useIvyBagVariants() {
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [slug])
 
   return { product, variants, isLoading, error }
 }

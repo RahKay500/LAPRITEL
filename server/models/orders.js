@@ -25,6 +25,7 @@ export async function createOrder({ reference, status, customer, subtotal, items
 
   const orderItems = items.map((item) => ({
     order_id: order.id,
+    product_name: item.productName || 'The Ivy Bag',
     color_slug: item.slug,
     color_name: item.name,
     is_custom: item.isCustom || false,

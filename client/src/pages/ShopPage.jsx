@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Check, ChevronDown, Filter } from 'lucide-react'
-import { useIvyBagVariants } from '../hooks/useIvyBagVariants'
+import { useProductVariants } from '../hooks/useProductVariants'
+import { fetchProducts } from '../services/products'
 import { useCart } from '../context/useCart'
 import { usePageMeta } from '../hooks/usePageMeta'
 
@@ -20,7 +21,7 @@ function ShopPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const activeColor = searchParams.get('color') || 'all'
   const [sortOrder, setSortOrder] = useState('default')
-  const { product, variants: allVariants, isLoading, error } = useIvyBagVariants()
+  const { product, variants: allVariants, isLoading, error } = useProductVariants('ivy-bag')
   const ivyBagVariants = useMemo(
     () => allVariants.filter((variant) => !variant.isCustom),
     [allVariants]
@@ -29,6 +30,20 @@ function ShopPage() {
   const [addedSlug, setAddedSlug] = useState(null)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const filterRef = useRef(null)
+  const [otherProducts, setOtherProducts] = useState([])
+
+  useEffect(() => {
+    let isMounted = true
+    fetchProducts()
+      .then((products) => {
+        if (!isMounted) return
+        setOtherProducts(products.filter((item) => item.slug !== 'ivy-bag'))
+      })
+      .catch(() => {})
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -90,7 +105,7 @@ function ShopPage() {
       <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
         {visibleVariants.map((variant) => (
           <div key={variant.slug}>
-            <Link to={`/shop/ivy-bag?color=${variant.slug}`}>
+            <Link to={`/shop/${product.slug}?color=${variant.slug}`}>
               {variant.image ? (
                 <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint/40">
                   <img
@@ -214,6 +229,46 @@ function ShopPage() {
         </div>
 
         {gridContent}
+
+        {otherProducts.length > 0 && (
+          <div className="mt-20">
+            <h2 className="text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
+              More Bags
+            </h2>
+            <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
+              {otherProducts.map((item) => {
+                const variant = item.product_variants[0]
+                if (!variant) return null
+                return (
+                  <Link key={item.slug} to={`/shop/${item.slug}`}>
+                    {variant.image_url ? (
+                      <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint/40">
+                        <img
+                          src={variant.image_url}
+                          alt={item.name}
+                          className="h-full w-full object-contain"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </div>
+                    ) : (
+                      <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint/40">
+                        <span
+                          className="block h-14 w-14 rounded-full border border-black/10"
+                          style={{ background: variant.hex }}
+                        />
+                      </div>
+                    )}
+                    <p className="mt-3 text-sm font-semibold uppercase tracking-wide text-ink">
+                      {item.name}
+                    </p>
+                    <p className="mt-1 text-xs text-ink/60">GHS {variant.price}</p>
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

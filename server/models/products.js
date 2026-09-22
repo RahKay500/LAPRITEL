@@ -31,7 +31,7 @@ export async function getActiveVariantPriceMap() {
 export async function getActiveVariantMetaMap() {
   const { data, error } = await supabase
     .from('product_variants')
-    .select('color_slug, image_url, is_custom')
+    .select('color_slug, image_url, is_custom, products(name)')
     .eq('is_active', true)
 
   if (error) {
@@ -41,7 +41,11 @@ export async function getActiveVariantMetaMap() {
   return new Map(
     data.map((variant) => [
       variant.color_slug,
-      { imageUrl: variant.image_url, isCustom: variant.is_custom },
+      {
+        imageUrl: variant.image_url,
+        isCustom: variant.is_custom,
+        productName: variant.products?.name,
+      },
     ])
   )
 }

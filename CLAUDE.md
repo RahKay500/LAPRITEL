@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-LAPRITEL is a full-stack e-commerce website for a handmade beaded bag brand. The brand currently sells a single product, the **Ivy Bag**, available in multiple colors. The brand identity is elegant, feminine, and premium.
+LAPRITEL is a full-stack e-commerce website for a handmade beaded bag brand. The catalog centers on the **Ivy Bag**, available in multiple colors (plus a curated set of custom, made-to-order colors), alongside standalone single-color bags such as **Bag Marine** and **Daisy**. The brand identity is elegant, feminine, and premium.
 
 This project is being built from scratch — there is no existing codebase yet. Use the architecture and conventions below when scaffolding and building features.
 

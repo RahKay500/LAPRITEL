@@ -315,7 +315,7 @@ function CheckoutPage() {
                 {items.map((item) => (
                   <div key={item.slug} className="flex justify-between text-sm">
                     <span className="text-ink/70">
-                      The Ivy Bag ({item.name}) x{item.quantity}
+                      {item.productName} ({item.name}) x{item.quantity}
                     </span>
                     <span className="text-ink">GHS {item.price * item.quantity}</span>
                   </div>

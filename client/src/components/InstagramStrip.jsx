@@ -49,7 +49,7 @@ function InstagramStrip() {
           >
             <img
               src={image}
-              alt="LAPRITEL Ivy Bag"
+              alt="LAPRITEL handmade beaded bag"
               className="h-full w-full object-contain"
               loading="lazy"
               decoding="async"

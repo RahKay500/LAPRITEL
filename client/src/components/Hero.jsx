@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ivyBagVariants } from '../data/ivyBagVariants'
 import hotPinkMobile from '../assets/images/ivy_bag_hotpink_mobile.jpg'
-import seaBlueMobile from '../assets/images/ivy_bag_seablue_mobile.jpg'
 import greenMobile from '../assets/images/ivy_bag_green_mobile.jpg'
 import purpleMobile from '../assets/images/ivy_bag_purple_mobile.jpg'
 
@@ -14,12 +13,11 @@ const stats = [
 
 const MOBILE_IMAGES = {
   'hot-pink': hotPinkMobile,
-  'sea-blue': seaBlueMobile,
   green: greenMobile,
   purple: purpleMobile,
 }
 
-const HERO_SLUGS = ['hot-pink', 'sea-blue', 'green', 'purple']
+const HERO_SLUGS = ['hot-pink', 'green', 'purple']
 const photoVariants = HERO_SLUGS.map((slug) =>
   ivyBagVariants.find((variant) => variant.slug === slug)
 ).filter((variant) => variant?.image)

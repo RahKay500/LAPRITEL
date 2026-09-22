@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { Check, ChevronDown, ChevronUp, Heart, Minus, Plus } from 'lucide-react'
-import { useIvyBagVariants } from '../hooks/useIvyBagVariants'
+import { useProductVariants } from '../hooks/useProductVariants'
 import { useCart } from '../context/useCart'
 import { usePageMeta } from '../hooks/usePageMeta'
 
@@ -15,16 +15,23 @@ const SPECS = [
 ]
 
 function ProductPage() {
+  const { slug } = useParams()
   const [searchParams, setSearchParams] = useSearchParams()
   const colorParam = searchParams.get('color')
-  const { product, variants: ivyBagVariants, isLoading, error } = useIvyBagVariants()
-  const standardVariants = ivyBagVariants.filter((variant) => !variant.isCustom)
-  const customVariants = ivyBagVariants.filter((variant) => variant.isCustom)
+  const { product, variants: allVariants, isLoading, error } = useProductVariants(slug)
+  const standardVariants = allVariants.filter((variant) => !variant.isCustom)
+  const customVariants = allVariants.filter((variant) => variant.isCustom)
+  const hasColorChoice = standardVariants.length > 1 || customVariants.length > 0
   const selectedVariant =
-    ivyBagVariants.find((variant) => variant.slug === colorParam) || standardVariants[0]
+    allVariants.find((variant) => variant.slug === colorParam) || standardVariants[0]
+  const displayName = product?.name.replace(/^The /i, '') || ''
 
   usePageMeta(
-    selectedVariant ? `Ivy Bag — ${selectedVariant.name}` : 'The Ivy Bag',
+    product && selectedVariant
+      ? hasColorChoice
+        ? `${displayName} — ${selectedVariant.name}`
+        : displayName
+      : product?.name,
     product?.description
   )
 
@@ -83,9 +90,22 @@ function ProductPage() {
 
           <div className="min-w-0 flex-1">
             <h1 className="text-5xl font-extrabold uppercase leading-[0.95] tracking-tight text-ink sm:text-6xl">
-              Ivy
-              <br />
-              <span className="text-burgundy">Bag.</span>
+              {(() => {
+                const words = displayName.split(' ')
+                const lastWord = words.pop()
+                const restName = words.join(' ')
+                return (
+                  <>
+                    {restName && (
+                      <>
+                        {restName}
+                        <br />
+                      </>
+                    )}
+                    <span className="text-burgundy">{lastWord}.</span>
+                  </>
+                )
+              })()}
             </h1>
             <p className="mt-4 max-w-md text-ink/60">{product.description}</p>
 
@@ -124,32 +144,34 @@ function ProductPage() {
                   GHS {selectedVariant.price}
                 </p>
 
-                <div className="mt-6">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-ink/60">
-                    {selectedVariant.isCustom ? 'Custom Colour' : 'Colour'} &mdash;{' '}
-                    <span className="text-burgundy">{selectedVariant.name}</span>
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {standardVariants.map((variant) => (
-                      <button
-                        key={variant.slug}
-                        type="button"
-                        aria-label={variant.name}
-                        onClick={() => selectColor(variant.slug)}
-                        className={`h-9 w-9 rounded-full border-2 transition-colors ${
-                          variant.slug === selectedVariant.slug
-                            ? 'border-burgundy'
-                            : 'border-transparent hover:border-black/20'
-                        }`}
-                      >
-                        <span
-                          className="block h-full w-full rounded-full border border-black/10"
-                          style={{ background: variant.hex }}
-                        />
-                      </button>
-                    ))}
+                {standardVariants.length > 1 && (
+                  <div className="mt-6">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-ink/60">
+                      {selectedVariant.isCustom ? 'Custom Colour' : 'Colour'} &mdash;{' '}
+                      <span className="text-burgundy">{selectedVariant.name}</span>
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {standardVariants.map((variant) => (
+                        <button
+                          key={variant.slug}
+                          type="button"
+                          aria-label={variant.name}
+                          onClick={() => selectColor(variant.slug)}
+                          className={`h-9 w-9 rounded-full border-2 transition-colors ${
+                            variant.slug === selectedVariant.slug
+                              ? 'border-burgundy'
+                              : 'border-transparent hover:border-black/20'
+                          }`}
+                        >
+                          <span
+                            className="block h-full w-full rounded-full border border-black/10"
+                            style={{ background: variant.hex }}
+                          />
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {customVariants.length > 0 && (
                   <div className="mt-6 border-t border-black/10 pt-6">
@@ -284,13 +306,14 @@ function ProductPage() {
           </div>
         </div>
 
+        {relatedVariants.length > 0 && (
         <div className="mt-20">
           <h2 className="text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
             More Colorways
           </h2>
           <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4 lg:grid-cols-7">
             {relatedVariants.map((variant) => (
-              <Link key={variant.slug} to={`/shop/ivy-bag?color=${variant.slug}`}>
+              <Link key={variant.slug} to={`/shop/${product.slug}?color=${variant.slug}`}>
                 {variant.image ? (
                   <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint/40">
                     <img
@@ -316,6 +339,7 @@ function ProductPage() {
             ))}
           </div>
         </div>
+        )}
       </div>
     </div>
   )
