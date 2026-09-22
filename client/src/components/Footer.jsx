@@ -60,6 +60,16 @@ function Footer() {
               </Link>
             </li>
             <li>
+              <Link to="/faq" className={linkClass}>
+                FAQ
+              </Link>
+            </li>
+            <li>
+              <Link to="/shipping-returns" className={linkClass}>
+                Shipping & Returns
+              </Link>
+            </li>
+            <li>
               <Link to="/privacy-policy" className={linkClass}>
                 Privacy Policy
               </Link>

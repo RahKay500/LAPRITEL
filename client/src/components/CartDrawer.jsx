@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Minus, Plus, Trash2, X } from 'lucide-react'
 import { useCart } from '../context/useCart'
+import ColorSwatch from './ColorSwatch'
 
 function CartDrawer() {
   const { items, removeItem, updateQuantity, subtotal, isDrawerOpen, closeDrawer } = useCart()
@@ -82,9 +83,12 @@ function CartDrawer() {
                     </div>
                   ) : (
                     <div className="flex h-20 w-20 flex-none items-center justify-center bg-burgundy-tint/40">
-                      <span
-                        className="block h-8 w-8 rounded-full border border-black/10"
-                        style={{ background: item.hex }}
+                      <ColorSwatch
+                        hex={item.hex}
+                        topHex={item.topHex}
+                        bottomHex={item.bottomHex}
+                        isTwoTone={item.isTwoTone}
+                        className="h-8 w-8"
                       />
                     </div>
                   )}

@@ -9,6 +9,7 @@ import HomePage from './pages/HomePage'
 import ShopPage from './pages/ShopPage'
 import ProductPage from './pages/ProductPage'
 import CartPage from './pages/CartPage'
+import WishlistPage from './pages/WishlistPage'
 import CheckoutPage from './pages/CheckoutPage'
 import OrderConfirmationPage from './pages/OrderConfirmationPage'
 import RegisterPage from './pages/RegisterPage'
@@ -22,6 +23,8 @@ import ContactPage from './pages/ContactPage'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
 import TermsOfServicePage from './pages/TermsOfServicePage'
 import RefundPolicyPage from './pages/RefundPolicyPage'
+import ShippingReturnsPage from './pages/ShippingReturnsPage'
+import FaqPage from './pages/FaqPage'
 import AdminLayout from './pages/admin/AdminLayout'
 import AdminOrdersPage from './pages/admin/AdminOrdersPage'
 import AdminProductsPage from './pages/admin/AdminProductsPage'
@@ -40,6 +43,7 @@ function App() {
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/shop/:slug" element={<ProductPage />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/wishlist" element={<WishlistPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
           <Route path="/register" element={<RegisterPage />} />
@@ -51,6 +55,8 @@ function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/terms-of-service" element={<TermsOfServicePage />} />
           <Route path="/refund-policy" element={<RefundPolicyPage />} />
+          <Route path="/shipping-returns" element={<ShippingReturnsPage />} />
+          <Route path="/faq" element={<FaqPage />} />
           <Route
             path="/profile"
             element={

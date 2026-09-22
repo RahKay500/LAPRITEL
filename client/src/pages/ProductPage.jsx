@@ -3,7 +3,9 @@ import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { Check, ChevronDown, ChevronUp, Heart, Minus, Plus } from 'lucide-react'
 import { useProductVariants } from '../hooks/useProductVariants'
 import { useCart } from '../context/useCart'
+import { useWishlist } from '../context/useWishlist'
 import { usePageMeta } from '../hooks/usePageMeta'
+import ColorSwatch from '../components/ColorSwatch'
 
 const SPECS = [
   { label: 'Style', value: 'Structured beaded handbag' },
@@ -36,7 +38,9 @@ function ProductPage() {
     ? {
         ...topVariant,
         name: `${topVariant.name} (Top) & ${bottomVariant.name} (Bottom)`,
-        hex: `linear-gradient(to bottom, ${topVariant.hex} 50%, ${bottomVariant.hex} 50%)`,
+        topHex: topVariant.hex,
+        bottomHex: bottomVariant.hex,
+        isTwoTone: true,
         image: undefined,
       }
     : null
@@ -53,12 +57,13 @@ function ProductPage() {
   )
 
   const { addItem } = useCart()
+  const { isWishlisted, toggleWishlist } = useWishlist()
   const [isAdded, setIsAdded] = useState(false)
   const [isCareOpen, setIsCareOpen] = useState(false)
   const [isShippingOpen, setIsShippingOpen] = useState(false)
   const [isFaqOpen, setIsFaqOpen] = useState(false)
-  const [isWishlisted, setIsWishlisted] = useState(false)
   const [quantity, setQuantity] = useState(1)
+  const wishlisted = Boolean(product && selectedVariant && isWishlisted(product.slug, selectedVariant.slug))
 
   useEffect(() => {
     if (window.location.hash === '#custom-colors' && customVariants.length > 0) {
@@ -66,10 +71,21 @@ function ProductPage() {
     }
   }, [customVariants.length])
 
+  // On mobile the image sits above the color pickers, so once the shopper
+  // scrolls down to pick a color, a swap happens off-screen above them.
+  // Scroll the image back into view so the change is visible without
+  // needing to scroll back up. Desktop already shows both side by side, so
+  // this only runs below the lg breakpoint.
+  function scrollImageIntoView() {
+    if (window.innerWidth >= 1024) return
+    document.getElementById('product-image')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
   function selectColor(slug) {
     setSearchParams({ color: slug })
     setQuantity(1)
     setCustomMode('single')
+    scrollImageIntoView()
   }
 
   function selectTwoToneMode() {
@@ -78,12 +94,24 @@ function ProductPage() {
     setBottomSlug(null)
   }
 
+  function selectTopColor(slug) {
+    setTopSlug(slug)
+    scrollImageIntoView()
+  }
+
+  function selectBottomColor(slug) {
+    setBottomSlug(slug)
+    scrollImageIntoView()
+  }
+
   function handleAddToCart() {
     if (!canAddToCart) return
     addItem(
       effectiveVariant,
       quantity,
-      isTwoToneReady ? { name: effectiveVariant.name, hex: effectiveVariant.hex } : null
+      isTwoToneReady
+        ? { name: effectiveVariant.name, topHex: effectiveVariant.topHex, bottomHex: effectiveVariant.bottomHex }
+        : null
     )
     setIsAdded(true)
     setTimeout(() => setIsAdded(false), 1500)
@@ -148,7 +176,7 @@ function ProductPage() {
 
             <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-16">
               {effectiveVariant.image ? (
-                <div className="relative aspect-square w-full overflow-hidden bg-burgundy-tint">
+                <div id="product-image" className="relative aspect-square w-full scroll-mt-20 overflow-hidden bg-burgundy-tint">
                   <img
                     src={effectiveVariant.image}
                     alt={`${product.name} in ${effectiveVariant.name}`}
@@ -161,11 +189,14 @@ function ProductPage() {
                   </div>
                 </div>
               ) : (
-                <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint">
+                <div id="product-image" className="flex aspect-square w-full scroll-mt-20 items-center justify-center bg-burgundy-tint">
                   <div className="text-center">
-                    <span
-                      className="mx-auto block h-20 w-20 rounded-full border border-black/10"
-                      style={{ background: effectiveVariant.hex }}
+                    <ColorSwatch
+                      hex={effectiveVariant.hex}
+                      topHex={effectiveVariant.topHex}
+                      bottomHex={effectiveVariant.bottomHex}
+                      isTwoTone={effectiveVariant.isTwoTone}
+                      className="mx-auto h-20 w-20"
                     />
                     <p className="mt-4 text-sm text-ink/50">
                       {isTwoToneReady
@@ -224,14 +255,14 @@ function ProductPage() {
 
                   <button
                     type="button"
-                    aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
-                    onClick={() => setIsWishlisted((value) => !value)}
+                    aria-label={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+                    onClick={() => toggleWishlist(product.slug, selectedVariant.slug)}
                     className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-black/10 bg-white text-burgundy transition-colors hover:border-burgundy/40"
                   >
                     <Heart
                       size={16}
                       strokeWidth={1.75}
-                      className={isWishlisted ? 'fill-burgundy text-burgundy' : ''}
+                      className={wishlisted ? 'fill-burgundy text-burgundy' : ''}
                     />
                   </button>
                 </div>
@@ -316,9 +347,11 @@ function ProductPage() {
                                 : 'border-transparent hover:border-black/20'
                             }`}
                           >
-                            <span
-                              className="block h-full w-full rounded-full border border-black/10"
-                              style={{ background: variant.hex }}
+                            <ColorSwatch
+                              hex={variant.hex}
+                              image={variant.image}
+                              alt={variant.name}
+                              className="h-full w-full"
                             />
                           </button>
                         ))}
@@ -337,16 +370,18 @@ function ProductPage() {
                                   key={variant.slug}
                                   type="button"
                                   aria-label={`${variant.name} (top, custom)`}
-                                  onClick={() => setTopSlug(variant.slug)}
+                                  onClick={() => selectTopColor(variant.slug)}
                                   className={`h-9 w-9 rounded-full border-2 transition-colors ${
                                     variant.slug === topSlug
                                       ? 'border-burgundy'
                                       : 'border-transparent hover:border-black/20'
                                   }`}
                                 >
-                                  <span
-                                    className="block h-full w-full rounded-full border border-black/10"
-                                    style={{ background: variant.hex }}
+                                  <ColorSwatch
+                                    hex={variant.hex}
+                                    image={variant.image}
+                                    alt={variant.name}
+                                    className="h-full w-full"
                                   />
                                 </button>
                               ))}
@@ -365,16 +400,18 @@ function ProductPage() {
                                   key={variant.slug}
                                   type="button"
                                   aria-label={`${variant.name} (bottom, custom)`}
-                                  onClick={() => setBottomSlug(variant.slug)}
+                                  onClick={() => selectBottomColor(variant.slug)}
                                   className={`h-9 w-9 rounded-full border-2 transition-colors ${
                                     variant.slug === bottomSlug
                                       ? 'border-burgundy'
                                       : 'border-transparent hover:border-black/20'
                                   }`}
                                 >
-                                  <span
-                                    className="block h-full w-full rounded-full border border-black/10"
-                                    style={{ background: variant.hex }}
+                                  <ColorSwatch
+                                    hex={variant.hex}
+                                    image={variant.image}
+                                    alt={variant.name}
+                                    className="h-full w-full"
                                   />
                                 </button>
                               ))}

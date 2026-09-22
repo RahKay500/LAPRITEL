@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { LayoutDashboard, ShoppingCart, User } from 'lucide-react'
+import { Heart, LayoutDashboard, ShoppingCart, User } from 'lucide-react'
 import { useCart } from '../context/useCart'
+import { useWishlist } from '../context/useWishlist'
 import { useAuth } from '../context/useAuth'
 
 const navLinks = [
@@ -14,6 +15,7 @@ const navLinks = [
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { count: cartCount, openDrawer } = useCart()
+  const { count: wishlistCount } = useWishlist()
   const { user } = useAuth()
 
   return (
@@ -78,6 +80,10 @@ function Navbar() {
             className="hidden text-ink hover:text-burgundy md:block"
           >
             <User size={22} strokeWidth={1.5} />
+          </Link>
+          <Link to="/wishlist" aria-label="Wishlist" className="flex items-center gap-1.5 text-ink hover:text-burgundy">
+            <Heart size={22} strokeWidth={1.5} />
+            {wishlistCount > 0 && <span className="text-sm font-semibold">{wishlistCount}</span>}
           </Link>
           <button
             type="button"

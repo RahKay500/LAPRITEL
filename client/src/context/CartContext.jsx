@@ -30,20 +30,23 @@ function toVariant(variant, productName) {
 // custom order carries a real variant slug (for price/checkout validation)
 // but a distinct key of `${slug}::${customName}`, so it never merges with a
 // plain single-color line for the same base slug. entry.customName/
-// customHex, when present, override the resolved variant's display name and
-// swatch color without touching its slug or price.
+// customTopHex/customBottomHex, when present, override the resolved
+// variant's display name and swatch colors without touching its slug or
+// price.
 function resolveItems(entries, variants) {
   return entries
     .map((entry) => {
       const variant = variants.find((item) => item.slug === entry.slug)
       if (!variant) return null
+      const isTwoTone = Boolean(entry.customTopHex && entry.customBottomHex)
       return {
         ...variant,
         quantity: entry.quantity,
         key: entry.key || entry.slug,
         name: entry.customName || variant.name,
-        hex: entry.customHex || variant.hex,
-        isTwoTone: Boolean(entry.customName),
+        isTwoTone,
+        topHex: isTwoTone ? entry.customTopHex : undefined,
+        bottomHex: isTwoTone ? entry.customBottomHex : undefined,
       }
     })
     .filter(Boolean)
@@ -104,7 +107,8 @@ export function CartProvider({ children }) {
       const entry = { key, slug: product.slug, quantity }
       if (customColor) {
         entry.customName = customColor.name
-        entry.customHex = customColor.hex
+        entry.customTopHex = customColor.topHex
+        entry.customBottomHex = customColor.bottomHex
       }
       return [...current, entry]
     })

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { Minus, Plus, Trash2 } from 'lucide-react'
 import { useCart } from '../context/useCart'
 import { usePageMeta } from '../hooks/usePageMeta'
+import ColorSwatch from '../components/ColorSwatch'
 
 function CartPage() {
   usePageMeta('Your Cart', 'Review the items in your cart before checking out.')
@@ -56,9 +57,12 @@ function CartPage() {
                 </div>
               ) : (
                 <div className="flex h-24 w-24 flex-none items-center justify-center bg-burgundy-tint/40 sm:h-28 sm:w-28">
-                  <span
-                    className="block h-10 w-10 rounded-full border border-black/10"
-                    style={{ background: item.hex }}
+                  <ColorSwatch
+                    hex={item.hex}
+                    topHex={item.topHex}
+                    bottomHex={item.bottomHex}
+                    isTwoTone={item.isTwoTone}
+                    className="h-10 w-10"
                   />
                 </div>
               )}
