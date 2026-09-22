@@ -1,9 +1,7 @@
 import { Camera } from 'lucide-react'
 import Reveal from './Reveal'
-import ivyBagHotPink from '../assets/images/ivy_bag_hotpink.jpg'
 import ivyBagOrange from '../assets/images/ivy_bag_orange.jpg'
 import ivyBagWhite from '../assets/images/ivy_bag_white.jpeg'
-import ivyBagSeaBlue from '../assets/images/ivy_bag_seablue.jpg'
 import ivyBagRed from '../assets/images/ivy_bag_red.jpg'
 import igPhoto from '../assets/images/ivy_bag_ig_photo.jpg'
 import igVideo1 from '../assets/images/ivy_bag_ig_video1.mp4'
@@ -11,11 +9,9 @@ import igVideo2 from '../assets/images/ivy_bag_ig_video2.mp4'
 
 const tiles = [
   { type: 'video', src: igVideo1 },
-  { type: 'image', src: ivyBagHotPink, fit: 'contain' },
   { type: 'image', src: ivyBagOrange, fit: 'contain' },
-  { type: 'video', src: igVideo2 },
   { type: 'image', src: ivyBagWhite, fit: 'contain' },
-  { type: 'image', src: ivyBagSeaBlue, fit: 'contain' },
+  { type: 'video', src: igVideo2 },
   { type: 'image', src: igPhoto, fit: 'cover' },
   { type: 'image', src: ivyBagRed, fit: 'contain' },
 ]
