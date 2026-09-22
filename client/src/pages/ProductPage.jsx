@@ -117,11 +117,11 @@ function ProductPage() {
 
             <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-16">
               {selectedVariant.image ? (
-                <div className="relative aspect-[4/5] w-full overflow-hidden bg-burgundy-tint">
+                <div className="relative aspect-square w-full overflow-hidden bg-burgundy-tint">
                   <img
                     src={selectedVariant.image}
                     alt={`${product.name} in ${selectedVariant.name}`}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-contain"
                   />
                   <div className="absolute bottom-0 left-0 bg-black/50 px-3 py-1.5">
                     <p className="text-xs font-bold uppercase tracking-widest text-white">
@@ -130,7 +130,7 @@ function ProductPage() {
                   </div>
                 </div>
               ) : (
-                <div className="flex aspect-[4/5] w-full items-center justify-center bg-burgundy-tint">
+                <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint">
                   <div className="text-center">
                     <span
                       className="mx-auto block h-20 w-20 rounded-full border border-black/10"
