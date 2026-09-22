@@ -42,7 +42,7 @@ function InstagramStrip() {
             target="_blank"
             rel="noreferrer"
             className={`flex aspect-square items-center justify-center bg-burgundy-tint/40 ${
-              tile.fit === 'cover' || tile.type === 'video' ? '' : 'p-2'
+              tile.fit === 'cover' || tile.type === 'video' ? '' : 'sm:p-2'
             }`}
           >
             {tile.type === 'video' ? (
