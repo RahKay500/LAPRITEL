@@ -156,9 +156,29 @@ function ShopPage() {
           <h1 className="text-3xl font-extrabold uppercase tracking-tight text-ink sm:text-4xl">
             Collections
           </h1>
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+            <a
+              href="#bag-ivy"
+              className="rounded-full border border-black/10 px-4 py-1.5 text-sm font-medium text-ink transition-colors hover:border-burgundy hover:text-burgundy"
+            >
+              Bag Ivy
+            </a>
+            {otherProducts.map((item) => (
+              <a
+                key={item.slug}
+                href={`#${item.slug}`}
+                className="rounded-full border border-black/10 px-4 py-1.5 text-sm font-medium text-ink transition-colors hover:border-burgundy hover:text-burgundy"
+              >
+                {item.name}
+              </a>
+            ))}
+          </div>
         </div>
 
-        <div className="mt-12 flex flex-wrap items-end justify-between gap-3">
+        <div
+          id="bag-ivy"
+          className="mt-12 flex scroll-mt-24 flex-wrap items-end justify-between gap-3"
+        >
           <h2 className="text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
             Bag Ivy
           </h2>
@@ -246,7 +266,7 @@ function ShopPage() {
           const variant = item.product_variants[0]
           if (!variant) return null
           return (
-            <div key={item.slug} className="mt-20">
+            <div key={item.slug} id={item.slug} className="mt-20 scroll-mt-24">
               <h2 className="text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
                 {item.name}
               </h2>
