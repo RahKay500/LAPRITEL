@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { Check, ChevronDown, ChevronUp, Heart, Minus, Plus, Star } from 'lucide-react'
+import { Check, ChevronDown, ChevronUp, Heart, Minus, Plus } from 'lucide-react'
 import { useIvyBagVariants } from '../hooks/useIvyBagVariants'
 import { useCart } from '../context/useCart'
 import { usePageMeta } from '../hooks/usePageMeta'
@@ -13,9 +13,6 @@ const SPECS = [
   { label: 'Lining', value: 'Satin interior with zip pocket' },
   { label: 'Carry', value: 'Top handle, 15 cm drop' },
 ]
-
-const RATING = 4.9
-const REVIEW_COUNT = 128
 
 function ProductPage() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -120,22 +117,6 @@ function ProductPage() {
                 <p className="font-heading text-3xl text-burgundy">
                   GHS {selectedVariant.price}
                 </p>
-                <div className="mt-2 flex items-center gap-1.5">
-                  {Array.from({ length: 5 }).map((_, index) => (
-                    <Star
-                      key={index}
-                      size={14}
-                      className={
-                        index < Math.round(RATING)
-                          ? 'fill-amber-400 text-amber-400'
-                          : 'fill-black/10 text-black/10'
-                      }
-                    />
-                  ))}
-                  <span className="text-sm text-ink/50">
-                    ({REVIEW_COUNT} reviews)
-                  </span>
-                </div>
 
                 <div className="mt-6">
                   <p className="text-xs font-semibold uppercase tracking-widest text-ink/60">
