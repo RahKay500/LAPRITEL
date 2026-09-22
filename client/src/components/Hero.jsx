@@ -41,17 +41,17 @@ function Hero() {
   return (
     <section className="relative overflow-hidden bg-burgundy">
       {leftVariant?.image && (
-        <div className="relative h-[45vh] w-full sm:hidden">
-          <img
-            key={`mobile-bg-${leftVariant.slug}`}
-            src={MOBILE_IMAGES[leftVariant.slug] ?? leftVariant.image}
-            alt={`The Ivy Bag in ${leftVariant.name}`}
-            className="hero-fade h-full w-full object-cover"
-          />
-          <span className="absolute inset-0 bg-burgundy/50 mix-blend-multiply" />
-          <span className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/50 to-black/85" />
+        <div className="sm:hidden">
+          <div className="aspect-square w-full">
+            <img
+              key={`mobile-bg-${leftVariant.slug}`}
+              src={MOBILE_IMAGES[leftVariant.slug] ?? leftVariant.image}
+              alt={`The Ivy Bag in ${leftVariant.name}`}
+              className="hero-fade h-full w-full object-cover"
+            />
+          </div>
 
-          <div className="absolute inset-0 flex flex-col items-center justify-center px-4 py-6 text-center [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">
+          <div className="px-4 py-8 text-center">
             <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60">
               The Ivy Bag &middot; New Season
             </p>
