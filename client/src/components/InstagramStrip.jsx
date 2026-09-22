@@ -51,6 +51,8 @@ function InstagramStrip() {
               src={image}
               alt="LAPRITEL Ivy Bag"
               className="h-full w-full object-contain"
+              loading="lazy"
+              decoding="async"
             />
           </a>
         ))}

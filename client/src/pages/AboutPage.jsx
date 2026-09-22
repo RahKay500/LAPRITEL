@@ -54,6 +54,8 @@ function AboutPage() {
             src={storyImage}
             alt="The Ivy Bag, handcrafted with beads"
             className="aspect-[4/3] w-full rounded-2xl object-cover"
+            loading="lazy"
+            decoding="async"
           />
           <div>
             <p className="text-sm font-semibold uppercase tracking-widest text-burgundy">
@@ -108,6 +110,8 @@ function AboutPage() {
             src={craftImage}
             alt="Close-up of Ivy Bag beadwork"
             className="order-1 aspect-[4/3] w-full rounded-2xl object-cover lg:order-2"
+            loading="lazy"
+            decoding="async"
           />
         </div>
 

@@ -11,6 +11,8 @@ function BrandStory() {
             src={storyImage}
             alt="LAPRITEL Ivy Bag handcrafted with beads"
             className="aspect-[4/3] w-full rounded-2xl object-cover"
+            loading="lazy"
+            decoding="async"
           />
         </Reveal>
         <Reveal delay={150}>

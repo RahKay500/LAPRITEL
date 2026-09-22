@@ -50,6 +50,8 @@ function CartPage() {
                     src={item.image}
                     alt={`The Ivy Bag in ${item.name}`}
                     className="h-full w-full object-contain"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
               ) : (

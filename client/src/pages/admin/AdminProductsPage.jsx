@@ -299,6 +299,8 @@ function AdminProductsPage() {
                         src={variant.image_url}
                         alt={variant.color_name}
                         className="h-14 w-14 rounded-lg object-cover"
+                        loading="lazy"
+                        decoding="async"
                       />
                     ) : (
                       <span

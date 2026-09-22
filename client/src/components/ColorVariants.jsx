@@ -36,6 +36,8 @@ function ColorVariants() {
                     src={variant.image}
                     alt={`The Ivy Bag in ${variant.name}`}
                     className="h-full w-full object-contain"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
               ) : (

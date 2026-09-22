@@ -283,6 +283,8 @@ function ProductPage() {
                       src={variant.image}
                       alt={`${product.name} in ${variant.name}`}
                       className="h-full w-full object-contain"
+                      loading="lazy"
+                      decoding="async"
                     />
                   </div>
                 ) : (
