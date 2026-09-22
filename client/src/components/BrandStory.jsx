@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import storyImage from '../assets/images/ivy_bag_green.jpeg'
+import storyImage from '../assets/images/ivy_bag_hotpink.jpg'
 import Reveal from './Reveal'
 
 function BrandStory() {
@@ -7,13 +7,15 @@ function BrandStory() {
     <section className="px-4 py-16 sm:px-6 lg:px-12 lg:py-24">
       <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-2 lg:gap-16">
         <Reveal>
-          <img
-            src={storyImage}
-            alt="LAPRITEL Bag Ivy handcrafted with beads"
-            className="aspect-[4/3] w-full object-cover"
-            loading="lazy"
-            decoding="async"
-          />
+          <div className="flex aspect-[4/3] w-full items-center justify-center bg-burgundy-tint/40">
+            <img
+              src={storyImage}
+              alt="LAPRITEL Bag Ivy handcrafted with beads"
+              className="h-full w-full object-contain"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
         </Reveal>
         <Reveal delay={150}>
           <p className="text-sm font-semibold uppercase tracking-widest text-burgundy">

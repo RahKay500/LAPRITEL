@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Gem, Heart, Leaf } from 'lucide-react'
-import storyImage from '../assets/images/ivy_bag_green.jpeg'
+import storyImage from '../assets/images/ivy_bag_hotpink.jpg'
 import craftImage from '../assets/images/ivy_bag_orange.jpg'
 import { usePageMeta } from '../hooks/usePageMeta'
 
@@ -54,12 +54,14 @@ function AboutPage() {
         </div>
 
         <div className="mt-14 grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <img
-            src={storyImage}
-            alt="Bag Ivy, handcrafted with beads"
-            className="aspect-[4/3] w-full object-cover"
-            decoding="async"
-          />
+          <div className="flex aspect-[4/3] w-full items-center justify-center bg-burgundy-tint/40">
+            <img
+              src={storyImage}
+              alt="Bag Ivy, handcrafted with beads"
+              className="h-full w-full object-contain"
+              decoding="async"
+            />
+          </div>
           <div>
             <p className="text-sm font-semibold uppercase tracking-widest text-burgundy">
               Our Story
