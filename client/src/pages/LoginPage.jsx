@@ -66,9 +66,15 @@ function LoginPage() {
               type="email"
               value={form.email}
               onChange={handleChange}
+              aria-invalid={Boolean(errors.email)}
+              aria-describedby={errors.email ? 'email-error' : undefined}
               className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
             />
-            {errors.email && <p className="mt-1 text-xs text-burgundy">{errors.email}</p>}
+            {errors.email && (
+              <p id="email-error" role="alert" className="mt-1 text-xs text-burgundy">
+                {errors.email}
+              </p>
+            )}
           </div>
 
           <div>
@@ -86,12 +92,22 @@ function LoginPage() {
               type="password"
               value={form.password}
               onChange={handleChange}
+              aria-invalid={Boolean(errors.password)}
+              aria-describedby={errors.password ? 'password-error' : undefined}
               className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
             />
-            {errors.password && <p className="mt-1 text-xs text-burgundy">{errors.password}</p>}
+            {errors.password && (
+              <p id="password-error" role="alert" className="mt-1 text-xs text-burgundy">
+                {errors.password}
+              </p>
+            )}
           </div>
 
-          {error && <p className="text-sm text-burgundy">{error}</p>}
+          {error && (
+            <p role="alert" className="text-sm text-burgundy">
+              {error}
+            </p>
+          )}
 
           <button
             type="submit"

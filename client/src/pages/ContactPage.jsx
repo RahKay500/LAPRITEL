@@ -87,10 +87,14 @@ function ContactPage() {
                     type="text"
                     value={form.fullName}
                     onChange={handleChange}
+                    aria-invalid={Boolean(errors.fullName)}
+                    aria-describedby={errors.fullName ? 'fullName-error' : undefined}
                     className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
                   />
                   {errors.fullName && (
-                    <p className="mt-1 text-xs text-burgundy">{errors.fullName}</p>
+                    <p id="fullName-error" role="alert" className="mt-1 text-xs text-burgundy">
+                      {errors.fullName}
+                    </p>
                   )}
                 </div>
 
@@ -104,9 +108,15 @@ function ContactPage() {
                     type="email"
                     value={form.email}
                     onChange={handleChange}
+                    aria-invalid={Boolean(errors.email)}
+                    aria-describedby={errors.email ? 'email-error' : undefined}
                     className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
                   />
-                  {errors.email && <p className="mt-1 text-xs text-burgundy">{errors.email}</p>}
+                  {errors.email && (
+                    <p id="email-error" role="alert" className="mt-1 text-xs text-burgundy">
+                      {errors.email}
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -119,14 +129,22 @@ function ContactPage() {
                     rows={5}
                     value={form.message}
                     onChange={handleChange}
+                    aria-invalid={Boolean(errors.message)}
+                    aria-describedby={errors.message ? 'message-error' : undefined}
                     className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
                   />
                   {errors.message && (
-                    <p className="mt-1 text-xs text-burgundy">{errors.message}</p>
+                    <p id="message-error" role="alert" className="mt-1 text-xs text-burgundy">
+                      {errors.message}
+                    </p>
                   )}
                 </div>
 
-                {serverError && <p className="text-sm text-burgundy">{serverError}</p>}
+                {serverError && (
+                  <p role="alert" className="text-sm text-burgundy">
+                    {serverError}
+                  </p>
+                )}
 
                 <button
                   type="submit"

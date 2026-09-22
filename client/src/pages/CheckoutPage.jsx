@@ -155,10 +155,14 @@ function CheckoutPage() {
                     type="text"
                     value={form.fullName}
                     onChange={handleChange}
+                    aria-invalid={Boolean(errors.fullName)}
+                    aria-describedby={errors.fullName ? 'fullName-error' : undefined}
                     className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
                   />
                   {errors.fullName && (
-                    <p className="mt-1 text-xs text-burgundy">{errors.fullName}</p>
+                    <p id="fullName-error" role="alert" className="mt-1 text-xs text-burgundy">
+                      {errors.fullName}
+                    </p>
                   )}
                 </div>
 
@@ -173,10 +177,14 @@ function CheckoutPage() {
                       type="email"
                       value={form.email}
                       onChange={handleChange}
+                      aria-invalid={Boolean(errors.email)}
+                      aria-describedby={errors.email ? 'email-error' : undefined}
                       className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
                     />
                     {errors.email && (
-                      <p className="mt-1 text-xs text-burgundy">{errors.email}</p>
+                      <p id="email-error" role="alert" className="mt-1 text-xs text-burgundy">
+                        {errors.email}
+                      </p>
                     )}
                   </div>
                   <div>
@@ -190,10 +198,14 @@ function CheckoutPage() {
                       value={form.phone}
                       onChange={handleChange}
                       maxLength={10}
+                      aria-invalid={Boolean(errors.phone)}
+                      aria-describedby={errors.phone ? 'phone-error' : undefined}
                       className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
                     />
                     {errors.phone && (
-                      <p className="mt-1 text-xs text-burgundy">{errors.phone}</p>
+                      <p id="phone-error" role="alert" className="mt-1 text-xs text-burgundy">
+                        {errors.phone}
+                      </p>
                     )}
                   </div>
                 </div>
@@ -215,10 +227,14 @@ function CheckoutPage() {
                     type="text"
                     value={form.address}
                     onChange={handleChange}
+                    aria-invalid={Boolean(errors.address)}
+                    aria-describedby={errors.address ? 'address-error' : undefined}
                     className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
                   />
                   {errors.address && (
-                    <p className="mt-1 text-xs text-burgundy">{errors.address}</p>
+                    <p id="address-error" role="alert" className="mt-1 text-xs text-burgundy">
+                      {errors.address}
+                    </p>
                   )}
                 </div>
 
@@ -233,10 +249,14 @@ function CheckoutPage() {
                       type="text"
                       value={form.city}
                       onChange={handleChange}
+                      aria-invalid={Boolean(errors.city)}
+                      aria-describedby={errors.city ? 'city-error' : undefined}
                       className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
                     />
                     {errors.city && (
-                      <p className="mt-1 text-xs text-burgundy">{errors.city}</p>
+                      <p id="city-error" role="alert" className="mt-1 text-xs text-burgundy">
+                        {errors.city}
+                      </p>
                     )}
                   </div>
                   <div>
@@ -248,6 +268,8 @@ function CheckoutPage() {
                       name="region"
                       value={form.region}
                       onChange={handleChange}
+                      aria-invalid={Boolean(errors.region)}
+                      aria-describedby={errors.region ? 'region-error' : undefined}
                       className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
                     >
                       <option value="">Select region</option>
@@ -258,7 +280,9 @@ function CheckoutPage() {
                       ))}
                     </select>
                     {errors.region && (
-                      <p className="mt-1 text-xs text-burgundy">{errors.region}</p>
+                      <p id="region-error" role="alert" className="mt-1 text-xs text-burgundy">
+                        {errors.region}
+                      </p>
                     )}
                   </div>
                 </div>
@@ -321,7 +345,9 @@ function CheckoutPage() {
               )}
 
               {paymentError && (
-                <p className="mt-4 text-xs text-burgundy">{paymentError}</p>
+                <p role="alert" className="mt-4 text-xs text-burgundy">
+                  {paymentError}
+                </p>
               )}
 
               <button

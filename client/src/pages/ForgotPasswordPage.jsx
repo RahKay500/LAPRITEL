@@ -58,9 +58,15 @@ function ForgotPasswordPage() {
                   type="email"
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
+                  aria-invalid={Boolean(error)}
+                  aria-describedby={error ? 'email-error' : undefined}
                   className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
                 />
-                {error && <p className="mt-1 text-xs text-burgundy">{error}</p>}
+                {error && (
+                  <p id="email-error" role="alert" className="mt-1 text-xs text-burgundy">
+                    {error}
+                  </p>
+                )}
               </div>
 
               <button

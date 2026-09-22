@@ -79,10 +79,14 @@ function RegisterPage() {
               type="text"
               value={form.fullName}
               onChange={handleChange}
+              aria-invalid={Boolean(errors.fullName)}
+              aria-describedby={errors.fullName ? 'fullName-error' : undefined}
               className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
             />
             {errors.fullName && (
-              <p className="mt-1 text-xs text-burgundy">{errors.fullName}</p>
+              <p id="fullName-error" role="alert" className="mt-1 text-xs text-burgundy">
+                {errors.fullName}
+              </p>
             )}
           </div>
 
@@ -96,9 +100,15 @@ function RegisterPage() {
               type="email"
               value={form.email}
               onChange={handleChange}
+              aria-invalid={Boolean(errors.email)}
+              aria-describedby={errors.email ? 'email-error' : undefined}
               className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
             />
-            {errors.email && <p className="mt-1 text-xs text-burgundy">{errors.email}</p>}
+            {errors.email && (
+              <p id="email-error" role="alert" className="mt-1 text-xs text-burgundy">
+                {errors.email}
+              </p>
+            )}
           </div>
 
           <div>
@@ -112,9 +122,15 @@ function RegisterPage() {
               value={form.phone}
               onChange={handleChange}
               maxLength={10}
+              aria-invalid={Boolean(errors.phone)}
+              aria-describedby={errors.phone ? 'phone-error' : undefined}
               className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
             />
-            {errors.phone && <p className="mt-1 text-xs text-burgundy">{errors.phone}</p>}
+            {errors.phone && (
+              <p id="phone-error" role="alert" className="mt-1 text-xs text-burgundy">
+                {errors.phone}
+              </p>
+            )}
           </div>
 
           <div>
@@ -127,10 +143,14 @@ function RegisterPage() {
               type="password"
               value={form.password}
               onChange={handleChange}
+              aria-invalid={Boolean(errors.password)}
+              aria-describedby={errors.password ? 'password-error' : undefined}
               className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
             />
             {errors.password && (
-              <p className="mt-1 text-xs text-burgundy">{errors.password}</p>
+              <p id="password-error" role="alert" className="mt-1 text-xs text-burgundy">
+                {errors.password}
+              </p>
             )}
           </div>
 
@@ -144,14 +164,22 @@ function RegisterPage() {
               type="password"
               value={form.confirmPassword}
               onChange={handleChange}
+              aria-invalid={Boolean(errors.confirmPassword)}
+              aria-describedby={errors.confirmPassword ? 'confirmPassword-error' : undefined}
               className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
             />
             {errors.confirmPassword && (
-              <p className="mt-1 text-xs text-burgundy">{errors.confirmPassword}</p>
+              <p id="confirmPassword-error" role="alert" className="mt-1 text-xs text-burgundy">
+                {errors.confirmPassword}
+              </p>
             )}
           </div>
 
-          {serverError && <p className="text-sm text-burgundy">{serverError}</p>}
+          {serverError && (
+            <p role="alert" className="text-sm text-burgundy">
+              {serverError}
+            </p>
+          )}
 
           <button
             type="submit"

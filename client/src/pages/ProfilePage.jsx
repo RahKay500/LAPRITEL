@@ -70,10 +70,14 @@ function ProfilePage() {
                 type="text"
                 value={form.fullName}
                 onChange={handleChange}
+                aria-invalid={Boolean(errors.fullName)}
+                aria-describedby={errors.fullName ? 'fullName-error' : undefined}
                 className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
               />
               {errors.fullName && (
-                <p className="mt-1 text-xs text-burgundy">{errors.fullName}</p>
+                <p id="fullName-error" role="alert" className="mt-1 text-xs text-burgundy">
+                  {errors.fullName}
+                </p>
               )}
             </div>
             <div>
@@ -87,12 +91,22 @@ function ProfilePage() {
                 value={form.phone}
                 onChange={handleChange}
                 maxLength={10}
+                aria-invalid={Boolean(errors.phone)}
+                aria-describedby={errors.phone ? 'phone-error' : undefined}
                 className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
               />
-              {errors.phone && <p className="mt-1 text-xs text-burgundy">{errors.phone}</p>}
+              {errors.phone && (
+                <p id="phone-error" role="alert" className="mt-1 text-xs text-burgundy">
+                  {errors.phone}
+                </p>
+              )}
             </div>
 
-            {error && <p className="text-sm text-burgundy">{error}</p>}
+            {error && (
+              <p role="alert" className="text-sm text-burgundy">
+                {error}
+              </p>
+            )}
 
             <div className="flex gap-3">
               <button
@@ -113,7 +127,11 @@ function ProfilePage() {
           </form>
         ) : (
           <div className="mt-8 space-y-4">
-            {savedMessage && <p className="text-sm text-burgundy">{savedMessage}</p>}
+            {savedMessage && (
+              <p role="status" className="text-sm text-burgundy">
+                {savedMessage}
+              </p>
+            )}
             <div>
               <p className="text-sm text-ink/60">Full Name</p>
               <p className="text-ink">{user.fullName}</p>

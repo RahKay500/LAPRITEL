@@ -79,9 +79,15 @@ function ResetPasswordPage() {
               type="password"
               value={form.password}
               onChange={handleChange}
+              aria-invalid={Boolean(errors.password)}
+              aria-describedby={errors.password ? 'password-error' : undefined}
               className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
             />
-            {errors.password && <p className="mt-1 text-xs text-burgundy">{errors.password}</p>}
+            {errors.password && (
+              <p id="password-error" role="alert" className="mt-1 text-xs text-burgundy">
+                {errors.password}
+              </p>
+            )}
           </div>
 
           <div>
@@ -94,14 +100,22 @@ function ResetPasswordPage() {
               type="password"
               value={form.confirmPassword}
               onChange={handleChange}
+              aria-invalid={Boolean(errors.confirmPassword)}
+              aria-describedby={errors.confirmPassword ? 'confirmPassword-error' : undefined}
               className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
             />
             {errors.confirmPassword && (
-              <p className="mt-1 text-xs text-burgundy">{errors.confirmPassword}</p>
+              <p id="confirmPassword-error" role="alert" className="mt-1 text-xs text-burgundy">
+                {errors.confirmPassword}
+              </p>
             )}
           </div>
 
-          {serverError && <p className="text-sm text-burgundy">{serverError}</p>}
+          {serverError && (
+            <p role="alert" className="text-sm text-burgundy">
+              {serverError}
+            </p>
+          )}
 
           <button
             type="submit"
