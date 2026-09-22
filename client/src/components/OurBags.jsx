@@ -51,12 +51,12 @@ function OurBags() {
               return (
                 <Reveal key={product.slug} delay={index * 100}>
                   <Link to={`/shop/${product.slug}`} className="group block">
-                    <div className="relative aspect-[4/5] w-full overflow-hidden bg-burgundy-tint">
+                    <div className="relative aspect-square w-full overflow-hidden bg-burgundy-tint">
                       {variant.image_url ? (
                         <img
                           src={variant.image_url}
                           alt={product.name}
-                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
                           loading="lazy"
                           decoding="async"
                         />
