@@ -8,6 +8,7 @@ function toVariant(variant) {
     hex: variant.hex,
     price: Number(variant.price),
     image: variant.image_url || undefined,
+    isCustom: Boolean(variant.is_custom),
   }
 }
 

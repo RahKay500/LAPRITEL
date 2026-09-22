@@ -18,8 +18,10 @@ function ProductPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const colorParam = searchParams.get('color')
   const { product, variants: ivyBagVariants, isLoading, error } = useIvyBagVariants()
+  const standardVariants = ivyBagVariants.filter((variant) => !variant.isCustom)
+  const customVariants = ivyBagVariants.filter((variant) => variant.isCustom)
   const selectedVariant =
-    ivyBagVariants.find((variant) => variant.slug === colorParam) || ivyBagVariants[0]
+    ivyBagVariants.find((variant) => variant.slug === colorParam) || standardVariants[0]
 
   usePageMeta(
     selectedVariant ? `Ivy Bag — ${selectedVariant.name}` : 'The Ivy Bag',
@@ -59,7 +61,7 @@ function ProductPage() {
     )
   }
 
-  const relatedVariants = ivyBagVariants.filter(
+  const relatedVariants = standardVariants.filter(
     (variant) => variant.slug !== selectedVariant.slug
   )
   const seasonYear = new Date().getFullYear()
@@ -108,7 +110,11 @@ function ProductPage() {
                       className="mx-auto block h-20 w-20 rounded-full border border-black/10"
                       style={{ background: selectedVariant.hex }}
                     />
-                    <p className="mt-4 text-sm text-ink/50">Photo coming soon</p>
+                    <p className="mt-4 text-sm text-ink/50">
+                      {selectedVariant.isCustom
+                        ? 'Custom colour — made to order, no preview photo'
+                        : 'Photo coming soon'}
+                    </p>
                   </div>
                 </div>
               )}
@@ -120,11 +126,11 @@ function ProductPage() {
 
                 <div className="mt-6">
                   <p className="text-xs font-semibold uppercase tracking-widest text-ink/60">
-                    Colour &mdash;{' '}
+                    {selectedVariant.isCustom ? 'Custom Colour' : 'Colour'} &mdash;{' '}
                     <span className="text-burgundy">{selectedVariant.name}</span>
                   </p>
                   <div className="mt-3 flex flex-wrap gap-2">
-                    {ivyBagVariants.map((variant) => (
+                    {standardVariants.map((variant) => (
                       <button
                         key={variant.slug}
                         type="button"
@@ -144,6 +150,37 @@ function ProductPage() {
                     ))}
                   </div>
                 </div>
+
+                {customVariants.length > 0 && (
+                  <div className="mt-6 border-t border-black/10 pt-6">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-ink/60">
+                      Want a different shade? &mdash; Custom colours, made to order
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {customVariants.map((variant) => (
+                        <button
+                          key={variant.slug}
+                          type="button"
+                          aria-label={`${variant.name} (custom)`}
+                          onClick={() => selectColor(variant.slug)}
+                          className={`h-9 w-9 rounded-full border-2 transition-colors ${
+                            variant.slug === selectedVariant.slug
+                              ? 'border-burgundy'
+                              : 'border-transparent hover:border-black/20'
+                          }`}
+                        >
+                          <span
+                            className="block h-full w-full rounded-full border border-black/10"
+                            style={{ background: variant.hex }}
+                          />
+                        </button>
+                      ))}
+                    </div>
+                    <p className="mt-2 text-xs text-ink/50">
+                      Hand-beaded to order in your chosen colour — no preview photo, same price.
+                    </p>
+                  </div>
+                )}
 
                 <div className="mt-6 overflow-hidden border border-black/5">
                   {SPECS.map((spec, index) => (

@@ -13,6 +13,7 @@ const emptyVariantForm = {
   hex: '#800020',
   price: '',
   imageUrl: '',
+  isCustom: false,
 }
 
 function VariantForm({ initialValues, onSubmit, onCancel, isSaving, showActiveToggle = false }) {
@@ -157,6 +158,18 @@ function VariantForm({ initialValues, onSubmit, onCancel, isSaving, showActiveTo
         </label>
       )}
 
+      <label className="flex items-center gap-2 text-sm text-ink/70 sm:col-span-2">
+        <input
+          type="checkbox"
+          checked={form.isCustom}
+          onChange={(event) =>
+            setForm((current) => ({ ...current, isCustom: event.target.checked }))
+          }
+        />
+        Custom colour (made to order — hidden from the Shop grid, offered as an option on the
+        product page instead)
+      </label>
+
       {error && <p className="text-sm text-burgundy sm:col-span-2">{error}</p>}
 
       <div className="flex items-center gap-6 sm:col-span-2">
@@ -279,6 +292,7 @@ function AdminProductsPage() {
                       price: variant.price,
                       imageUrl: variant.image_url || '',
                       isActive: variant.is_active,
+                      isCustom: variant.is_custom,
                     }}
                     isSaving={isSaving}
                     showActiveToggle
@@ -311,6 +325,9 @@ function AdminProductsPage() {
                     <div>
                       <p className="text-sm font-medium text-ink">{variant.color_name}</p>
                       <p className="text-xs text-ink/60">GHS {variant.price}</p>
+                      {variant.is_custom && (
+                        <p className="text-xs font-medium text-ink/60">Custom (made to order)</p>
+                      )}
                       {!variant.is_active && (
                         <p className="text-xs font-medium text-burgundy">Inactive</p>
                       )}

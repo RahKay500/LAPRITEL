@@ -81,8 +81,13 @@ function AdminOrdersPage() {
           <div className="mt-4 space-y-2 border-t border-black/10 pt-4">
             {order.order_items.map((item) => (
               <div key={item.id} className="flex justify-between text-sm">
-                <span className="text-ink/70">
+                <span className="flex items-center gap-2 text-ink/70">
                   {item.product_name} ({item.color_name}) x{item.quantity}
+                  {item.is_custom && (
+                    <span className="rounded-full border border-burgundy px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-burgundy">
+                      Custom
+                    </span>
+                  )}
                 </span>
                 <span className="text-ink">GHS {item.line_total}</span>
               </div>

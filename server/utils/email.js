@@ -33,8 +33,15 @@ export async function sendOrderConfirmationEmail({ reference, customer, items, s
     .map(
       (item) => `
         <tr>
-          <td style="padding:8px 0;">The Ivy Bag (${escapeHtml(item.name)}) x${Number(item.quantity)}</td>
-          <td style="padding:8px 0;text-align:right;">GHS ${(item.price * item.quantity).toFixed(2)}</td>
+          <td style="padding:10px 0;width:56px;">
+            ${
+              item.imageUrl
+                ? `<img src="${escapeHtml(item.imageUrl)}" alt="${escapeHtml(item.name)}" width="48" height="48" style="width:48px;height:48px;object-fit:cover;display:block;border:1px solid #eee;">`
+                : ''
+            }
+          </td>
+          <td style="padding:10px 0 10px 12px;">The Ivy Bag (${escapeHtml(item.name)}) x${Number(item.quantity)}</td>
+          <td style="padding:10px 0;text-align:right;">GHS ${(item.price * item.quantity).toFixed(2)}</td>
         </tr>`
     )
     .join('')
@@ -46,6 +53,7 @@ export async function sendOrderConfirmationEmail({ reference, customer, items, s
       <table style="width:100%;border-collapse:collapse;margin-top:16px;">
         ${itemRows}
         <tr>
+          <td></td>
           <td style="padding:12px 0;border-top:1px solid #eee;font-weight:bold;">Subtotal</td>
           <td style="padding:12px 0;border-top:1px solid #eee;text-align:right;font-weight:bold;">GHS ${subtotal.toFixed(2)}</td>
         </tr>
@@ -78,8 +86,15 @@ export async function sendAdminOrderNotificationEmail({ reference, customer, ite
     .map(
       (item) => `
         <tr>
-          <td style="padding:8px 0;">The Ivy Bag (${escapeHtml(item.name)}) x${Number(item.quantity)}</td>
-          <td style="padding:8px 0;text-align:right;">GHS ${(item.price * item.quantity).toFixed(2)}</td>
+          <td style="padding:10px 0;width:56px;">
+            ${
+              item.imageUrl
+                ? `<img src="${escapeHtml(item.imageUrl)}" alt="${escapeHtml(item.name)}" width="48" height="48" style="width:48px;height:48px;object-fit:cover;display:block;border:1px solid #eee;">`
+                : ''
+            }
+          </td>
+          <td style="padding:10px 0 10px 12px;">The Ivy Bag (${escapeHtml(item.name)}) x${Number(item.quantity)}</td>
+          <td style="padding:10px 0;text-align:right;">GHS ${(item.price * item.quantity).toFixed(2)}</td>
         </tr>`
     )
     .join('')
@@ -91,6 +106,7 @@ export async function sendAdminOrderNotificationEmail({ reference, customer, ite
       <table style="width:100%;border-collapse:collapse;margin-top:16px;">
         ${itemRows}
         <tr>
+          <td></td>
           <td style="padding:12px 0;border-top:1px solid #eee;font-weight:bold;">Subtotal</td>
           <td style="padding:12px 0;border-top:1px solid #eee;text-align:right;font-weight:bold;">GHS ${subtotal.toFixed(2)}</td>
         </tr>

@@ -20,7 +20,11 @@ function ShopPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const activeColor = searchParams.get('color') || 'all'
   const [sortOrder, setSortOrder] = useState('default')
-  const { product, variants: ivyBagVariants, isLoading, error } = useIvyBagVariants()
+  const { product, variants: allVariants, isLoading, error } = useIvyBagVariants()
+  const ivyBagVariants = useMemo(
+    () => allVariants.filter((variant) => !variant.isCustom),
+    [allVariants]
+  )
   const { addItem } = useCart()
   const [addedSlug, setAddedSlug] = useState(null)
   const [isFilterOpen, setIsFilterOpen] = useState(false)

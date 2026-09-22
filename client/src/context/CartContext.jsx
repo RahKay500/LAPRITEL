@@ -1,17 +1,29 @@
 import { useEffect, useState } from 'react'
 import { CartContext } from './cart-context'
-import { ivyBagVariants } from '../data/ivyBagVariants'
+import { fetchProducts } from '../services/products'
 
 const STORAGE_KEY = 'lapritel_cart'
 
 // Cart entries only remember {slug, quantity} — product details (name, image,
-// price, hex) are always resolved fresh from ivyBagVariants below, so a
-// price/image change or asset rename can never leave a stale cart item
-// pointing at data that no longer exists.
-function resolveItems(entries) {
+// price, hex) are always resolved fresh from the live variant list below, so
+// a price/image change, a color renamed in the admin dashboard, or a custom
+// color added after the fact can never leave a stale cart item pointing at
+// data that no longer exists.
+function toVariant(variant) {
+  return {
+    name: variant.color_name,
+    slug: variant.color_slug,
+    hex: variant.hex,
+    price: Number(variant.price),
+    image: variant.image_url || undefined,
+    isCustom: Boolean(variant.is_custom),
+  }
+}
+
+function resolveItems(entries, variants) {
   return entries
     .map((entry) => {
-      const variant = ivyBagVariants.find((item) => item.slug === entry.slug)
+      const variant = variants.find((item) => item.slug === entry.slug)
       return variant ? { ...variant, quantity: entry.quantity } : null
     })
     .filter(Boolean)
@@ -26,7 +38,22 @@ export function CartProvider({ children }) {
       return []
     }
   })
+  const [variants, setVariants] = useState([])
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+
+  useEffect(() => {
+    let isMounted = true
+    fetchProducts()
+      .then((products) => {
+        if (!isMounted) return
+        const ivyBag = products.find((item) => item.slug === 'ivy-bag')
+        setVariants(ivyBag ? ivyBag.product_variants.map(toVariant) : [])
+      })
+      .catch(() => {})
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   function openDrawer() {
     setIsDrawerOpen(true)
@@ -68,7 +95,7 @@ export function CartProvider({ children }) {
     setEntries([])
   }
 
-  const items = resolveItems(entries)
+  const items = resolveItems(entries, variants)
   const count = items.reduce((sum, item) => sum + item.quantity, 0)
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
 

@@ -1,4 +1,4 @@
-import { getActiveVariantPriceMap } from '../models/products.js'
+import { getActiveVariantPriceMap, getActiveVariantMetaMap } from '../models/products.js'
 import { verifyTransaction, isValidWebhookSignature } from '../utils/paystack.js'
 import { grossUpForPaystackFee } from '../utils/pricing.js'
 import { sendOrderConfirmationEmail, sendAdminOrderNotificationEmail } from '../utils/email.js'
@@ -62,23 +62,31 @@ export async function verifyPayment(req, res) {
 
   const existingOrder = await getOrderByReference(reference)
   if (!existingOrder) {
+    let itemsWithMeta = items
+    try {
+      const metaMap = await getActiveVariantMetaMap()
+      itemsWithMeta = items.map((item) => ({ ...item, ...metaMap.get(item.slug) }))
+    } catch (metaError) {
+      console.error('Failed to resolve variant details for order:', metaError.message)
+    }
+
     await createOrder({
       reference,
       status: 'paid',
       customer,
       subtotal,
-      items,
+      items: itemsWithMeta,
       userId: req.user?.id,
     })
 
     try {
-      await sendOrderConfirmationEmail({ reference, customer, items, subtotal })
+      await sendOrderConfirmationEmail({ reference, customer, items: itemsWithMeta, subtotal })
     } catch (emailError) {
       console.error('Failed to send order confirmation email:', emailError.message)
     }
 
     try {
-      await sendAdminOrderNotificationEmail({ reference, customer, items, subtotal })
+      await sendAdminOrderNotificationEmail({ reference, customer, items: itemsWithMeta, subtotal })
     } catch (emailError) {
       console.error('Failed to send admin order notification email:', emailError.message)
     }

@@ -28,6 +28,24 @@ export async function getActiveVariantPriceMap() {
   return new Map(data.map((variant) => [variant.color_slug, Number(variant.price)]))
 }
 
+export async function getActiveVariantMetaMap() {
+  const { data, error } = await supabase
+    .from('product_variants')
+    .select('color_slug, image_url, is_custom')
+    .eq('is_active', true)
+
+  if (error) {
+    throw new Error(`Failed to fetch variant details: ${error.message}`)
+  }
+
+  return new Map(
+    data.map((variant) => [
+      variant.color_slug,
+      { imageUrl: variant.image_url, isCustom: variant.is_custom },
+    ])
+  )
+}
+
 export async function getAllProductsForAdmin() {
   const { data, error } = await supabase
     .from('products')
@@ -51,6 +69,7 @@ export async function createVariant(productId, variant) {
       hex: variant.hex,
       price: variant.price,
       image_url: variant.imageUrl || null,
+      is_custom: variant.isCustom || false,
     })
     .select()
     .single()
@@ -70,6 +89,7 @@ export async function updateVariant(id, variant) {
   if (variant.price !== undefined) updates.price = variant.price
   if (variant.imageUrl !== undefined) updates.image_url = variant.imageUrl
   if (variant.isActive !== undefined) updates.is_active = variant.isActive
+  if (variant.isCustom !== undefined) updates.is_custom = variant.isCustom
 
   const { data, error } = await supabase
     .from('product_variants')

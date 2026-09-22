@@ -28,6 +28,10 @@ create table if not exists products (
 -- ---------------------------------------------------------------------------
 -- product_variants
 -- ---------------------------------------------------------------------------
+-- is_custom marks a made-to-order color offered on request (no photo, not
+-- listed as its own shop/collection card) as opposed to a standard,
+-- ready-to-ship, photographed colorway -- see ProductPage.jsx's "Custom
+-- Colors" section and ShopPage.jsx's grid filter.
 create table if not exists product_variants (
   id uuid primary key default gen_random_uuid(),
   product_id uuid not null references products(id) on delete cascade,
@@ -37,6 +41,7 @@ create table if not exists product_variants (
   price numeric(10, 2) not null,
   image_url text,
   is_active boolean not null default true,
+  is_custom boolean not null default false,
   created_at timestamptz not null default now(),
   unique (product_id, color_slug)
 );
@@ -79,6 +84,7 @@ create table if not exists order_items (
   product_name text not null default 'The Ivy Bag',
   color_slug text not null,
   color_name text not null,
+  is_custom boolean not null default false,
   unit_price numeric(10, 2) not null,
   quantity integer not null check (quantity > 0),
   line_total numeric(10, 2) generated always as (unit_price * quantity) stored
