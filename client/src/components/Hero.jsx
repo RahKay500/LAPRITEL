@@ -37,7 +37,6 @@ function Hero() {
 
   const count = photoVariants.length
   const leftVariant = photoVariants[cycle % count]
-  const rightVariant = photoVariants[(cycle + Math.floor(count / 2)) % count]
 
   return (
     <section className="relative overflow-hidden bg-burgundy">
@@ -98,70 +97,71 @@ function Hero() {
         </div>
       )}
 
-      <div className="relative hidden px-4 py-5 sm:block sm:px-6 sm:py-16 lg:px-12 lg:py-24">
-        <span className="pointer-events-none absolute inset-0 flex items-center justify-center select-none font-heading text-[22vw] font-bold leading-none text-white/5 sm:text-[18vw]">
+      <div className="relative hidden px-4 py-12 sm:block sm:px-6 sm:py-16 lg:px-12 lg:py-20">
+        <span className="pointer-events-none absolute inset-0 flex items-center justify-center select-none font-heading text-[18vw] font-bold leading-none text-white/5">
           LAPRITEL
         </span>
 
-        {leftVariant?.image && (
-          <img
-            key={`left-${leftVariant.slug}`}
-            src={leftVariant.image}
-            alt={`The Ivy Bag in ${leftVariant.name}`}
-            className="hero-swoop-left absolute left-2 top-1/2 hidden w-40 rounded-2xl object-cover shadow-2xl sm:block lg:left-10 lg:w-72"
-          />
-        )}
-        {rightVariant?.image && (
-          <img
-            key={`right-${rightVariant.slug}`}
-            src={rightVariant.image}
-            alt={`The Ivy Bag in ${rightVariant.name}`}
-            className="hero-swoop-right absolute right-2 top-1/2 hidden w-40 rounded-2xl object-cover shadow-2xl sm:block lg:right-10 lg:w-72"
-          />
-        )}
+        <div className="relative mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="text-center lg:text-left">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white/60">
+              The Ivy Bag &middot; New Season
+            </p>
 
-        <div className="relative mx-auto max-w-2xl text-center [text-shadow:0_1px_8px_rgba(0,0,0,0.5)] sm:[text-shadow:none]">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60 sm:text-xs">
-            The Ivy Bag &middot; New Season
-          </p>
+            <h1 className="mt-6 font-heading text-6xl leading-[0.95] text-white lg:text-7xl">
+              Carry
+              <br />
+              <span className="text-burgundy-tint">art.</span>
+            </h1>
 
-          <h1 className="mt-2 font-heading text-4xl leading-[0.95] text-white sm:mt-6 sm:text-7xl lg:text-8xl">
-            Carry
-            <br />
-            <span className="text-burgundy-tint">art.</span>
-          </h1>
+            <p className="mx-auto mt-6 max-w-sm text-lg leading-snug text-white/70 lg:mx-0">
+              Hand-beaded over 48 hours.
+              <br />
+              {ivyBagVariants.length} exclusive colourways.
+            </p>
 
-          <p className="mx-auto mt-3 max-w-sm text-sm leading-snug text-white/70 sm:mt-6 sm:text-lg">
-            Hand-beaded over 48 hours.
-            <br />
-            {ivyBagVariants.length} exclusive colourways.
-          </p>
+            <div className="mt-8 flex flex-row items-center justify-center gap-6 lg:justify-start">
+              <Link
+                to="/shop"
+                className="rounded-full bg-white px-8 py-3 text-sm font-semibold uppercase tracking-wide text-burgundy transition-colors hover:bg-burgundy-tint"
+              >
+                Shop the Ivy Bag
+              </Link>
+              <Link
+                to="/shop"
+                className="text-sm font-semibold uppercase tracking-wide text-white/80 underline-offset-4 transition-colors hover:text-white hover:underline"
+              >
+                See All Colours
+              </Link>
+            </div>
 
-          <div className="mt-4 flex flex-row items-center justify-center gap-5 sm:mt-8 sm:gap-6">
-            <Link
-              to="/shop"
-              className="rounded-full bg-white px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-burgundy transition-colors hover:bg-burgundy-tint sm:px-8 sm:py-3 sm:text-sm"
-            >
-              Shop the Ivy Bag
-            </Link>
-            <Link
-              to="/shop"
-              className="text-xs font-semibold uppercase tracking-wide text-white/80 underline-offset-4 transition-colors hover:text-white hover:underline sm:text-sm"
-            >
-              See All Colours
-            </Link>
+            <div className="mt-10 flex items-center justify-center gap-10 lg:justify-start lg:gap-16">
+              {stats.map((stat) => (
+                <div key={stat.label}>
+                  <p className="font-heading text-3xl text-white">{stat.value}</p>
+                  <p className="mt-1 text-[11px] uppercase tracking-wide text-white/50">
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="mt-4 flex items-center justify-center gap-7 sm:mt-10 sm:gap-16">
-            {stats.map((stat) => (
-              <div key={stat.label}>
-                <p className="font-heading text-xl text-white sm:text-3xl">{stat.value}</p>
-                <p className="mt-0.5 text-[10px] uppercase tracking-wide text-white/50 sm:mt-1 sm:text-[11px]">
-                  {stat.label}
+          {leftVariant?.image && (
+            <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-2xl shadow-2xl lg:max-w-md">
+              <img
+                key={`hero-panel-${leftVariant.slug}`}
+                src={leftVariant.image}
+                alt={`The Ivy Bag in ${leftVariant.name}`}
+                className="hero-fade h-full w-full object-cover"
+              />
+              <div className="absolute bottom-4 left-4 rounded-lg bg-black/40 px-3 py-1.5 backdrop-blur-sm">
+                <p className="font-heading text-sm italic text-white">
+                  {leftVariant.name}
                 </p>
               </div>
-            ))}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </section>

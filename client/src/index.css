@@ -33,36 +33,6 @@ h4 {
   }
 }
 
-@keyframes swoop-in-left {
-  from {
-    opacity: 0;
-    transform: translate(-140%, -50%) rotate(-6deg);
-  }
-  to {
-    opacity: 1;
-    transform: translate(0, -50%) rotate(-6deg);
-  }
-}
-
-@keyframes swoop-in-right {
-  from {
-    opacity: 0;
-    transform: translate(140%, -50%) rotate(6deg);
-  }
-  to {
-    opacity: 1;
-    transform: translate(0, -50%) rotate(6deg);
-  }
-}
-
-.hero-swoop-left {
-  animation: swoop-in-left 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.hero-swoop-right {
-  animation: swoop-in-right 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
 @keyframes hero-fade-in {
   from {
     opacity: 0;
