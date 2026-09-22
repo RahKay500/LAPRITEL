@@ -62,6 +62,7 @@ function ProductPage() {
   const [isCareOpen, setIsCareOpen] = useState(false)
   const [isShippingOpen, setIsShippingOpen] = useState(false)
   const [isFaqOpen, setIsFaqOpen] = useState(false)
+  const [isCustomOpen, setIsCustomOpen] = useState(() => window.location.hash === '#custom-colors')
   const [quantity, setQuantity] = useState(1)
   const wishlisted = Boolean(product && selectedVariant && isWishlisted(product.slug, selectedVariant.slug))
 
@@ -269,10 +270,6 @@ function ProductPage() {
                     />
                   </button>
                 </div>
-                <p className="mt-3 text-xs text-ink/50">
-                  Made to order &middot; Ships in 3&ndash;5 weeks &middot; Free
-                  returns within 30 days
-                </p>
 
                 {standardVariants.length > 1 && (
                   <div className="mt-6">
@@ -305,9 +302,23 @@ function ProductPage() {
 
                 {customVariants.length > 0 && (
                   <div id="custom-colors" className="mt-6 scroll-mt-24 border-t border-black/10 pt-6">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-ink/60">
-                      Want a different shade? &mdash; Custom colours, made to order
-                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setIsCustomOpen((open) => !open)}
+                      className="flex w-full items-center justify-between text-left"
+                    >
+                      <span className="text-xs font-semibold uppercase tracking-widest text-burgundy">
+                        Want a different shade? &mdash; Custom colours, made to order
+                      </span>
+                      {isCustomOpen ? (
+                        <ChevronUp size={16} strokeWidth={1.5} className="shrink-0 text-ink/60" />
+                      ) : (
+                        <ChevronDown size={16} strokeWidth={1.5} className="shrink-0 text-ink/60" />
+                      )}
+                    </button>
+
+                    {isCustomOpen && (
+                      <>
 
                     {customVariants.length > 1 && (
                       <div className="mt-3 flex gap-2">
@@ -430,6 +441,8 @@ function ProductPage() {
                           : 'Pick a top and a bottom colour to continue.'
                         : 'Hand-beaded to order in your chosen colour — no preview photo, same price.'}
                     </p>
+                      </>
+                    )}
                   </div>
                 )}
 
