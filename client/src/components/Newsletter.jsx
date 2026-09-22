@@ -12,7 +12,7 @@ function Newsletter() {
   }
 
   return (
-    <section className="bg-burgundy px-4 py-16 text-center sm:px-6 lg:px-12 lg:py-20">
+    <section className="bg-burgundy px-4 py-16 text-center sm:px-6 lg:px-12 lg:py-24">
       <Reveal className="mx-auto max-w-md">
         <h2 className="text-2xl font-extrabold uppercase tracking-tight text-white sm:text-3xl">
           Join the LAPRITEL Circle
