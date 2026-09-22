@@ -22,7 +22,7 @@ function BrandStory() {
             Our Story
           </p>
           <h2 className="mt-3 text-3xl font-extrabold uppercase tracking-tight text-ink sm:text-4xl">
-            Crafted by Hand, Made to Last
+            Luxurious Handcrafted Timeless Pieces
           </h2>
           <p className="mt-4 max-w-md text-ink/70">
             LAPRITEL began with a single idea: that every bead tells a story.
