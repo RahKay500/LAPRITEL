@@ -21,15 +21,15 @@ function OurBags() {
 
   return (
     <section className="bg-burgundy-tint/30 px-4 py-16 sm:px-6 lg:px-12 lg:py-24">
-      <div className="mx-auto flex max-w-6xl gap-6 lg:gap-10">
-        <div className="hidden shrink-0 flex-col items-center lg:flex">
+      <div className="relative mx-auto max-w-6xl">
+        <div className="absolute inset-y-0 right-full hidden flex-col items-center pr-6 lg:flex lg:pr-10">
           <p className="[writing-mode:vertical-rl] text-[11px] font-semibold uppercase tracking-[0.25em] text-burgundy/70">
             New Season &mdash; {seasonYear}
           </p>
           <span className="mt-3 w-px flex-1 bg-black/10" />
         </div>
 
-        <div className="min-w-0 flex-1">
+        <div className="min-w-0">
           <Reveal>
             <h2 className="text-5xl font-extrabold uppercase leading-[0.95] tracking-tight text-ink sm:text-6xl">
               Our
