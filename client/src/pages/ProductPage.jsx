@@ -94,14 +94,17 @@ function ProductPage() {
     setBottomSlug(null)
   }
 
+  // Two-tone needs two picks. Scrolling away after the first one just makes
+  // the shopper scroll back down to make the second pick, so only jump to
+  // the image once this pick completes the pair.
   function selectTopColor(slug) {
     setTopSlug(slug)
-    scrollImageIntoView()
+    if (bottomSlug && bottomSlug !== slug) scrollImageIntoView()
   }
 
   function selectBottomColor(slug) {
     setBottomSlug(slug)
-    scrollImageIntoView()
+    if (topSlug && topSlug !== slug) scrollImageIntoView()
   }
 
   function handleAddToCart() {
