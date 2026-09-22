@@ -1,7 +1,7 @@
 import { usePageMeta } from '../hooks/usePageMeta'
 
 function RefundPolicyPage() {
-  usePageMeta('Refund Policy', 'When a refund or exchange is available for your Ivy Bag order.')
+  usePageMeta('Refund Policy', 'When a refund or exchange is available for your Bag Ivy order.')
 
   return (
     <div className="px-4 py-12 sm:px-6 lg:px-12 lg:py-16">
@@ -12,7 +12,7 @@ function RefundPolicyPage() {
         <div className="mt-8 space-y-8 text-ink/80">
           <section>
             <p>
-              Every Ivy Bag is handmade, which means small variations in beadwork, color, and
+              Every Bag Ivy is handmade, which means small variations in beadwork, color, and
               finish are part of what makes each piece unique, not a fault. Because of this, we
               don't offer returns or exchanges for change of mind. This policy explains the
               situations in which a refund or exchange is available.

@@ -40,7 +40,7 @@ function Footer() {
             </li>
             <li>
               <Link to="/shop" className="hover:text-burgundy">
-                The Ivy Bag
+                Bag Ivy
               </Link>
             </li>
           </ul>

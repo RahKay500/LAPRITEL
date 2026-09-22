@@ -28,7 +28,7 @@ const values = [
 function AboutPage() {
   usePageMeta(
     'About Us',
-    'The story behind LAPRITEL and the artisans who hand-bead every Ivy Bag.'
+    'The story behind LAPRITEL and the artisans who hand-bead every Bag Ivy.'
   )
 
   return (
@@ -47,8 +47,8 @@ function AboutPage() {
           <p className="mx-auto mt-4 max-w-2xl text-ink/70">
             LAPRITEL is a handmade beaded bag brand where African artistry
             meets luxurious design, built around a single, deliberate idea:
-            that beauty and craftsmanship should never be rushed. We make the
-            Ivy Bag, one design, perfected, in a range of colors as
+            that beauty and craftsmanship should never be rushed. We make
+            Bag Ivy, one design, perfected, in a range of colors as
             expressive as the women who carry it.
           </p>
         </div>
@@ -56,7 +56,7 @@ function AboutPage() {
         <div className="mt-14 grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <img
             src={storyImage}
-            alt="The Ivy Bag, handcrafted with beads"
+            alt="Bag Ivy, handcrafted with beads"
             className="aspect-[4/3] w-full object-cover"
             decoding="async"
           />
@@ -77,7 +77,7 @@ function AboutPage() {
             </p>
             <p className="mt-4 max-w-md text-ink/70">
               What started as gifts grew, one bag at a time, into LAPRITEL.
-              We named our signature design the Ivy Bag after the plant that
+              We named our signature design Bag Ivy after the plant that
               grows slowly but holds firm once it takes root, which is exactly
               how we've built this brand: patiently, and on our own terms.
             </p>
@@ -98,7 +98,7 @@ function AboutPage() {
               Hours of Work, Bead by Bead
             </h2>
             <p className="mt-4 max-w-md text-ink/70">
-              Each Ivy Bag is hand-beaded by skilled artisans using
+              Each Bag Ivy is hand-beaded by skilled artisans using
               time-honored techniques. The beadwork is dense and deliberate,
               built bead by bead onto the bag's frame until the pattern is
               complete. No shortcuts, just steady hands and a finished piece
@@ -111,7 +111,7 @@ function AboutPage() {
           </div>
           <img
             src={craftImage}
-            alt="Close-up of Ivy Bag beadwork"
+            alt="Close-up of Bag Ivy beadwork"
             className="order-1 aspect-[4/3] w-full object-cover lg:order-2"
             loading="lazy"
             decoding="async"
@@ -150,7 +150,7 @@ function AboutPage() {
             to="/shop"
             className="mt-6 inline-block rounded-full border-2 border-burgundy px-8 py-3 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white"
           >
-            Shop the Ivy Bag
+            Shop Bag Ivy
           </Link>
         </div>
       </div>

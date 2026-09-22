@@ -40,7 +40,7 @@ export async function sendOrderConfirmationEmail({ reference, customer, items, s
                 : ''
             }
           </td>
-          <td style="padding:10px 0 10px 12px;">${escapeHtml(item.productName || 'The Ivy Bag')} (${escapeHtml(item.name)}) x${Number(item.quantity)}</td>
+          <td style="padding:10px 0 10px 12px;">${escapeHtml(item.productName || 'Bag Ivy')} (${escapeHtml(item.name)}) x${Number(item.quantity)}</td>
           <td style="padding:10px 0;text-align:right;">GHS ${(item.price * item.quantity).toFixed(2)}</td>
         </tr>`
     )
@@ -93,7 +93,7 @@ export async function sendAdminOrderNotificationEmail({ reference, customer, ite
                 : ''
             }
           </td>
-          <td style="padding:10px 0 10px 12px;">${escapeHtml(item.productName || 'The Ivy Bag')} (${escapeHtml(item.name)}) x${Number(item.quantity)}</td>
+          <td style="padding:10px 0 10px 12px;">${escapeHtml(item.productName || 'Bag Ivy')} (${escapeHtml(item.name)}) x${Number(item.quantity)}</td>
           <td style="padding:10px 0;text-align:right;">GHS ${(item.price * item.quantity).toFixed(2)}</td>
         </tr>`
     )

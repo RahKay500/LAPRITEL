@@ -14,8 +14,8 @@ const sortOptions = [
 
 function ShopPage() {
   usePageMeta(
-    'Shop the Ivy Bag',
-    'Browse the Ivy Bag in every hand-beaded colorway. Filter by color and sort by price.'
+    'Shop Bag Ivy',
+    'Browse Bag Ivy in every hand-beaded colorway. Filter by color and sort by price.'
   )
 
   const [searchParams, setSearchParams] = useSearchParams()
@@ -160,7 +160,7 @@ function ShopPage() {
 
         <div className="mt-12 flex flex-wrap items-end justify-between gap-3">
           <h2 className="text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
-            The Ivy Bag
+            Bag Ivy
           </h2>
           <Link
             to="/shop/ivy-bag#custom-colors"

@@ -1,4 +1,4 @@
-// Seeds the Ivy Bag product + all 10 current colorways into a fresh
+// Seeds Bag Ivy product + all 10 current colorways into a fresh
 // Supabase project, uploading each variant's photo from the client's own
 // asset folder so image_url always points at files that actually exist in
 // *this* project's storage bucket (the previous version hardcoded a URL to
@@ -133,10 +133,10 @@ async function main() {
     const { data: product, error } = await supabase
       .from('products')
       .insert({
-        name: 'The Ivy Bag',
+        name: 'Bag Ivy',
         slug: 'ivy-bag',
         description:
-          'Each Ivy Bag is hand-beaded by skilled artisans, taking hours of careful work to complete. A statement piece designed to be worn for years to come.',
+          'Each Bag Ivy is hand-beaded by skilled artisans, taking hours of careful work to complete. A statement piece designed to be worn for years to come.',
       })
       .select()
       .single()
@@ -147,9 +147,9 @@ async function main() {
     }
 
     productId = product.id
-    console.log('Created product: The Ivy Bag')
+    console.log('Created product: Bag Ivy')
   } else {
-    console.log('Product "The Ivy Bag" already exists, reusing it.')
+    console.log('Product "Bag Ivy" already exists, reusing it.')
   }
 
   for (const variant of variants) {

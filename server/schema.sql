@@ -71,17 +71,18 @@ create index if not exists orders_user_id_idx on orders(user_id);
 -- ---------------------------------------------------------------------------
 -- order_items
 --
--- product_name defaults to 'The Ivy Bag' since LAPRITEL sells a single
--- product (only the color varies) -- the client reads item.product_name
--- and item.line_total directly (see OrderConfirmationPage.jsx, MyOrdersPage.jsx,
--- AdminOrdersPage.jsx), neither of which server/models/orders.js sets
--- explicitly on insert, so they must come from the column default and a
--- generated column respectively.
+-- product_name is resolved server-side per item (see
+-- getActiveVariantMetaMap in server/models/products.js) and set explicitly
+-- on insert -- the 'Bag Ivy' default here is only a last-resort fallback,
+-- never relied on in the normal order flow. line_total is a generated
+-- column instead, since it's derived and never set directly. The client
+-- reads both directly off order_items (see OrderConfirmationPage.jsx,
+-- MyOrdersPage.jsx, AdminOrdersPage.jsx).
 -- ---------------------------------------------------------------------------
 create table if not exists order_items (
   id uuid primary key default gen_random_uuid(),
   order_id uuid not null references orders(id) on delete cascade,
-  product_name text not null default 'The Ivy Bag',
+  product_name text not null default 'Bag Ivy',
   color_slug text not null,
   color_name text not null,
   is_custom boolean not null default false,

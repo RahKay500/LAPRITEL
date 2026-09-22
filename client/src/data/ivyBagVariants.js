@@ -7,8 +7,8 @@ import ivyBagPurple from '../assets/images/ivy_bag_purple.jpg'
 import ivyBagOrange from '../assets/images/ivy_bag_orange.jpg'
 import ivyBagBlack from '../assets/images/ivy_bag_black.jpg'
 
-// Sea Blue and Rainbow used to be listed here as Ivy Bag colorways, but
-// they're actually their own bags ("Bag Marine" and "Daisy") -- see the
+// Sea Blue and Rainbow used to be listed here as Bag Ivy colorways, but
+// they're actually their own bags ("Bag Marine" and "Bag Daisy") -- see the
 // `marine` and `daisy` products instead.
 export const ivyBagVariants = [
   { name: 'Red', slug: 'red', hex: '#c41e3a', price: 500, image: ivyBagRed },

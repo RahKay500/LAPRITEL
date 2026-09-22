@@ -67,7 +67,7 @@ function FeaturedProduct() {
                 <img
                   key={selectedVariant.slug}
                   src={selectedVariant.image}
-                  alt={`The Ivy Bag in ${selectedVariant.name}`}
+                  alt={`Bag Ivy in ${selectedVariant.name}`}
                   className="hero-fade h-full w-full object-cover"
                   decoding="async"
                 />

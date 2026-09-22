@@ -44,14 +44,14 @@ function Hero() {
             <img
               key={`mobile-bg-${leftVariant.slug}`}
               src={MOBILE_IMAGES[leftVariant.slug] ?? leftVariant.image}
-              alt={`The Ivy Bag in ${leftVariant.name}`}
+              alt={`Bag Ivy in ${leftVariant.name}`}
               className="hero-fade h-full w-full object-cover"
             />
           </div>
 
           <div className="px-4 py-8 text-center">
             <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60">
-              The Ivy Bag &middot; New Season
+              Bag Ivy &middot; New Season
             </p>
 
             <h1 className="mt-2 text-4xl font-extrabold uppercase leading-[0.95] tracking-tight text-white">
@@ -71,7 +71,7 @@ function Hero() {
                 to="/shop"
                 className="rounded-full border-2 border-white px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-burgundy"
               >
-                Shop the Ivy Bag
+                Shop Bag Ivy
               </Link>
               <Link
                 to="/shop"
@@ -103,7 +103,7 @@ function Hero() {
         <div className="relative mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div className="text-center lg:text-left">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white/60">
-              The Ivy Bag &middot; New Season
+              Bag Ivy &middot; New Season
             </p>
 
             <h1 className="mt-6 text-6xl font-extrabold uppercase leading-[0.95] tracking-tight text-white lg:text-7xl">
@@ -123,7 +123,7 @@ function Hero() {
                 to="/shop"
                 className="rounded-full border-2 border-white px-8 py-3 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-burgundy"
               >
-                Shop the Ivy Bag
+                Shop Bag Ivy
               </Link>
               <Link
                 to="/shop"
@@ -150,7 +150,7 @@ function Hero() {
               <img
                 key={`hero-panel-${leftVariant.slug}`}
                 src={leftVariant.image}
-                alt={`The Ivy Bag in ${leftVariant.name}`}
+                alt={`Bag Ivy in ${leftVariant.name}`}
                 className="hero-fade h-full w-full object-cover"
               />
               <div className="absolute bottom-0 left-0 bg-black/50 px-3 py-1.5">

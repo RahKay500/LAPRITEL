@@ -40,7 +40,7 @@ function MyOrdersPage() {
               to="/shop"
               className="mt-6 inline-block rounded-full border-2 border-burgundy px-8 py-3 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white"
             >
-              Shop the Ivy Bag
+              Shop Bag Ivy
             </Link>
           </div>
         ) : (

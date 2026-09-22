@@ -19,7 +19,7 @@ function ColorVariants() {
             Choose Your Color
           </h2>
           <p className="mx-auto mt-3 max-w-md text-ink/70">
-            The Ivy Bag, hand-beaded in {colorCountWord} signature colorways.
+            Bag Ivy, hand-beaded in {colorCountWord} signature colorways.
           </p>
         </Reveal>
 
@@ -30,7 +30,7 @@ function ColorVariants() {
                 <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint/40">
                   <img
                     src={variant.image}
-                    alt={`The Ivy Bag in ${variant.name}`}
+                    alt={`Bag Ivy in ${variant.name}`}
                     className="h-full w-full object-contain"
                     loading="lazy"
                     decoding="async"

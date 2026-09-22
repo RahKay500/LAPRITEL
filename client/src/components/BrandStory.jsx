@@ -9,7 +9,7 @@ function BrandStory() {
         <Reveal>
           <img
             src={storyImage}
-            alt="LAPRITEL Ivy Bag handcrafted with beads"
+            alt="LAPRITEL Bag Ivy handcrafted with beads"
             className="aspect-[4/3] w-full object-cover"
             loading="lazy"
             decoding="async"
@@ -24,7 +24,7 @@ function BrandStory() {
           </h2>
           <p className="mt-4 max-w-md text-ink/70">
             LAPRITEL began with a single idea: that every bead tells a story.
-            Each Ivy Bag is hand-beaded by skilled artisans using
+            Each Bag Ivy is hand-beaded by skilled artisans using
             time-honored techniques, blending heritage craftsmanship with
             modern, elegant design.
           </p>

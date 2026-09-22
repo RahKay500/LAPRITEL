@@ -26,7 +26,7 @@ function NotFoundPage() {
             to="/shop"
             className="text-sm font-semibold uppercase tracking-wide text-ink/70 underline-offset-4 transition-colors hover:text-burgundy hover:underline"
           >
-            Shop the Ivy Bag
+            Shop Bag Ivy
           </Link>
         </div>
       </div>

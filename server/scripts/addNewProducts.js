@@ -1,9 +1,9 @@
-// Sea Blue and Rainbow were originally seeded as Ivy Bag colorways, but
-// they're actually their own bags: "Bag Marine" and "Daisy". This creates
+// Sea Blue and Rainbow were originally seeded as Bag Ivy colorways, but
+// they're actually their own bags: "Bag Marine" and "Bag Daisy". This creates
 // them as separate products (each with a single fixed-color variant,
-// reusing the photo already uploaded for the old Ivy Bag colorway) and
-// deactivates the old Ivy Bag variants so they drop out of Ivy's color
-// picker without breaking any past order that referenced them.
+// reusing the photo already uploaded for the old Bag Ivy colorway) and
+// deactivates the old Bag Ivy variants so they drop out of Bag Ivy's
+// color picker without breaking any past order that referenced them.
 //
 // Usage: node scripts/addNewProducts.js
 import 'dotenv/config'
@@ -20,10 +20,10 @@ const newProducts = [
     variant: { colorName: 'Sea Blue', colorSlug: 'sea-blue', hex: '#2a6f97', storageFile: 'sea-blue.jpg' },
   },
   {
-    name: 'Daisy',
+    name: 'Bag Daisy',
     slug: 'daisy',
     description:
-      'Daisy is hand-beaded by skilled artisans in a vibrant rainbow mix, taking hours of careful work to complete.',
+      'Bag Daisy is hand-beaded by skilled artisans in a vibrant rainbow mix, taking hours of careful work to complete.',
     variant: {
       colorName: 'Rainbow',
       colorSlug: 'rainbow',
@@ -103,9 +103,9 @@ async function main() {
     .in('color_slug', ['sea-blue', 'rainbow'])
 
   if (deactivateError) {
-    console.error('Failed to deactivate old Ivy Bag variants:', deactivateError.message)
+    console.error('Failed to deactivate old Bag Ivy variants:', deactivateError.message)
   } else {
-    console.log('Deactivated old Ivy Bag "sea-blue" and "rainbow" variants.')
+    console.log('Deactivated old Bag Ivy "sea-blue" and "rainbow" variants.')
   }
 
   console.log('Done.')
