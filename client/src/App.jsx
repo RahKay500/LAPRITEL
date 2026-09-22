@@ -31,7 +31,7 @@ import NotFoundPage from './pages/NotFoundPage'
 
 function App() {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-dvh flex-col">
       <AnnouncementBar />
       <Navbar />
       <main className="flex-1">
