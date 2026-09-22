@@ -150,6 +150,62 @@ function ProductPage() {
                   GHS {selectedVariant.price}
                 </p>
 
+                <div className="mt-6 flex items-center gap-3">
+                  <div className="flex items-center border border-black/10 bg-white">
+                    <button
+                      type="button"
+                      aria-label="Decrease quantity"
+                      onClick={() => setQuantity((qty) => Math.max(1, qty - 1))}
+                      className="flex h-10 w-10 items-center justify-center text-ink/60 hover:text-burgundy"
+                    >
+                      <Minus size={14} strokeWidth={2} />
+                    </button>
+                    <span className="w-6 text-center text-sm font-semibold text-ink">
+                      {quantity}
+                    </span>
+                    <button
+                      type="button"
+                      aria-label="Increase quantity"
+                      onClick={() => setQuantity((qty) => qty + 1)}
+                      className="flex h-10 w-10 items-center justify-center text-ink/60 hover:text-burgundy"
+                    >
+                      <Plus size={14} strokeWidth={2} />
+                    </button>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleAddToCart}
+                    className="flex flex-1 items-center justify-center gap-2 rounded-full border-2 border-burgundy px-6 py-2.5 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white"
+                  >
+                    {isAdded ? (
+                      <>
+                        <Check size={16} strokeWidth={2} />
+                        Added to Cart
+                      </>
+                    ) : (
+                      `Add to Cart — GHS ${selectedVariant.price * quantity}`
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+                    onClick={() => setIsWishlisted((value) => !value)}
+                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-black/10 bg-white text-burgundy transition-colors hover:border-burgundy/40"
+                  >
+                    <Heart
+                      size={16}
+                      strokeWidth={1.75}
+                      className={isWishlisted ? 'fill-burgundy text-burgundy' : ''}
+                    />
+                  </button>
+                </div>
+                <p className="mt-3 text-xs text-ink/50">
+                  Made to order &middot; Ships in 3&ndash;5 weeks &middot; Free
+                  returns within 30 days
+                </p>
+
                 {standardVariants.length > 1 && (
                   <div className="mt-6">
                     <p className="text-xs font-semibold uppercase tracking-widest text-ink/60">
@@ -225,62 +281,6 @@ function ProductPage() {
                     </div>
                   ))}
                 </div>
-
-                <div className="mt-6 flex items-center gap-3">
-                  <div className="flex items-center border border-black/10 bg-white">
-                    <button
-                      type="button"
-                      aria-label="Decrease quantity"
-                      onClick={() => setQuantity((qty) => Math.max(1, qty - 1))}
-                      className="flex h-10 w-10 items-center justify-center text-ink/60 hover:text-burgundy"
-                    >
-                      <Minus size={14} strokeWidth={2} />
-                    </button>
-                    <span className="w-6 text-center text-sm font-semibold text-ink">
-                      {quantity}
-                    </span>
-                    <button
-                      type="button"
-                      aria-label="Increase quantity"
-                      onClick={() => setQuantity((qty) => qty + 1)}
-                      className="flex h-10 w-10 items-center justify-center text-ink/60 hover:text-burgundy"
-                    >
-                      <Plus size={14} strokeWidth={2} />
-                    </button>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={handleAddToCart}
-                    className="flex flex-1 items-center justify-center gap-2 rounded-full border-2 border-burgundy px-6 py-2.5 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white"
-                  >
-                    {isAdded ? (
-                      <>
-                        <Check size={16} strokeWidth={2} />
-                        Added to Cart
-                      </>
-                    ) : (
-                      `Add to Cart — GHS ${selectedVariant.price * quantity}`
-                    )}
-                  </button>
-
-                  <button
-                    type="button"
-                    aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
-                    onClick={() => setIsWishlisted((value) => !value)}
-                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-black/10 bg-white text-burgundy transition-colors hover:border-burgundy/40"
-                  >
-                    <Heart
-                      size={16}
-                      strokeWidth={1.75}
-                      className={isWishlisted ? 'fill-burgundy text-burgundy' : ''}
-                    />
-                  </button>
-                </div>
-                <p className="mt-3 text-xs text-ink/50">
-                  Made to order &middot; Ships in 3&ndash;5 weeks &middot; Free
-                  returns within 30 days
-                </p>
 
                 <div className="mt-8 border-t border-black/10 pt-4">
                   <button
