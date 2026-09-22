@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /profile
+Disallow: /orders
+Disallow: /checkout
+Disallow: /order-confirmation
+Disallow: /reset-password
+Disallow: /forgot-password
+
+Sitemap: https://lapritel.vercel.app/sitemap.xml
