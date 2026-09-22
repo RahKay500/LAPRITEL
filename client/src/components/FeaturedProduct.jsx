@@ -69,7 +69,6 @@ function FeaturedProduct() {
                   src={selectedVariant.image}
                   alt={`The Ivy Bag in ${selectedVariant.name}`}
                   className="hero-fade h-full w-full object-cover"
-                  loading="lazy"
                   decoding="async"
                 />
                 <div className="absolute bottom-4 left-4 rounded-lg bg-black/40 px-3 py-1.5 backdrop-blur-sm">

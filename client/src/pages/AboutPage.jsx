@@ -54,7 +54,6 @@ function AboutPage() {
             src={storyImage}
             alt="The Ivy Bag, handcrafted with beads"
             className="aspect-[4/3] w-full rounded-2xl object-cover"
-            loading="lazy"
             decoding="async"
           />
           <div>
