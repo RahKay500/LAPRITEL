@@ -48,8 +48,8 @@ function Hero() {
             alt={`The Ivy Bag in ${leftVariant.name}`}
             className="hero-fade h-full w-full object-cover"
           />
-          <span className="absolute inset-0 bg-burgundy/40 mix-blend-multiply" />
-          <span className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/25 to-black/80" />
+          <span className="absolute inset-0 bg-burgundy/50 mix-blend-multiply" />
+          <span className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/50 to-black/85" />
 
           <div className="absolute inset-x-0 bottom-0 px-4 pb-6 text-center [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">
             <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60">
