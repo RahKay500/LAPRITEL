@@ -3,7 +3,7 @@ import Reveal from './Reveal'
 import ivyBagOrange from '../assets/images/ivy_bag_orange.jpg'
 import ivyBagWhite from '../assets/images/ivy_bag_white.jpeg'
 import ivyBagRed from '../assets/images/ivy_bag_red.jpg'
-import igPhoto from '../assets/images/ivy_bag_ig_photo.jpg'
+import ivyBagBlack from '../assets/images/ivy_bag_black.jpg'
 import igVideo1 from '../assets/images/ivy_bag_ig_video1.mp4'
 import igVideo2 from '../assets/images/ivy_bag_ig_video2.mp4'
 
@@ -11,8 +11,8 @@ const tiles = [
   { type: 'video', src: igVideo1 },
   { type: 'image', src: ivyBagOrange, fit: 'contain' },
   { type: 'image', src: ivyBagWhite, fit: 'contain' },
+  { type: 'image', src: ivyBagBlack, fit: 'contain' },
   { type: 'video', src: igVideo2 },
-  { type: 'image', src: igPhoto, fit: 'cover' },
   { type: 'image', src: ivyBagRed, fit: 'contain' },
 ]
 
