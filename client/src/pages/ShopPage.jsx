@@ -242,45 +242,43 @@ function ShopPage() {
 
         {gridContent}
 
-        {otherProducts.length > 0 && (
-          <div className="mt-20">
-            <h2 className="text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
-              More Bags
-            </h2>
-            <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
-              {otherProducts.map((item) => {
-                const variant = item.product_variants[0]
-                if (!variant) return null
-                return (
-                  <Link key={item.slug} to={`/shop/${item.slug}`}>
-                    {variant.image_url ? (
-                      <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint/40">
-                        <img
-                          src={variant.image_url}
-                          alt={item.name}
-                          className="h-full w-full object-contain"
-                          loading="lazy"
-                          decoding="async"
-                        />
-                      </div>
-                    ) : (
-                      <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint/40">
-                        <span
-                          className="block h-14 w-14 rounded-full border border-black/10"
-                          style={{ background: variant.hex }}
-                        />
-                      </div>
-                    )}
-                    <p className="mt-3 text-sm font-semibold uppercase tracking-wide text-ink">
-                      {item.name}
-                    </p>
-                    <p className="mt-1 text-xs text-ink/60">GHS {variant.price}</p>
-                  </Link>
-                )
-              })}
+        {otherProducts.map((item) => {
+          const variant = item.product_variants[0]
+          if (!variant) return null
+          return (
+            <div key={item.slug} className="mt-20">
+              <h2 className="text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
+                {item.name}
+              </h2>
+              <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
+                <Link to={`/shop/${item.slug}`}>
+                  {variant.image_url ? (
+                    <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint/40">
+                      <img
+                        src={variant.image_url}
+                        alt={item.name}
+                        className="h-full w-full object-contain"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                  ) : (
+                    <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint/40">
+                      <span
+                        className="block h-14 w-14 rounded-full border border-black/10"
+                        style={{ background: variant.hex }}
+                      />
+                    </div>
+                  )}
+                  <p className="mt-3 text-sm font-semibold uppercase tracking-wide text-ink">
+                    {item.name}
+                  </p>
+                  <p className="mt-1 text-xs text-ink/60">GHS {variant.price}</p>
+                </Link>
+              </div>
             </div>
-          </div>
-        )}
+          )
+        })}
       </div>
     </div>
   )
