@@ -80,29 +80,29 @@ function ProductPage() {
           </div>
 
           <div className="min-w-0 flex-1">
-            <h1 className="font-heading text-5xl leading-[0.95] text-ink sm:text-6xl">
+            <h1 className="text-5xl font-extrabold uppercase leading-[0.95] tracking-tight text-ink sm:text-6xl">
               Ivy
               <br />
-              <span className="italic text-burgundy">Bag.</span>
+              <span className="text-burgundy">Bag.</span>
             </h1>
             <p className="mt-4 max-w-md text-ink/60">{product.description}</p>
 
             <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-16">
               {selectedVariant.image ? (
-                <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-burgundy-tint shadow-xl">
+                <div className="relative aspect-[4/5] w-full overflow-hidden bg-burgundy-tint">
                   <img
                     src={selectedVariant.image}
                     alt={`${product.name} in ${selectedVariant.name}`}
                     className="h-full w-full object-cover"
                   />
-                  <div className="absolute bottom-4 left-4 rounded-lg bg-black/40 px-3 py-1.5 backdrop-blur-sm">
-                    <p className="font-heading text-sm italic text-white">
+                  <div className="absolute bottom-0 left-0 bg-black/50 px-3 py-1.5">
+                    <p className="text-xs font-bold uppercase tracking-widest text-white">
                       {selectedVariant.name}
                     </p>
                   </div>
                 </div>
               ) : (
-                <div className="flex aspect-[4/5] w-full items-center justify-center rounded-2xl bg-burgundy-tint shadow-xl">
+                <div className="flex aspect-[4/5] w-full items-center justify-center bg-burgundy-tint">
                   <div className="text-center">
                     <span
                       className="mx-auto block h-20 w-20 rounded-full border border-black/10"
@@ -114,7 +114,7 @@ function ProductPage() {
               )}
 
               <div>
-                <p className="font-heading text-3xl text-burgundy">
+                <p className="text-3xl font-extrabold text-burgundy">
                   GHS {selectedVariant.price}
                 </p>
 
@@ -145,7 +145,7 @@ function ProductPage() {
                   </div>
                 </div>
 
-                <div className="mt-6 overflow-hidden rounded-xl border border-black/5">
+                <div className="mt-6 overflow-hidden border border-black/5">
                   {SPECS.map((spec, index) => (
                     <div
                       key={spec.label}
@@ -162,7 +162,7 @@ function ProductPage() {
                 </div>
 
                 <div className="mt-6 flex items-center gap-3">
-                  <div className="flex items-center rounded-full border border-black/10 bg-white">
+                  <div className="flex items-center border border-black/10 bg-white">
                     <button
                       type="button"
                       aria-label="Decrease quantity"
@@ -187,7 +187,7 @@ function ProductPage() {
                   <button
                     type="button"
                     onClick={handleAddToCart}
-                    className="flex flex-1 items-center justify-center gap-2 rounded-full bg-burgundy px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90"
+                    className="flex flex-1 items-center justify-center gap-2 rounded-full border-2 border-burgundy px-6 py-2.5 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white"
                   >
                     {isAdded ? (
                       <>
@@ -248,18 +248,14 @@ function ProductPage() {
         </div>
 
         <div className="mt-20">
-          <h2 className="font-heading text-2xl text-ink sm:text-3xl">
+          <h2 className="text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
             More Colorways
           </h2>
-          <div className="mt-6 grid grid-cols-2 gap-6 sm:grid-cols-4 lg:grid-cols-7">
+          <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4 lg:grid-cols-7">
             {relatedVariants.map((variant) => (
-              <Link
-                key={variant.slug}
-                to={`/shop/ivy-bag?color=${variant.slug}`}
-                className="rounded-2xl bg-white p-2 shadow-sm transition-shadow hover:shadow-md"
-              >
+              <Link key={variant.slug} to={`/shop/ivy-bag?color=${variant.slug}`}>
                 {variant.image ? (
-                  <div className="flex aspect-square w-full items-center justify-center rounded-xl bg-burgundy-tint/40 p-1">
+                  <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint/40">
                     <img
                       src={variant.image}
                       alt={`${product.name} in ${variant.name}`}
@@ -269,14 +265,14 @@ function ProductPage() {
                     />
                   </div>
                 ) : (
-                  <div className="flex aspect-square w-full items-center justify-center rounded-xl bg-burgundy-tint/40">
+                  <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint/40">
                     <span
                       className="block h-10 w-10 rounded-full border border-black/10"
                       style={{ background: variant.hex }}
                     />
                   </div>
                 )}
-                <p className="mt-2 text-center text-xs font-medium text-ink">
+                <p className="mt-2 text-center text-xs font-semibold uppercase tracking-wide text-ink">
                   {variant.name}
                 </p>
               </Link>

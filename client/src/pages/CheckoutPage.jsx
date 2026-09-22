@@ -115,13 +115,13 @@ function CheckoutPage() {
   if (items.length === 0) {
     return (
       <div className="px-4 py-20 text-center sm:px-6 lg:px-12">
-        <h1 className="font-heading text-3xl text-ink sm:text-4xl">
+        <h1 className="text-3xl font-extrabold uppercase tracking-tight text-ink sm:text-4xl">
           Checkout
         </h1>
         <p className="mt-3 text-ink/70">Your cart is empty.</p>
         <Link
           to="/shop"
-          className="mt-8 inline-block rounded-full bg-burgundy px-8 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90"
+          className="mt-8 inline-block rounded-full border-2 border-burgundy px-8 py-3 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white"
         >
           Continue Shopping
         </Link>
@@ -132,7 +132,9 @@ function CheckoutPage() {
   return (
     <div className="px-4 py-12 sm:px-6 lg:px-12 lg:py-16">
       <div className="mx-auto max-w-5xl">
-        <h1 className="font-heading text-3xl text-ink sm:text-4xl">Checkout</h1>
+        <h1 className="text-3xl font-extrabold uppercase tracking-tight text-ink sm:text-4xl">
+          Checkout
+        </h1>
 
         <form
           onSubmit={handlePayment}
@@ -157,7 +159,7 @@ function CheckoutPage() {
                     onChange={handleChange}
                     aria-invalid={Boolean(errors.fullName)}
                     aria-describedby={errors.fullName ? 'fullName-error' : undefined}
-                    className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+                    className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
                   />
                   {errors.fullName && (
                     <p id="fullName-error" role="alert" className="mt-1 text-xs text-burgundy">
@@ -179,7 +181,7 @@ function CheckoutPage() {
                       onChange={handleChange}
                       aria-invalid={Boolean(errors.email)}
                       aria-describedby={errors.email ? 'email-error' : undefined}
-                      className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+                      className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
                     />
                     {errors.email && (
                       <p id="email-error" role="alert" className="mt-1 text-xs text-burgundy">
@@ -200,7 +202,7 @@ function CheckoutPage() {
                       maxLength={10}
                       aria-invalid={Boolean(errors.phone)}
                       aria-describedby={errors.phone ? 'phone-error' : undefined}
-                      className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+                      className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
                     />
                     {errors.phone && (
                       <p id="phone-error" role="alert" className="mt-1 text-xs text-burgundy">
@@ -229,7 +231,7 @@ function CheckoutPage() {
                     onChange={handleChange}
                     aria-invalid={Boolean(errors.address)}
                     aria-describedby={errors.address ? 'address-error' : undefined}
-                    className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+                    className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
                   />
                   {errors.address && (
                     <p id="address-error" role="alert" className="mt-1 text-xs text-burgundy">
@@ -251,7 +253,7 @@ function CheckoutPage() {
                       onChange={handleChange}
                       aria-invalid={Boolean(errors.city)}
                       aria-describedby={errors.city ? 'city-error' : undefined}
-                      className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+                      className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
                     />
                     {errors.city && (
                       <p id="city-error" role="alert" className="mt-1 text-xs text-burgundy">
@@ -270,7 +272,7 @@ function CheckoutPage() {
                       onChange={handleChange}
                       aria-invalid={Boolean(errors.region)}
                       aria-describedby={errors.region ? 'region-error' : undefined}
-                      className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+                      className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
                     >
                       <option value="">Select region</option>
                       {ghanaRegions.map((region) => (
@@ -297,7 +299,7 @@ function CheckoutPage() {
                     rows={3}
                     value={form.notes}
                     onChange={handleChange}
-                    className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+                    className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
                   />
                 </div>
               </div>
@@ -305,7 +307,7 @@ function CheckoutPage() {
           </div>
 
           <div>
-            <div className="rounded-2xl border border-black/10 p-6">
+            <div className="border border-black/10 p-6">
               <h2 className="text-sm font-semibold uppercase tracking-wide text-ink">
                 Order Summary
               </h2>
@@ -332,7 +334,7 @@ function CheckoutPage() {
 
               <div className="mt-4 flex justify-between border-t border-black/10 pt-4 text-base">
                 <span className="font-medium text-ink">Total to Pay</span>
-                <span className="font-heading text-xl text-burgundy">
+                <span className="text-xl font-extrabold text-burgundy">
                   GHS {totalToPay.toFixed(2)}
                 </span>
               </div>
@@ -353,7 +355,7 @@ function CheckoutPage() {
               <button
                 type="submit"
                 disabled={!publicKey || isProcessing}
-                className="mt-6 w-full rounded-full bg-burgundy px-8 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90 disabled:cursor-not-allowed disabled:opacity-50"
+                className="mt-6 w-full rounded-full border-2 border-burgundy px-8 py-3 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {isProcessing ? 'Processing...' : 'Checkout'}
               </button>

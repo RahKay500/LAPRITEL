@@ -6,7 +6,7 @@ function Footer() {
     <footer className="border-t border-burgundy-tint bg-white px-4 py-8 sm:px-6 sm:py-10 lg:px-12 lg:py-12">
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 lg:grid-cols-4 lg:gap-10">
         <div>
-          <p className="font-heading text-xl text-burgundy">LAPRITEL</p>
+          <p className="text-xl font-extrabold tracking-widest text-burgundy">LAPRITEL</p>
           <p className="mt-3 max-w-xs text-sm text-ink/70">
             Handmade beaded bags, crafted with care for the modern, elegant
             woman.

@@ -53,7 +53,7 @@ function VariantForm({ initialValues, onSubmit, onCancel, isSaving, showActiveTo
   return (
     <form
       onSubmit={handleSubmit}
-      className="mt-4 grid gap-4 rounded-2xl border border-black/10 p-4 sm:grid-cols-2"
+      className="mt-4 grid gap-4 border border-black/10 p-4 sm:grid-cols-2"
     >
       <div>
         <label htmlFor="colorName" className="text-sm text-ink/70">
@@ -65,7 +65,7 @@ function VariantForm({ initialValues, onSubmit, onCancel, isSaving, showActiveTo
           value={form.colorName}
           onChange={handleChange}
           required
-          className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+          className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
         />
       </div>
 
@@ -79,7 +79,7 @@ function VariantForm({ initialValues, onSubmit, onCancel, isSaving, showActiveTo
           value={form.colorSlug}
           onChange={handleChange}
           required
-          className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+          className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
         />
       </div>
 
@@ -101,7 +101,7 @@ function VariantForm({ initialValues, onSubmit, onCancel, isSaving, showActiveTo
             value={form.hex}
             onChange={handleChange}
             required
-            className="w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+            className="w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
           />
         </div>
       </div>
@@ -119,7 +119,7 @@ function VariantForm({ initialValues, onSubmit, onCancel, isSaving, showActiveTo
           value={form.price}
           onChange={handleChange}
           required
-          className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+          className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
         />
       </div>
 
@@ -163,7 +163,7 @@ function VariantForm({ initialValues, onSubmit, onCancel, isSaving, showActiveTo
         <button
           type="submit"
           disabled={isSaving || isUploading}
-          className="rounded-full bg-burgundy px-6 py-2.5 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90 disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-full border-2 border-burgundy px-6 py-2 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isSaving ? 'Saving...' : 'Save'}
         </button>
@@ -246,7 +246,7 @@ function AdminProductsPage() {
       {products.map((product) => (
         <div key={product.id}>
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <h2 className="font-heading text-2xl text-ink">{product.name}</h2>
+            <h2 className="text-2xl font-extrabold uppercase tracking-tight text-ink">{product.name}</h2>
             <button
               type="button"
               onClick={() =>
@@ -289,7 +289,7 @@ function AdminProductsPage() {
               ) : (
                 <div
                   key={variant.id}
-                  className={`rounded-2xl border border-black/10 p-4 ${
+                  className={`border border-black/10 p-4 ${
                     variant.is_active ? '' : 'opacity-50'
                   }`}
                 >

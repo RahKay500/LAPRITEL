@@ -33,7 +33,7 @@ function OrderConfirmationPage() {
   if (!order || error) {
     return (
       <div className="px-4 py-20 text-center sm:px-6 lg:px-12">
-        <h1 className="font-heading text-3xl text-ink sm:text-4xl">
+        <h1 className="text-3xl font-extrabold uppercase tracking-tight text-ink sm:text-4xl">
           No order found
         </h1>
         <p className="mt-3 text-ink/70">
@@ -41,7 +41,7 @@ function OrderConfirmationPage() {
         </p>
         <Link
           to="/shop"
-          className="mt-8 inline-block rounded-full bg-burgundy px-8 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90"
+          className="mt-8 inline-block rounded-full border-2 border-burgundy px-8 py-3 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white"
         >
           Continue Shopping
         </Link>
@@ -52,7 +52,7 @@ function OrderConfirmationPage() {
   return (
     <div className="px-4 py-12 text-center sm:px-6 lg:px-12 lg:py-16">
       <div className="mx-auto max-w-xl">
-        <h1 className="font-heading text-3xl text-ink sm:text-4xl">
+        <h1 className="text-3xl font-extrabold uppercase tracking-tight text-ink sm:text-4xl">
           Thank You, {order.customer_name.split(' ')[0]}!
         </h1>
         <p className="mt-3 text-ink/70">
@@ -62,7 +62,7 @@ function OrderConfirmationPage() {
           Order Reference: <span className="font-medium text-ink">{order.reference}</span>
         </p>
 
-        <div className="mt-8 rounded-2xl border border-black/10 p-6 text-left">
+        <div className="mt-8 border border-black/10 p-6 text-left">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-ink">
             Order Summary
           </h2>
@@ -78,7 +78,7 @@ function OrderConfirmationPage() {
           </div>
           <div className="mt-4 flex justify-between border-t border-black/10 pt-4 text-base">
             <span className="font-medium text-ink">Total</span>
-            <span className="font-heading text-xl text-burgundy">
+            <span className="text-xl font-extrabold text-burgundy">
               GHS {order.subtotal}
             </span>
           </div>
@@ -91,7 +91,7 @@ function OrderConfirmationPage() {
 
         <Link
           to="/shop"
-          className="mt-8 inline-block rounded-full bg-burgundy px-8 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90"
+          className="mt-8 inline-block rounded-full border-2 border-burgundy px-8 py-3 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white"
         >
           Continue Shopping
         </Link>

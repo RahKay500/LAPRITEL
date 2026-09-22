@@ -38,7 +38,7 @@ function AboutPage() {
           <p className="text-sm font-semibold uppercase tracking-widest text-burgundy">
             About LAPRITEL
           </p>
-          <h1 className="mt-3 font-heading text-3xl text-ink sm:text-4xl lg:text-5xl">
+          <h1 className="mt-3 text-3xl font-extrabold uppercase tracking-tight text-ink sm:text-4xl lg:text-5xl">
             Every Bead Tells a Story
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-ink/70">
@@ -53,14 +53,14 @@ function AboutPage() {
           <img
             src={storyImage}
             alt="The Ivy Bag, handcrafted with beads"
-            className="aspect-[4/3] w-full rounded-2xl object-cover"
+            className="aspect-[4/3] w-full object-cover"
             decoding="async"
           />
           <div>
             <p className="text-sm font-semibold uppercase tracking-widest text-burgundy">
               Our Story
             </p>
-            <h2 className="mt-3 font-heading text-2xl text-ink sm:text-3xl">
+            <h2 className="mt-3 text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
               Crafted by Hand, Made to Last
             </h2>
             <p className="mt-4 max-w-md text-ink/70">
@@ -90,7 +90,7 @@ function AboutPage() {
             <p className="text-sm font-semibold uppercase tracking-widest text-burgundy">
               The Craft
             </p>
-            <h2 className="mt-3 font-heading text-2xl text-ink sm:text-3xl">
+            <h2 className="mt-3 text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
               Hours of Work, Bead by Bead
             </h2>
             <p className="mt-4 max-w-md text-ink/70">
@@ -108,7 +108,7 @@ function AboutPage() {
           <img
             src={craftImage}
             alt="Close-up of Ivy Bag beadwork"
-            className="order-1 aspect-[4/3] w-full rounded-2xl object-cover lg:order-2"
+            className="order-1 aspect-[4/3] w-full object-cover lg:order-2"
             loading="lazy"
             decoding="async"
           />
@@ -119,7 +119,7 @@ function AboutPage() {
             <p className="text-sm font-semibold uppercase tracking-widest text-burgundy">
               What We Believe
             </p>
-            <h2 className="mt-3 font-heading text-2xl text-ink sm:text-3xl">
+            <h2 className="mt-3 text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
               Our Values
             </h2>
           </div>
@@ -128,10 +128,10 @@ function AboutPage() {
             {values.map(({ icon: Icon, title, description }) => (
               <div
                 key={title}
-                className="rounded-2xl bg-burgundy-tint/40 p-6 text-center"
+                className="bg-burgundy-tint/40 p-6 text-center"
               >
                 <Icon className="mx-auto text-burgundy" size={28} strokeWidth={1.5} />
-                <p className="mt-4 font-heading text-lg text-ink">{title}</p>
+                <p className="mt-4 text-lg font-extrabold uppercase tracking-tight text-ink">{title}</p>
                 <p className="mt-2 text-sm text-ink/70">{description}</p>
               </div>
             ))}
@@ -139,12 +139,12 @@ function AboutPage() {
         </div>
 
         <div className="mt-20 text-center">
-          <h2 className="font-heading text-2xl text-ink sm:text-3xl">
+          <h2 className="text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
             Ready to Find Your Color?
           </h2>
           <Link
             to="/shop"
-            className="mt-6 inline-block rounded-full bg-burgundy px-8 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90"
+            className="mt-6 inline-block rounded-full border-2 border-burgundy px-8 py-3 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white"
           >
             Shop the Ivy Bag
           </Link>

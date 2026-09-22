@@ -6,7 +6,7 @@ function PrivacyPolicyPage() {
   return (
     <div className="px-4 py-12 sm:px-6 lg:px-12 lg:py-16">
       <div className="mx-auto max-w-2xl">
-        <h1 className="font-heading text-3xl text-ink sm:text-4xl">Privacy Policy</h1>
+        <h1 className="text-3xl font-extrabold uppercase tracking-tight text-ink sm:text-4xl">Privacy Policy</h1>
         <p className="mt-2 text-sm text-ink/60">Last updated: 20 June 2026</p>
 
         <div className="mt-8 space-y-8 text-ink/80">
@@ -19,7 +19,7 @@ function PrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="font-heading text-xl text-ink">Information We Collect</h2>
+            <h2 className="text-xl font-extrabold uppercase tracking-tight text-ink">Information We Collect</h2>
             <p className="mt-3">We collect information you give us directly, including:</p>
             <ul className="mt-3 list-disc space-y-1 pl-5">
               <li>
@@ -43,7 +43,7 @@ function PrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="font-heading text-xl text-ink">How We Use Your Information</h2>
+            <h2 className="text-xl font-extrabold uppercase tracking-tight text-ink">How We Use Your Information</h2>
             <ul className="mt-3 list-disc space-y-1 pl-5">
               <li>To process and deliver your orders.</li>
               <li>To create and manage your account.</li>
@@ -57,7 +57,7 @@ function PrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="font-heading text-xl text-ink">Who We Share It With</h2>
+            <h2 className="text-xl font-extrabold uppercase tracking-tight text-ink">Who We Share It With</h2>
             <p className="mt-3">
               We share information with a small number of service providers who help us run
               LAPRITEL, and only to the extent needed for them to provide that service:
@@ -77,7 +77,7 @@ function PrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="font-heading text-xl text-ink">Cookies</h2>
+            <h2 className="text-xl font-extrabold uppercase tracking-tight text-ink">Cookies</h2>
             <p className="mt-3">
               We use a single essential cookie to keep you logged in after you sign in. It's
               required for your account to work and isn't used for advertising or tracking you
@@ -86,7 +86,7 @@ function PrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="font-heading text-xl text-ink">Data Security</h2>
+            <h2 className="text-xl font-extrabold uppercase tracking-tight text-ink">Data Security</h2>
             <p className="mt-3">
               We take reasonable measures to protect your information, including encrypted
               connections (HTTPS), secure password storage, and restricting access to your data to
@@ -95,7 +95,7 @@ function PrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="font-heading text-xl text-ink">Your Rights</h2>
+            <h2 className="text-xl font-extrabold uppercase tracking-tight text-ink">Your Rights</h2>
             <p className="mt-3">
               You can ask us to access, correct, or delete the personal information we hold about
               you at any time by reaching out through our{' '}
@@ -107,7 +107,7 @@ function PrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="font-heading text-xl text-ink">Changes to This Policy</h2>
+            <h2 className="text-xl font-extrabold uppercase tracking-tight text-ink">Changes to This Policy</h2>
             <p className="mt-3">
               We may update this policy from time to time. Significant changes will be reflected
               here with an updated "Last updated" date.
@@ -115,7 +115,7 @@ function PrivacyPolicyPage() {
           </section>
 
           <section>
-            <h2 className="font-heading text-xl text-ink">Contact Us</h2>
+            <h2 className="text-xl font-extrabold uppercase tracking-tight text-ink">Contact Us</h2>
             <p className="mt-3">
               Questions about this policy or your data? Reach out through our{' '}
               <a href="/contact" className="text-burgundy hover:underline">

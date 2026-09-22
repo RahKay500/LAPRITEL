@@ -56,7 +56,7 @@ function ProfilePage() {
   return (
     <div className="px-4 py-12 sm:px-6 lg:px-12 lg:py-16">
       <div className="mx-auto max-w-md">
-        <h1 className="font-heading text-3xl text-ink sm:text-4xl">My Profile</h1>
+        <h1 className="text-3xl font-extrabold uppercase tracking-tight text-ink sm:text-4xl">My Profile</h1>
 
         {isEditing ? (
           <form onSubmit={handleSubmit} noValidate className="mt-8 space-y-4">
@@ -72,7 +72,7 @@ function ProfilePage() {
                 onChange={handleChange}
                 aria-invalid={Boolean(errors.fullName)}
                 aria-describedby={errors.fullName ? 'fullName-error' : undefined}
-                className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+                className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
               />
               {errors.fullName && (
                 <p id="fullName-error" role="alert" className="mt-1 text-xs text-burgundy">
@@ -93,7 +93,7 @@ function ProfilePage() {
                 maxLength={10}
                 aria-invalid={Boolean(errors.phone)}
                 aria-describedby={errors.phone ? 'phone-error' : undefined}
-                className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+                className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
               />
               {errors.phone && (
                 <p id="phone-error" role="alert" className="mt-1 text-xs text-burgundy">
@@ -112,7 +112,7 @@ function ProfilePage() {
               <button
                 type="submit"
                 disabled={isSaving}
-                className="rounded-full bg-burgundy px-8 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90 disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-full border-2 border-burgundy px-8 py-3 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {isSaving ? 'Saving...' : 'Save'}
               </button>
@@ -149,7 +149,7 @@ function ProfilePage() {
               <button
                 type="button"
                 onClick={() => setIsEditing(true)}
-                className="rounded-full bg-burgundy px-8 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90"
+                className="rounded-full border-2 border-burgundy px-8 py-3 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white"
               >
                 Edit Profile
               </button>

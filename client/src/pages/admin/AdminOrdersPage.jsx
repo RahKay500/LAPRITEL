@@ -47,7 +47,7 @@ function AdminOrdersPage() {
       {statusError && <p className="text-sm text-burgundy">{statusError}</p>}
 
       {orders.map((order) => (
-        <div key={order.id} className="rounded-2xl border border-black/10 p-6">
+        <div key={order.id} className="border border-black/10 p-6">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <p className="text-sm font-medium text-ink">Order {order.reference}</p>

@@ -26,7 +26,7 @@ function AdminCustomersPage() {
   if (customers.length === 0) return <p className="text-ink/60">No customers yet.</p>
 
   return (
-    <div className="overflow-x-auto rounded-2xl border border-black/10">
+    <div className="overflow-x-auto border border-black/10">
       <table className="w-full min-w-[640px] text-left text-sm">
         <thead>
           <tr className="border-b border-black/10 bg-burgundy-tint/40 text-xs uppercase tracking-wide text-ink/60">

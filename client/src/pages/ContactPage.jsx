@@ -52,7 +52,7 @@ function ContactPage() {
     <div className="px-4 py-12 sm:px-6 lg:px-12 lg:py-16">
       <div className="mx-auto max-w-5xl">
         <div className="text-center">
-          <h1 className="font-heading text-3xl text-ink sm:text-4xl">Get in Touch</h1>
+          <h1 className="text-3xl font-extrabold uppercase tracking-tight text-ink sm:text-4xl">Get in Touch</h1>
           <p className="mx-auto mt-3 max-w-xl text-ink/70">
             Questions about an order, a custom request, or just want to say
             hello? We'd love to hear from you.
@@ -62,15 +62,15 @@ function ContactPage() {
         <div className="mt-12 grid gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
             {isSubmitted ? (
-              <div className="rounded-2xl border border-black/10 p-6 text-center">
-                <p className="font-heading text-xl text-ink">Message Sent</p>
+              <div className="border border-black/10 p-6 text-center">
+                <p className="text-xl font-extrabold uppercase tracking-tight text-ink">Message Sent</p>
                 <p className="mt-2 text-ink/70">
                   Thank you for reaching out. We'll get back to you soon.
                 </p>
                 <button
                   type="button"
                   onClick={() => setIsSubmitted(false)}
-                  className="mt-6 rounded-full border border-black/10 px-8 py-3 text-sm font-semibold uppercase tracking-wide text-ink"
+                  className="mt-6 rounded-full border-2 border-burgundy px-8 py-3 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white"
                 >
                   Send Another Message
                 </button>
@@ -89,7 +89,7 @@ function ContactPage() {
                     onChange={handleChange}
                     aria-invalid={Boolean(errors.fullName)}
                     aria-describedby={errors.fullName ? 'fullName-error' : undefined}
-                    className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+                    className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
                   />
                   {errors.fullName && (
                     <p id="fullName-error" role="alert" className="mt-1 text-xs text-burgundy">
@@ -110,7 +110,7 @@ function ContactPage() {
                     onChange={handleChange}
                     aria-invalid={Boolean(errors.email)}
                     aria-describedby={errors.email ? 'email-error' : undefined}
-                    className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+                    className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
                   />
                   {errors.email && (
                     <p id="email-error" role="alert" className="mt-1 text-xs text-burgundy">
@@ -131,7 +131,7 @@ function ContactPage() {
                     onChange={handleChange}
                     aria-invalid={Boolean(errors.message)}
                     aria-describedby={errors.message ? 'message-error' : undefined}
-                    className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+                    className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
                   />
                   {errors.message && (
                     <p id="message-error" role="alert" className="mt-1 text-xs text-burgundy">
@@ -149,7 +149,7 @@ function ContactPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full rounded-full bg-burgundy px-8 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+                  className="w-full rounded-full border-2 border-burgundy px-8 py-3 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
                 >
                   {isSubmitting ? 'Sending...' : 'Send Message'}
                 </button>
@@ -166,7 +166,7 @@ function ContactPage() {
               href="https://wa.me/233243416943"
               target="_blank"
               rel="noreferrer"
-              className="mt-4 flex items-center gap-3 rounded-2xl border border-black/10 p-4 transition-colors hover:border-burgundy"
+              className="mt-4 flex items-center gap-3 border border-black/10 p-4 transition-colors hover:border-burgundy"
             >
               <MessageCircle className="text-burgundy" size={24} strokeWidth={1.5} />
               <div>
@@ -179,7 +179,7 @@ function ContactPage() {
               href="https://instagram.com/lapritel"
               target="_blank"
               rel="noreferrer"
-              className="mt-3 flex items-center gap-3 rounded-2xl border border-black/10 p-4 transition-colors hover:border-burgundy"
+              className="mt-3 flex items-center gap-3 border border-black/10 p-4 transition-colors hover:border-burgundy"
             >
               <Camera className="text-burgundy" size={24} strokeWidth={1.5} />
               <div>

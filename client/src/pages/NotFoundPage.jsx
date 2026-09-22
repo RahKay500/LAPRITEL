@@ -7,8 +7,8 @@ function NotFoundPage() {
   return (
     <div className="flex min-h-[60vh] items-center px-4 py-16 sm:px-6 lg:px-12">
       <div className="mx-auto max-w-md text-center">
-        <p className="font-heading text-7xl text-burgundy sm:text-8xl">404</p>
-        <h1 className="mt-4 font-heading text-2xl text-ink sm:text-3xl">
+        <p className="text-7xl font-extrabold text-burgundy sm:text-8xl">404</p>
+        <h1 className="mt-4 text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
           This Page Wandered Off
         </h1>
         <p className="mt-4 text-ink/70">
@@ -18,7 +18,7 @@ function NotFoundPage() {
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
           <Link
             to="/"
-            className="rounded-full bg-burgundy px-8 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90"
+            className="rounded-full border-2 border-burgundy px-8 py-3 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white"
           >
             Back to Home
           </Link>

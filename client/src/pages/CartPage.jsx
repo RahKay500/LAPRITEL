@@ -20,13 +20,13 @@ function CartPage() {
   if (items.length === 0) {
     return (
       <div className="px-4 py-20 text-center sm:px-6 lg:px-12">
-        <h1 className="font-heading text-3xl text-ink sm:text-4xl">
+        <h1 className="text-3xl font-extrabold uppercase tracking-tight text-ink sm:text-4xl">
           Your Cart
         </h1>
         <p className="mt-3 text-ink/70">Your cart is empty.</p>
         <Link
           to="/shop"
-          className="mt-8 inline-block rounded-full bg-burgundy px-8 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90"
+          className="mt-8 inline-block rounded-full border-2 border-burgundy px-8 py-3 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white"
         >
           Continue Shopping
         </Link>
@@ -37,7 +37,7 @@ function CartPage() {
   return (
     <div className="px-4 py-12 sm:px-6 lg:px-12 lg:py-16">
       <div className="mx-auto max-w-4xl">
-        <h1 className="font-heading text-3xl text-ink sm:text-4xl">
+        <h1 className="text-3xl font-extrabold uppercase tracking-tight text-ink sm:text-4xl">
           Your Cart
         </h1>
 
@@ -45,7 +45,7 @@ function CartPage() {
           {items.map((item) => (
             <div key={item.slug} className="flex gap-4 py-6 sm:gap-6">
               {item.image ? (
-                <div className="flex h-24 w-24 flex-none items-center justify-center rounded-xl bg-burgundy-tint/40 p-1.5 sm:h-28 sm:w-28">
+                <div className="flex h-24 w-24 flex-none items-center justify-center bg-burgundy-tint/40 sm:h-28 sm:w-28">
                   <img
                     src={item.image}
                     alt={`The Ivy Bag in ${item.name}`}
@@ -55,7 +55,7 @@ function CartPage() {
                   />
                 </div>
               ) : (
-                <div className="flex h-24 w-24 flex-none items-center justify-center rounded-xl bg-burgundy-tint/40 sm:h-28 sm:w-28">
+                <div className="flex h-24 w-24 flex-none items-center justify-center bg-burgundy-tint/40 sm:h-28 sm:w-28">
                   <span
                     className="block h-10 w-10 rounded-full border border-black/10"
                     style={{ background: item.hex }}
@@ -100,7 +100,7 @@ function CartPage() {
                       <Plus size={14} strokeWidth={1.5} />
                     </button>
                   </div>
-                  <p className="font-heading text-lg text-burgundy">
+                  <p className="text-lg font-extrabold text-burgundy">
                     GHS {item.price * item.quantity}
                   </p>
                 </div>
@@ -112,7 +112,7 @@ function CartPage() {
         <div className="mt-8 flex flex-col gap-4 sm:items-end">
           <div className="flex w-full justify-between text-base sm:max-w-sm">
             <span className="font-medium text-ink">Subtotal</span>
-            <span className="font-heading text-xl text-burgundy">
+            <span className="text-xl font-extrabold text-burgundy">
               GHS {subtotal}
             </span>
           </div>
@@ -121,7 +121,7 @@ function CartPage() {
           </p>
           <Link
             to="/checkout"
-            className="w-full rounded-full bg-burgundy px-8 py-3 text-center text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90 sm:max-w-sm"
+            className="w-full rounded-full border-2 border-burgundy px-8 py-3 text-center text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white sm:max-w-sm"
           >
             Proceed to Checkout
           </Link>

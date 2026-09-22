@@ -29,7 +29,7 @@ function MyOrdersPage() {
   return (
     <div className="px-4 py-12 sm:px-6 lg:px-12 lg:py-16">
       <div className="mx-auto max-w-3xl">
-        <h1 className="font-heading text-3xl text-ink sm:text-4xl">My Orders</h1>
+        <h1 className="text-3xl font-extrabold uppercase tracking-tight text-ink sm:text-4xl">My Orders</h1>
 
         {error && <p className="mt-4 text-sm text-burgundy">{error}</p>}
 
@@ -38,7 +38,7 @@ function MyOrdersPage() {
             <p className="text-ink/70">You haven't placed any orders yet.</p>
             <Link
               to="/shop"
-              className="mt-6 inline-block rounded-full bg-burgundy px-8 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90"
+              className="mt-6 inline-block rounded-full border-2 border-burgundy px-8 py-3 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white"
             >
               Shop the Ivy Bag
             </Link>
@@ -46,7 +46,7 @@ function MyOrdersPage() {
         ) : (
           <div className="mt-8 space-y-4">
             {orders.map((order) => (
-              <div key={order.id} className="rounded-2xl border border-black/10 p-6">
+              <div key={order.id} className="border border-black/10 p-6">
                 <div className="flex flex-wrap items-start justify-between gap-2">
                   <div>
                     <p className="text-sm font-medium text-ink">

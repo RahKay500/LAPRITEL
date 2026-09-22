@@ -24,7 +24,7 @@ class ErrorBoundary extends Component {
             <p className="text-sm font-semibold uppercase tracking-widest text-burgundy">
               Something Went Wrong
             </p>
-            <h1 className="mt-3 font-heading text-2xl text-ink sm:text-3xl">
+            <h1 className="mt-3 text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
               We Hit a Snag
             </h1>
             <p className="mt-4 text-ink/70">
@@ -35,7 +35,7 @@ class ErrorBoundary extends Component {
               <button
                 type="button"
                 onClick={this.handleReset}
-                className="rounded-full bg-burgundy px-8 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90"
+                className="rounded-full border-2 border-burgundy px-8 py-3 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white"
               >
                 Back to Home
               </button>

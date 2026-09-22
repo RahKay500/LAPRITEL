@@ -58,7 +58,7 @@ function RegisterPage() {
   return (
     <div className="px-4 py-12 sm:px-6 lg:px-12 lg:py-16">
       <div className="mx-auto max-w-md">
-        <h1 className="font-heading text-3xl text-ink sm:text-4xl">
+        <h1 className="text-3xl font-extrabold uppercase tracking-tight text-ink sm:text-4xl">
           Create an Account
         </h1>
         <p className="mt-2 text-ink/70">
@@ -81,7 +81,7 @@ function RegisterPage() {
               onChange={handleChange}
               aria-invalid={Boolean(errors.fullName)}
               aria-describedby={errors.fullName ? 'fullName-error' : undefined}
-              className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+              className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
             />
             {errors.fullName && (
               <p id="fullName-error" role="alert" className="mt-1 text-xs text-burgundy">
@@ -102,7 +102,7 @@ function RegisterPage() {
               onChange={handleChange}
               aria-invalid={Boolean(errors.email)}
               aria-describedby={errors.email ? 'email-error' : undefined}
-              className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+              className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
             />
             {errors.email && (
               <p id="email-error" role="alert" className="mt-1 text-xs text-burgundy">
@@ -124,7 +124,7 @@ function RegisterPage() {
               maxLength={10}
               aria-invalid={Boolean(errors.phone)}
               aria-describedby={errors.phone ? 'phone-error' : undefined}
-              className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+              className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
             />
             {errors.phone && (
               <p id="phone-error" role="alert" className="mt-1 text-xs text-burgundy">
@@ -145,7 +145,7 @@ function RegisterPage() {
               onChange={handleChange}
               aria-invalid={Boolean(errors.password)}
               aria-describedby={errors.password ? 'password-error' : undefined}
-              className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+              className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
             />
             {errors.password && (
               <p id="password-error" role="alert" className="mt-1 text-xs text-burgundy">
@@ -166,7 +166,7 @@ function RegisterPage() {
               onChange={handleChange}
               aria-invalid={Boolean(errors.confirmPassword)}
               aria-describedby={errors.confirmPassword ? 'confirmPassword-error' : undefined}
-              className="mt-1 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+              className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
             />
             {errors.confirmPassword && (
               <p id="confirmPassword-error" role="alert" className="mt-1 text-xs text-burgundy">
@@ -184,7 +184,7 @@ function RegisterPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full rounded-full bg-burgundy px-8 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-burgundy/90 disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full rounded-full border-2 border-burgundy px-8 py-3 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isSubmitting ? 'Creating Account...' : 'Create Account'}
           </button>

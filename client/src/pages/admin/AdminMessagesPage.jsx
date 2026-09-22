@@ -30,7 +30,7 @@ function AdminMessagesPage() {
   return (
     <div className="space-y-4">
       {messages.map((message) => (
-        <div key={message.id} className="rounded-2xl border border-black/10 p-6">
+        <div key={message.id} className="border border-black/10 p-6">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <p className="text-sm font-medium text-ink">{message.full_name}</p>
