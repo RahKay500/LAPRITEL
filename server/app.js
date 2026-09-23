@@ -39,12 +39,15 @@ app.use(morgan('dev'))
 app.use('/api/payments/webhook', paymentWebhookRouter)
 
 app.use(express.json())
-app.use('/api', apiLimiter)
 
+// Registered before apiLimiter so it's never subject to rate limiting.
 // A scheduled GitHub Actions job pings this on a cron (see
 // .github/workflows/keep-alive.yml) to stop Vercel from cold-starting this
 // function after idle periods, and touching the database here keeps
 // Supabase's free-tier project from auto-pausing after a week of inactivity.
+// GitHub Actions runners share IP pools with countless unrelated jobs, so if
+// this sat behind the limiter, other traffic on the same shared IP could
+// exhaust the quota and silently break the keep-alive ping.
 app.get('/api/health', async (req, res) => {
   try {
     await supabase.from('products').select('id').limit(1)
@@ -53,6 +56,8 @@ app.get('/api/health', async (req, res) => {
   }
   res.json({ status: 'ok' })
 })
+
+app.use('/api', apiLimiter)
 
 app.use('/api/payments', paymentsRouter)
 app.use('/api/orders', ordersRouter)
