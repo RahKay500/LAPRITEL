@@ -13,7 +13,11 @@ export function useInView(options) {
         setIsInView(true)
         observer.disconnect()
       }
-    }, { threshold: 0.3, rootMargin: '0px 0px -180px 0px', ...options })
+    // Fires as soon as the element's top edge touches the bottom of the
+    // viewport (threshold 0, no inset), so sections pop in right as they
+    // start showing instead of needing to scroll them a couple hundred
+    // pixels further up first.
+    }, { threshold: 0, rootMargin: '0px', ...options })
 
     observer.observe(node)
     return () => observer.disconnect()
