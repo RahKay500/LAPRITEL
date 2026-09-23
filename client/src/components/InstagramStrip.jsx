@@ -44,6 +44,7 @@ function InstagramStrip() {
             href="https://instagram.com/lapritel"
             target="_blank"
             rel="noreferrer"
+            aria-label="View @lapritel on Instagram"
             className={`flex aspect-square items-center justify-center bg-burgundy-tint/40 ${
               tile.fit === 'cover' || tile.type === 'video' ? '' : 'sm:p-2'
             }`}

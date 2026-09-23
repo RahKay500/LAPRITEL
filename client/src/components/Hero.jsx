@@ -50,7 +50,7 @@ function Hero() {
           </div>
 
           <div className="px-4 py-8 text-center">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/75">
               Bag Ivy &middot; New Season
             </p>
 
@@ -85,7 +85,7 @@ function Hero() {
               {stats.map((stat) => (
                 <div key={stat.label}>
                   <p className="text-xl font-extrabold text-white">{stat.value}</p>
-                  <p className="mt-0.5 text-[10px] uppercase tracking-wide text-white/50">
+                  <p className="mt-0.5 text-[10px] uppercase tracking-wide text-white/75">
                     {stat.label}
                   </p>
                 </div>
@@ -102,7 +102,7 @@ function Hero() {
 
         <div className="relative mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div className="text-center lg:text-left">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white/60">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white/75">
               Bag Ivy &middot; New Season
             </p>
 
@@ -137,7 +137,7 @@ function Hero() {
               {stats.map((stat) => (
                 <div key={stat.label}>
                   <p className="text-3xl font-extrabold text-white">{stat.value}</p>
-                  <p className="mt-1 text-[11px] uppercase tracking-wide text-white/50">
+                  <p className="mt-1 text-[11px] uppercase tracking-wide text-white/75">
                     {stat.label}
                   </p>
                 </div>
