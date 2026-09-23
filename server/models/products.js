@@ -1,6 +1,24 @@
 import { supabase } from '../config/supabase.js'
 
+// The active catalog barely changes (only admin edits touch it) but is the
+// highest-traffic read in the app -- every Shop/Product/Cart/Wishlist page
+// load fetches it. A short in-memory cache collapses a burst of concurrent
+// requests (e.g. a promo driving many shoppers in at once) into a single
+// Supabase query per cache window per warm serverless instance, instead of
+// one query per request. Cleared immediately on any admin write below so
+// catalog edits still show up right away rather than waiting out the TTL.
+const CACHE_TTL_MS = 30_000
+let cache = { data: null, expiresAt: 0 }
+
+function invalidateProductsCache() {
+  cache = { data: null, expiresAt: 0 }
+}
+
 export async function getActiveProducts() {
+  if (cache.data && Date.now() < cache.expiresAt) {
+    return cache.data
+  }
+
   const { data, error } = await supabase
     .from('products')
     .select('*, product_variants(*)')
@@ -12,6 +30,7 @@ export async function getActiveProducts() {
     throw new Error(`Failed to fetch products: ${error.message}`)
   }
 
+  cache = { data, expiresAt: Date.now() + CACHE_TTL_MS }
   return data
 }
 
@@ -82,6 +101,7 @@ export async function createVariant(productId, variant) {
     throw new Error(`Failed to create variant: ${error.message}`)
   }
 
+  invalidateProductsCache()
   return data
 }
 
@@ -106,6 +126,7 @@ export async function updateVariant(id, variant) {
     throw new Error(`Failed to update variant: ${error.message}`)
   }
 
+  invalidateProductsCache()
   return data
 }
 
@@ -125,6 +146,8 @@ export async function deleteVariant(id) {
   if (error) {
     throw new Error(`Failed to delete variant: ${error.message}`)
   }
+
+  invalidateProductsCache()
 
   const filename = variant.image_url?.split('/product-images/')[1]
   if (filename) {
