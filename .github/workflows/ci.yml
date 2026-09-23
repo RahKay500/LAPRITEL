@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  client:
+    name: Client lint & build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+
+  server:
+    name: Server smoke check
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+      - run: npm ci
+      # The server has no build step and no lint config of its own, so this
+      # is the cheapest real check available: import the Express app and
+      # confirm it doesn't throw (catches syntax errors and broken imports).
+      # Placeholder Supabase env vars satisfy config/supabase.js's eager
+      # validation at import time -- no real credentials or network calls
+      # are needed since nothing in app.js's top-level code hits Supabase.
+      - name: Import app.js and confirm it doesn't throw
+        env:
+          SUPABASE_URL: https://placeholder.supabase.co
+          SUPABASE_SERVICE_ROLE_KEY: placeholder
+          SUPABASE_ANON_KEY: placeholder
+        run: |
+          node -e "
+          import('./app.js').then(() => { console.log('app.js imported OK'); process.exit(0) })
+            .catch((e) => { console.error(e); process.exit(1) })
+          "
