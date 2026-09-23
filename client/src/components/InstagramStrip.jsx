@@ -2,21 +2,27 @@ import { Camera } from 'lucide-react'
 import Reveal from './Reveal'
 // Dedicated small copies for this grid (displayed at ~135px) -- the plain
 // (non-thumb) files are shared with larger contexts elsewhere (About page,
-// Brand Story) and shouldn't be downsized.
+// Brand Story) and shouldn't be downsized. Each has a WebP sibling (~40%
+// smaller, verified visually equivalent at q90) with the JPEG as a
+// <picture> fallback for the rare browser that doesn't support WebP.
 import ivyBagOrange from '../assets/images/ivy_bag_orange_thumb.jpg'
+import ivyBagOrangeWebp from '../assets/images/ivy_bag_orange_thumb.webp'
 import ivyBagWhite from '../assets/images/ivy_bag_white_thumb.jpeg'
+import ivyBagWhiteWebp from '../assets/images/ivy_bag_white_thumb.webp'
 import ivyBagRed from '../assets/images/ivy_bag_red_thumb.jpg'
+import ivyBagRedWebp from '../assets/images/ivy_bag_red_thumb.webp'
 import ivyBagBlack from '../assets/images/ivy_bag_black_thumb.jpg'
+import ivyBagBlackWebp from '../assets/images/ivy_bag_black_thumb.webp'
 import igVideo1 from '../assets/images/ivy_bag_ig_video1.mp4'
 import igVideo2 from '../assets/images/ivy_bag_ig_video2.mp4'
 
 const tiles = [
   { type: 'video', src: igVideo1 },
-  { type: 'image', src: ivyBagOrange, fit: 'contain' },
-  { type: 'image', src: ivyBagWhite, fit: 'contain' },
-  { type: 'image', src: ivyBagBlack, fit: 'contain' },
+  { type: 'image', src: ivyBagOrange, webp: ivyBagOrangeWebp, fit: 'contain' },
+  { type: 'image', src: ivyBagWhite, webp: ivyBagWhiteWebp, fit: 'contain' },
+  { type: 'image', src: ivyBagBlack, webp: ivyBagBlackWebp, fit: 'contain' },
   { type: 'video', src: igVideo2 },
-  { type: 'image', src: ivyBagRed, fit: 'contain' },
+  { type: 'image', src: ivyBagRed, webp: ivyBagRedWebp, fit: 'contain' },
 ]
 
 function InstagramStrip() {
@@ -60,13 +66,16 @@ function InstagramStrip() {
                 preload="metadata"
               />
             ) : (
-              <img
-                src={tile.src}
-                alt="LAPRITEL handmade beaded bag"
-                className={`h-full w-full ${tile.fit === 'cover' ? 'object-cover' : 'object-contain'}`}
-                loading="lazy"
-                decoding="async"
-              />
+              <picture>
+                <source srcSet={tile.webp} type="image/webp" />
+                <img
+                  src={tile.src}
+                  alt="LAPRITEL handmade beaded bag"
+                  className={`h-full w-full ${tile.fit === 'cover' ? 'object-cover' : 'object-contain'}`}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             )}
           </a>
         ))}
