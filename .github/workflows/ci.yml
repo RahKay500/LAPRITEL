@@ -22,10 +22,11 @@ jobs:
           cache-dependency-path: client/package-lock.json
       - run: npm ci
       - run: npm run lint
+      - run: npm run test
       - run: npm run build
 
   server:
-    name: Server smoke check
+    name: Server tests & smoke check
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -38,9 +39,11 @@ jobs:
           cache: npm
           cache-dependency-path: server/package-lock.json
       - run: npm ci
+      - run: npm run test
       # The server has no build step and no lint config of its own, so this
-      # is the cheapest real check available: import the Express app and
-      # confirm it doesn't throw (catches syntax errors and broken imports).
+      # is the cheapest real check available beyond the test suite: import
+      # the Express app and confirm it doesn't throw (catches syntax errors
+      # and broken imports in code paths the tests don't otherwise exercise).
       # Placeholder Supabase env vars satisfy config/supabase.js's eager
       # validation at import time -- no real credentials or network calls
       # are needed since nothing in app.js's top-level code hits Supabase.
