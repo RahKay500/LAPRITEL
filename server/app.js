@@ -1,4 +1,8 @@
 import 'dotenv/config'
+// Must load right after dotenv (so SENTRY_DSN is available) and before every
+// other import, so Sentry's instrumentation is active before those modules
+// run their own top-level code.
+import { Sentry } from './config/sentry.js'
 import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
@@ -67,6 +71,14 @@ app.use('/api/admin', adminRouter)
 app.use('/api/contact', contactRouter)
 
 app.use(notFoundHandler)
+
+// Reports unhandled errors to Sentry (no-op if SENTRY_DSN isn't set) before
+// falling through to our own handler below, which still owns the actual
+// client-facing response.
+if (process.env.SENTRY_DSN) {
+  Sentry.setupExpressErrorHandler(app)
+}
+
 app.use(errorHandler)
 
 export default app
