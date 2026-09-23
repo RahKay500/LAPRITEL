@@ -11,8 +11,6 @@ const SPECS = [
   { label: 'Style', value: 'Structured beaded handbag' },
   { label: 'Beadwork', value: 'Full coverage seed beads, hand-stitched' },
   { label: 'Dimensions', value: '22 cm × 18 cm × 8 cm' },
-  { label: 'Closure', value: 'Magnetic snap clasp with beaded tab' },
-  { label: 'Lining', value: 'Satin interior with zip pocket' },
   { label: 'Carry', value: 'Top handle, 15 cm drop' },
 ]
 
