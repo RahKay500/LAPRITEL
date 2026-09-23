@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 import { usePageMeta } from '../hooks/usePageMeta'
+import PasswordInput from '../components/PasswordInput'
 
 function validate(form) {
   const errors = {}
@@ -73,15 +74,14 @@ function ResetPasswordPage() {
             <label htmlFor="password" className="text-sm text-ink/70">
               New Password
             </label>
-            <input
+            <PasswordInput
               id="password"
               name="password"
-              type="password"
               value={form.password}
               onChange={handleChange}
-              aria-invalid={Boolean(errors.password)}
-              aria-describedby={errors.password ? 'password-error' : undefined}
-              className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+              autoComplete="new-password"
+              ariaInvalid={Boolean(errors.password)}
+              ariaDescribedby={errors.password ? 'password-error' : undefined}
             />
             {errors.password && (
               <p id="password-error" role="alert" className="mt-1 text-xs text-burgundy">
@@ -94,15 +94,14 @@ function ResetPasswordPage() {
             <label htmlFor="confirmPassword" className="text-sm text-ink/70">
               Confirm New Password
             </label>
-            <input
+            <PasswordInput
               id="confirmPassword"
               name="confirmPassword"
-              type="password"
               value={form.confirmPassword}
               onChange={handleChange}
-              aria-invalid={Boolean(errors.confirmPassword)}
-              aria-describedby={errors.confirmPassword ? 'confirmPassword-error' : undefined}
-              className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+              autoComplete="new-password"
+              ariaInvalid={Boolean(errors.confirmPassword)}
+              ariaDescribedby={errors.confirmPassword ? 'confirmPassword-error' : undefined}
             />
             {errors.confirmPassword && (
               <p id="confirmPassword-error" role="alert" className="mt-1 text-xs text-burgundy">

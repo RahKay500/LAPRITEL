@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 import { usePageMeta } from '../hooks/usePageMeta'
+import PasswordInput from '../components/PasswordInput'
 
 function validate(form) {
   const errors = {}
@@ -86,15 +87,14 @@ function LoginPage() {
                 Forgot password?
               </Link>
             </div>
-            <input
+            <PasswordInput
               id="password"
               name="password"
-              type="password"
               value={form.password}
               onChange={handleChange}
-              aria-invalid={Boolean(errors.password)}
-              aria-describedby={errors.password ? 'password-error' : undefined}
-              className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+              autoComplete="current-password"
+              ariaInvalid={Boolean(errors.password)}
+              ariaDescribedby={errors.password ? 'password-error' : undefined}
             />
             {errors.password && (
               <p id="password-error" role="alert" className="mt-1 text-xs text-burgundy">
