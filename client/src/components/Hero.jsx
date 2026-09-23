@@ -40,13 +40,21 @@ function Hero() {
     <section className="relative overflow-hidden bg-burgundy">
       {leftVariant?.image && (
         <div className="sm:hidden">
-          <div className="aspect-square w-full">
-            <img
-              key={`mobile-bg-${leftVariant.slug}`}
-              src={MOBILE_IMAGES[leftVariant.slug] ?? leftVariant.image}
-              alt={`Bag Ivy in ${leftVariant.name}`}
-              className="hero-fade h-full w-full object-cover"
-            />
+          {/* All variants stay mounted and simply cross-fade opacity, rather
+              than swapping the img's key (which unmounts the outgoing image
+              instantly and shows the bare burgundy background underneath
+              until the incoming one finishes fading in from scratch). */}
+          <div className="relative aspect-square w-full overflow-hidden">
+            {photoVariants.map((variant) => (
+              <img
+                key={variant.slug}
+                src={MOBILE_IMAGES[variant.slug] ?? variant.image}
+                alt={`Bag Ivy in ${variant.name}`}
+                className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-in-out ${
+                  variant.slug === leftVariant.slug ? 'opacity-100' : 'opacity-0'
+                }`}
+              />
+            ))}
           </div>
 
           <div className="px-4 py-8 text-center">
@@ -147,12 +155,16 @@ function Hero() {
 
           {leftVariant?.image && (
             <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden lg:max-w-md">
-              <img
-                key={`hero-panel-${leftVariant.slug}`}
-                src={leftVariant.image}
-                alt={`Bag Ivy in ${leftVariant.name}`}
-                className="hero-fade h-full w-full object-cover"
-              />
+              {photoVariants.map((variant) => (
+                <img
+                  key={variant.slug}
+                  src={variant.image}
+                  alt={`Bag Ivy in ${variant.name}`}
+                  className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-in-out ${
+                    variant.slug === leftVariant.slug ? 'opacity-100' : 'opacity-0'
+                  }`}
+                />
+              ))}
               <div className="absolute bottom-0 left-0 bg-black/50 px-3 py-1.5">
                 <p className="text-xs font-bold uppercase tracking-widest text-white">
                   {leftVariant.name}
