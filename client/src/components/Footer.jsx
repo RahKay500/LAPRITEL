@@ -127,7 +127,7 @@ function Footer() {
         </div>
       </div>
 
-      <p className="mx-auto mt-4 max-w-6xl border-t border-burgundy-tint pt-2 text-center text-xs text-ink/50">
+      <p className="mx-auto mt-4 max-w-6xl border-t border-burgundy-tint pt-2 text-center text-xs text-ink/70">
         © {new Date().getFullYear()} LAPRITEL. All rights reserved. &middot; Made by{' '}
         <a
           href="https://www.instagram.com/rahkay.y"

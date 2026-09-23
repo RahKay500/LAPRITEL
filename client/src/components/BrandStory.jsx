@@ -32,10 +32,9 @@ function BrandStory() {
           </p>
           <Link
             to="/about"
-            aria-label="Learn more about LAPRITEL's story"
             className="mt-6 inline-block border-b border-burgundy text-sm font-semibold uppercase tracking-wide text-burgundy"
           >
-            Learn More
+            Read Our Story
           </Link>
         </Reveal>
       </div>
