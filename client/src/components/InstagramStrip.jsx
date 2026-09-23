@@ -1,9 +1,12 @@
 import { Camera } from 'lucide-react'
 import Reveal from './Reveal'
-import ivyBagOrange from '../assets/images/ivy_bag_orange.jpg'
-import ivyBagWhite from '../assets/images/ivy_bag_white.jpeg'
-import ivyBagRed from '../assets/images/ivy_bag_red.jpg'
-import ivyBagBlack from '../assets/images/ivy_bag_black.jpg'
+// Dedicated small copies for this grid (displayed at ~135px) -- the plain
+// (non-thumb) files are shared with larger contexts elsewhere (About page,
+// Brand Story) and shouldn't be downsized.
+import ivyBagOrange from '../assets/images/ivy_bag_orange_thumb.jpg'
+import ivyBagWhite from '../assets/images/ivy_bag_white_thumb.jpeg'
+import ivyBagRed from '../assets/images/ivy_bag_red_thumb.jpg'
+import ivyBagBlack from '../assets/images/ivy_bag_black_thumb.jpg'
 import igVideo1 from '../assets/images/ivy_bag_ig_video1.mp4'
 import igVideo2 from '../assets/images/ivy_bag_ig_video2.mp4'
 

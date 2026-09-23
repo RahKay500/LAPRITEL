@@ -31,10 +31,31 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!--
+      Loaded non-render-blocking: the stylesheet has media="print" (so the
+      browser fetches it without waiting on it to paint), then swaps to
+      "all" once it's actually loaded. PageSpeed measured this request
+      alone blocking first paint for ~750ms since it's a separate
+      fonts.googleapis.com connection. The noscript fallback covers
+      browsers with JS disabled.
+    -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Karla:wght@400;500;600;700;800&display=swap"
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=Karla:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Karla:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
   </head>
   <body>
     <div id="root"></div>
