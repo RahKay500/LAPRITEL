@@ -1,28 +1,24 @@
 import { Camera } from 'lucide-react'
 import Reveal from './Reveal'
-// Dedicated small copies for this grid (displayed at ~135px) -- the plain
-// (non-thumb) files are shared with larger contexts elsewhere (About page,
-// Brand Story) and shouldn't be downsized. Each has a WebP sibling (~40%
-// smaller, verified visually equivalent at q90) with the JPEG as a
-// <picture> fallback for the rare browser that doesn't support WebP.
-import ivyBagOrange from '../assets/images/ivy_bag_orange_thumb.jpg'
-import ivyBagOrangeWebp from '../assets/images/ivy_bag_orange_thumb.webp'
-import ivyBagWhite from '../assets/images/ivy_bag_white_thumb.jpeg'
-import ivyBagWhiteWebp from '../assets/images/ivy_bag_white_thumb.webp'
-import ivyBagRed from '../assets/images/ivy_bag_red_thumb.jpg'
-import ivyBagRedWebp from '../assets/images/ivy_bag_red_thumb.webp'
-import ivyBagBlack from '../assets/images/ivy_bag_black_thumb.jpg'
-import ivyBagBlackWebp from '../assets/images/ivy_bag_black_thumb.webp'
+// This grid is full-bleed (no max-width cap), so cells can run 400-600px+
+// wide on desktop. Use the same 800x800 originals shared with the About
+// page / Brand Story rather than a downsized copy -- a smaller copy looks
+// sharp at the ~135px mobile size but blurs once stretched to fill a much
+// bigger desktop cell.
+import ivyBagOrange from '../assets/images/ivy_bag_orange.jpg'
+import ivyBagWhite from '../assets/images/ivy_bag_white.jpeg'
+import ivyBagRed from '../assets/images/ivy_bag_red.jpg'
+import ivyBagBlack from '../assets/images/ivy_bag_black.jpg'
 import igVideo1 from '../assets/images/ivy_bag_ig_video1.mp4'
 import igVideo2 from '../assets/images/ivy_bag_ig_video2.mp4'
 
 const tiles = [
   { type: 'video', src: igVideo1 },
-  { type: 'image', src: ivyBagOrange, webp: ivyBagOrangeWebp },
-  { type: 'image', src: ivyBagWhite, webp: ivyBagWhiteWebp },
-  { type: 'image', src: ivyBagBlack, webp: ivyBagBlackWebp },
+  { type: 'image', src: ivyBagOrange },
+  { type: 'image', src: ivyBagWhite },
+  { type: 'image', src: ivyBagBlack },
   { type: 'video', src: igVideo2 },
-  { type: 'image', src: ivyBagRed, webp: ivyBagRedWebp },
+  { type: 'image', src: ivyBagRed },
 ]
 
 function InstagramStrip() {
@@ -64,16 +60,13 @@ function InstagramStrip() {
                 preload="metadata"
               />
             ) : (
-              <picture className="block h-full w-full">
-                <source srcSet={tile.webp} type="image/webp" />
-                <img
-                  src={tile.src}
-                  alt="LAPRITEL handmade beaded bag"
-                  className="h-full w-full object-cover"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </picture>
+              <img
+                src={tile.src}
+                alt="LAPRITEL handmade beaded bag"
+                className="h-full w-full object-cover"
+                loading="lazy"
+                decoding="async"
+              />
             )}
           </a>
         ))}
