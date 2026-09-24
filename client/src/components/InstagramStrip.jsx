@@ -51,9 +51,25 @@ function InstagramStrip() {
           >
             {tile.type === 'video' ? (
               <video
+                // React sets `muted` as a DOM property, not an HTML attribute,
+                // and only after the initial render -- so by the time Chrome
+                // evaluates autoplay eligibility (as soon as metadata loads),
+                // the element can still look unmuted and autoplay silently
+                // gets blocked for good (it doesn't retry on its own). Setting
+                // `muted` explicitly here before calling play() avoids that
+                // race. play() also needs to fire again once real data is
+                // available -- with preload="metadata" the element has no
+                // frame data yet at mount, and a play() call made that early
+                // gets silently dropped rather than queued.
+                ref={(el) => {
+                  if (!el) return
+                  el.muted = true
+                  const tryPlay = () => el.play().catch(() => {})
+                  tryPlay()
+                  el.addEventListener('canplay', tryPlay, { once: true })
+                }}
                 src={tile.src}
                 className="h-full w-full object-cover"
-                autoPlay
                 muted
                 loop
                 playsInline
