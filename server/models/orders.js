@@ -79,17 +79,46 @@ export async function getOrdersByUserId(userId) {
   return orders
 }
 
-export async function getAllOrders() {
-  const { data: orders, error } = await supabase
+export async function getAllOrders({ status, search, page = 1, limit = 20 } = {}) {
+  let query = supabase
     .from('orders')
-    .select('*, order_items(*)')
+    .select('*, order_items(*)', { count: 'exact' })
     .order('created_at', { ascending: false })
+
+  if (status) {
+    query = query.eq('status', status)
+  }
+
+  if (search) {
+    // Escape PostgREST pattern/filter-syntax characters so search text is
+    // matched literally rather than as a wildcard or breaking the .or() list.
+    const escaped = search.replace(/[%_,()]/g, (char) => `\\${char}`)
+    query = query.or(
+      `reference.ilike.%${escaped}%,customer_name.ilike.%${escaped}%,customer_email.ilike.%${escaped}%`
+    )
+  }
+
+  const from = (page - 1) * limit
+  const to = from + limit - 1
+  const { data: orders, error, count } = await query.range(from, to)
 
   if (error) {
     throw new Error(`Failed to fetch orders: ${error.message}`)
   }
 
-  return orders
+  return { orders, total: count }
+}
+
+export async function claimOrdersByEmail(userId, email) {
+  const { error } = await supabase
+    .from('orders')
+    .update({ user_id: userId })
+    .ilike('customer_email', email)
+    .is('user_id', null)
+
+  if (error) {
+    throw new Error(`Failed to claim orders: ${error.message}`)
+  }
 }
 
 export async function updateOrderStatusByReference(reference, status) {

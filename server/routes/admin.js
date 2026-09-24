@@ -1,6 +1,6 @@
 import express from 'express'
 import multer from 'multer'
-import { body, param, validationResult } from 'express-validator'
+import { body, param, query, validationResult } from 'express-validator'
 import { requireAdmin } from '../middleware/auth.js'
 import { listOrders, setOrderStatus } from '../controllers/adminOrdersController.js'
 import { listCustomers } from '../controllers/adminCustomersController.js'
@@ -37,7 +37,17 @@ function validate(req, res, next) {
 
 const ORDER_STATUSES = ['pending', 'paid', 'processing', 'shipped', 'delivered', 'cancelled', 'failed']
 
-router.get('/orders', listOrders)
+router.get(
+  '/orders',
+  [
+    query('status').optional().isIn(ORDER_STATUSES),
+    query('search').optional().isString().trim().isLength({ max: 200 }),
+    query('page').optional().isInt({ min: 1 }).toInt(),
+    query('limit').optional().isInt({ min: 1, max: 100 }).toInt(),
+  ],
+  validate,
+  listOrders
+)
 router.patch(
   '/orders/:reference/status',
   [

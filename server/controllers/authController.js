@@ -6,7 +6,19 @@ import {
   findValidResetToken,
   invalidateResetTokensForUser,
 } from '../models/passwordResetTokens.js'
+import { claimOrdersByEmail } from '../models/orders.js'
 import { sendPasswordResetEmail } from '../utils/email.js'
+
+// Best-effort: links any guest checkouts made under this email to the
+// account, so they show up under "My Orders". Never blocks login/register
+// on failure -- worst case the order just stays unlinked.
+async function claimGuestOrders(user) {
+  try {
+    await claimOrdersByEmail(user.id, user.email)
+  } catch (error) {
+    console.error('Failed to claim guest orders:', error.message)
+  }
+}
 
 const COOKIE_MAX_AGE = 7 * 24 * 60 * 60 * 1000
 
@@ -62,6 +74,8 @@ export async function register(req, res) {
     return res.status(status).json({ message: error.message })
   }
 
+  await claimGuestOrders(data.user)
+
   const token = signToken(data.user)
   setAuthCookie(res, token)
   res.status(201).json({ user: toPublicUser(data.user) })
@@ -78,6 +92,8 @@ export async function login(req, res) {
   if (error || !data.user) {
     return res.status(401).json({ message: 'Invalid email or password' })
   }
+
+  await claimGuestOrders(data.user)
 
   const token = signToken(data.user)
   setAuthCookie(res, token)

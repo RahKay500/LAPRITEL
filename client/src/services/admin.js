@@ -10,8 +10,13 @@ export const ORDER_STATUSES = [
   'failed',
 ]
 
-export function fetchAdminOrders() {
-  return api.get('/admin/orders')
+export function fetchAdminOrders({ status, search, page = 1, limit = 20 } = {}) {
+  const params = new URLSearchParams()
+  if (status) params.set('status', status)
+  if (search) params.set('search', search)
+  params.set('page', page)
+  params.set('limit', limit)
+  return api.get(`/admin/orders?${params.toString()}`)
 }
 
 export function updateAdminOrderStatus(reference, status) {
