@@ -56,7 +56,7 @@ function InstagramStrip() {
             {tile.type === 'video' ? (
               <video
                 src={tile.src}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-contain"
                 autoPlay
                 muted
                 loop
