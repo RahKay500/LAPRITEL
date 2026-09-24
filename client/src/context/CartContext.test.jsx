@@ -209,4 +209,59 @@ describe('CartContext', () => {
     await waitFor(() => expect(result.current.items).toHaveLength(1))
     expect(result.current.items[0].isSelected).toBe(true)
   })
+
+  it('buyNow adds the item, keeps other cart lines, but only selects the new one', async () => {
+    const { result } = await renderCart()
+
+    act(() => {
+      result.current.addItem({ slug: 'red' }, 2)
+    })
+    await waitFor(() => expect(result.current.items).toHaveLength(1))
+
+    act(() => {
+      result.current.buyNow({ slug: 'custom-purple' }, 1, {
+        name: 'Purple (Top) & Yellow (Bottom)',
+        topHex: '#7c3aed',
+        bottomHex: '#ffd400',
+      })
+    })
+
+    await waitFor(() => expect(result.current.items).toHaveLength(2))
+    // Nothing was removed -- the earlier line is still in the cart.
+    const redLine = result.current.items.find((item) => item.key === 'red')
+    expect(redLine.quantity).toBe(2)
+    expect(redLine.isSelected).toBe(false)
+
+    // Only the item just bought is selected, so checkout totals scope to it.
+    expect(result.current.selectedItems).toHaveLength(1)
+    expect(result.current.selectedItems[0].isTwoTone).toBe(true)
+    expect(result.current.selectedSubtotal).toBe(500)
+  })
+
+  it('buyNow on an existing line merges quantity and still isolates it for checkout', async () => {
+    const { result } = await renderCart()
+
+    act(() => {
+      result.current.addItem({ slug: 'red' }, 1)
+    })
+    act(() => {
+      result.current.addItem({ slug: 'custom-purple' }, 1, {
+        name: 'Purple (Top) & Yellow (Bottom)',
+        topHex: '#7c3aed',
+        bottomHex: '#ffd400',
+      })
+    })
+    await waitFor(() => expect(result.current.items).toHaveLength(2))
+
+    act(() => {
+      result.current.buyNow({ slug: 'red' }, 1)
+    })
+
+    await waitFor(() => {
+      const redLine = result.current.items.find((item) => item.key === 'red')
+      return expect(redLine.quantity).toBe(2)
+    })
+    expect(result.current.selectedItems).toHaveLength(1)
+    expect(result.current.selectedItems[0].key).toBe('red')
+  })
 })

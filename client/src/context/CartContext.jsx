@@ -99,7 +99,7 @@ export function CartProvider({ children }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(entries))
   }, [entries])
 
-  function addItem(product, quantity = 1, customColor = null) {
+  function upsertEntry(product, quantity, customColor) {
     const key = customColor ? `${product.slug}::${customColor.name}` : product.slug
     setEntries((current) => {
       const existing = current.find((entry) => (entry.key || entry.slug) === key)
@@ -118,10 +118,30 @@ export function CartProvider({ children }) {
       }
       return [...current, entry]
     })
+    return key
+  }
+
+  function addItem(product, quantity = 1, customColor = null) {
+    upsertEntry(product, quantity, customColor)
     // Adding an item had no visible feedback otherwise -- the count badge
     // changes, but nothing draws the eye to it, so a customer could click
     // Add to Cart and reasonably think nothing happened.
     openDrawer()
+  }
+
+  // For a "Buy Now" flow: adds/merges the item like addItem, but also
+  // deselects everything else already in the cart so checkout is scoped to
+  // just this purchase. Other items stay in the cart for later rather than
+  // being removed.
+  function buyNow(product, quantity = 1, customColor = null) {
+    const key = upsertEntry(product, quantity, customColor)
+    setDeselectedKeys(() => {
+      const next = new Set()
+      items.forEach((item) => {
+        if (item.key !== key) next.add(item.key)
+      })
+      return next
+    })
   }
 
   function removeItem(key) {
@@ -171,6 +191,7 @@ export function CartProvider({ children }) {
       value={{
         items,
         addItem,
+        buyNow,
         removeItem,
         updateQuantity,
         clearCart,

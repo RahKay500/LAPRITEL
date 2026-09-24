@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Check, ChevronDown, ChevronUp, Heart, Minus, Plus } from 'lucide-react'
 import { useProductVariants } from '../hooks/useProductVariants'
 import { useCart } from '../context/useCart'
@@ -54,7 +54,8 @@ function ProductPage() {
     product?.description
   )
 
-  const { addItem } = useCart()
+  const { addItem, buyNow } = useCart()
+  const navigate = useNavigate()
   const { isWishlisted, toggleWishlist } = useWishlist()
   const [isAdded, setIsAdded] = useState(false)
   const [isCareOpen, setIsCareOpen] = useState(false)
@@ -117,6 +118,18 @@ function ProductPage() {
     )
     setIsAdded(true)
     setTimeout(() => setIsAdded(false), 1500)
+  }
+
+  function handleBuyNow() {
+    if (!canAddToCart) return
+    buyNow(
+      effectiveVariant,
+      quantity,
+      isTwoToneReady
+        ? { name: effectiveVariant.name, topHex: effectiveVariant.topHex, bottomHex: effectiveVariant.bottomHex }
+        : null
+    )
+    navigate('/checkout')
   }
 
   if (isLoading) {
@@ -268,6 +281,15 @@ function ProductPage() {
                     />
                   </button>
                 </div>
+
+                <button
+                  type="button"
+                  onClick={handleBuyNow}
+                  disabled={!canAddToCart}
+                  className="mt-3 w-full rounded-full bg-burgundy px-6 py-2.5 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-burgundy/90 disabled:cursor-not-allowed disabled:bg-black/10 disabled:text-ink/40"
+                >
+                  Buy Now
+                </button>
 
                 {standardVariants.length > 1 && (
                   <div className="mt-6">
