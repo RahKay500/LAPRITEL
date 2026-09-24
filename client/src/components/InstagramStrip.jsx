@@ -64,12 +64,12 @@ function InstagramStrip() {
                 preload="metadata"
               />
             ) : (
-              <picture>
+              <picture className="block h-full w-full">
                 <source srcSet={tile.webp} type="image/webp" />
                 <img
                   src={tile.src}
                   alt="LAPRITEL handmade beaded bag"
-                  className="h-full w-full object-contain"
+                  className="h-full w-full object-cover"
                   loading="lazy"
                   decoding="async"
                 />
