@@ -63,6 +63,12 @@ export function CartProvider({ children }) {
   })
   const [variants, setVariants] = useState([])
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  // Tracks which lines are excluded from checkout, not which are included --
+  // that way a line is selected by default the moment it's added, with
+  // nothing to keep in sync. Not persisted: every reload starts with
+  // everything selected, which is safer than silently excluding an item a
+  // customer forgot they'd unchecked in a previous session.
+  const [deselectedKeys, setDeselectedKeys] = useState(() => new Set())
 
   useEffect(() => {
     let isMounted = true
@@ -116,6 +122,21 @@ export function CartProvider({ children }) {
 
   function removeItem(key) {
     setEntries((current) => current.filter((entry) => (entry.key || entry.slug) !== key))
+    setDeselectedKeys((current) => {
+      if (!current.has(key)) return current
+      const next = new Set(current)
+      next.delete(key)
+      return next
+    })
+  }
+
+  function toggleItemSelected(key) {
+    setDeselectedKeys((current) => {
+      const next = new Set(current)
+      if (next.has(key)) next.delete(key)
+      else next.add(key)
+      return next
+    })
   }
 
   function updateQuantity(key, quantity) {
@@ -128,9 +149,18 @@ export function CartProvider({ children }) {
     setEntries([])
   }
 
-  const items = resolveItems(entries, variants)
+  const items = resolveItems(entries, variants).map((item) => ({
+    ...item,
+    isSelected: !deselectedKeys.has(item.key),
+  }))
   const count = items.reduce((sum, item) => sum + item.quantity, 0)
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+
+  const selectedItems = items.filter((item) => item.isSelected)
+  const selectedSubtotal = selectedItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  )
 
   return (
     <CartContext.Provider
@@ -142,6 +172,9 @@ export function CartProvider({ children }) {
         clearCart,
         count,
         subtotal,
+        toggleItemSelected,
+        selectedItems,
+        selectedSubtotal,
         isDrawerOpen,
         openDrawer,
         closeDrawer,

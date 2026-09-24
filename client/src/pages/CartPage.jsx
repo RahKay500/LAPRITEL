@@ -7,7 +7,8 @@ import ColorSwatch from '../components/ColorSwatch'
 function CartPage() {
   usePageMeta('Your Cart', 'Review the items in your cart before checking out.')
 
-  const { items, removeItem, updateQuantity, subtotal } = useCart()
+  const { items, removeItem, updateQuantity, toggleItemSelected, selectedItems, selectedSubtotal } =
+    useCart()
 
   function handleDecrease(item) {
     if (item.quantity <= 1) return
@@ -44,7 +45,23 @@ function CartPage() {
 
         <div className="mt-8 divide-y divide-black/10 border-y border-black/10">
           {items.map((item) => (
-            <div key={item.key} className="flex gap-4 py-6 sm:gap-6">
+            <div
+              key={item.key}
+              className={`flex gap-4 py-6 sm:gap-6 ${item.isSelected ? '' : 'opacity-50'}`}
+            >
+              <label className="flex flex-none items-start pt-2">
+                <span className="sr-only">
+                  {item.isSelected ? 'Included in checkout' : 'Excluded from checkout'} —{' '}
+                  {item.productName} ({item.name})
+                </span>
+                <input
+                  type="checkbox"
+                  checked={item.isSelected}
+                  onChange={() => toggleItemSelected(item.key)}
+                  className="h-4 w-4 accent-burgundy"
+                />
+              </label>
+
               {item.image ? (
                 <div className="flex h-24 w-24 flex-none items-center justify-center bg-burgundy-tint/40 sm:h-28 sm:w-28">
                   <img
@@ -115,20 +132,27 @@ function CartPage() {
 
         <div className="mt-8 flex flex-col gap-4 sm:items-end">
           <div className="flex w-full justify-between text-base sm:max-w-sm">
-            <span className="font-medium text-ink">Subtotal</span>
-            <span className="text-xl font-extrabold text-burgundy">
-              GHS {subtotal}
+            <span className="font-medium text-ink">
+              Subtotal
+              {selectedItems.length !== items.length && ` (${selectedItems.length} selected)`}
             </span>
+            <span className="text-xl font-extrabold text-burgundy">GHS {selectedSubtotal}</span>
           </div>
           <p className="-mt-2 w-full text-right text-xs text-ink/50 sm:max-w-sm">
             A small payment processing fee is added at checkout.
           </p>
-          <Link
-            to="/checkout"
-            className="w-full rounded-full border-2 border-burgundy px-8 py-3 text-center text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white sm:max-w-sm"
-          >
-            Proceed to Checkout
-          </Link>
+          {selectedItems.length === 0 ? (
+            <p className="w-full text-right text-sm text-burgundy sm:max-w-sm">
+              Select at least one item to checkout.
+            </p>
+          ) : (
+            <Link
+              to="/checkout"
+              className="w-full rounded-full border-2 border-burgundy px-8 py-3 text-center text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white sm:max-w-sm"
+            >
+              Proceed to Checkout
+            </Link>
+          )}
         </div>
       </div>
     </div>

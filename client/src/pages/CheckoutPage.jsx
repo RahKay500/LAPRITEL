@@ -51,7 +51,7 @@ function validate(form) {
 function CheckoutPage() {
   usePageMeta('Checkout', 'Enter your delivery details and complete payment securely.')
 
-  const { items, subtotal, clearCart } = useCart()
+  const { items, selectedItems: checkoutItems, selectedSubtotal: subtotal, clearCart } = useCart()
   const navigate = useNavigate()
   const [form, setForm] = useState(initialForm)
   const [errors, setErrors] = useState({})
@@ -89,7 +89,7 @@ function CheckoutPage() {
         try {
           await api.post('/payments/verify', {
             reference: transaction.reference,
-            items: items.map((item) => ({
+            items: checkoutItems.map((item) => ({
               slug: item.slug,
               name: item.name,
               price: item.price,
@@ -124,6 +124,25 @@ function CheckoutPage() {
           className="mt-8 inline-block rounded-full border-2 border-burgundy px-8 py-3 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white"
         >
           Continue Shopping
+        </Link>
+      </div>
+    )
+  }
+
+  if (checkoutItems.length === 0) {
+    return (
+      <div className="px-4 py-20 text-center sm:px-6 lg:px-12">
+        <h1 className="text-3xl font-extrabold uppercase tracking-tight text-ink sm:text-4xl">
+          Checkout
+        </h1>
+        <p className="mt-3 text-ink/70">
+          Nothing is selected for checkout yet. Go back to your cart and choose what to buy.
+        </p>
+        <Link
+          to="/cart"
+          className="mt-8 inline-block rounded-full border-2 border-burgundy px-8 py-3 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white"
+        >
+          Back to Cart
         </Link>
       </div>
     )
@@ -312,7 +331,7 @@ function CheckoutPage() {
                 Order Summary
               </h2>
               <div className="mt-4 space-y-3">
-                {items.map((item) => (
+                {checkoutItems.map((item) => (
                   <div key={item.key} className="flex justify-between text-sm">
                     <span className="text-ink/70">
                       {item.productName} ({item.name}) x{item.quantity}

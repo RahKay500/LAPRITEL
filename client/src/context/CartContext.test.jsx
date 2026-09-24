@@ -152,4 +152,61 @@ describe('CartContext', () => {
     await waitFor(() => expect(result.current.items).toHaveLength(1))
     expect(result.current.items[0].key).toBe('red')
   })
+
+  it('selects every item by default and excludes toggled-off items from checkout totals', async () => {
+    const { result } = await renderCart()
+
+    act(() => {
+      result.current.addItem({ slug: 'red' }, 1)
+    })
+    act(() => {
+      result.current.addItem(
+        { slug: 'custom-purple' },
+        1,
+        { name: 'Purple (Top) & Yellow (Bottom)', topHex: '#7c3aed', bottomHex: '#ffd400' }
+      )
+    })
+    await waitFor(() => expect(result.current.items).toHaveLength(2))
+
+    expect(result.current.items.every((item) => item.isSelected)).toBe(true)
+    expect(result.current.selectedItems).toHaveLength(2)
+    expect(result.current.selectedSubtotal).toBe(result.current.subtotal)
+
+    const redKey = result.current.items.find((item) => item.key === 'red').key
+    act(() => {
+      result.current.toggleItemSelected(redKey)
+    })
+
+    await waitFor(() => expect(result.current.selectedItems).toHaveLength(1))
+    // Deselecting only removes it from checkout -- it stays in the cart itself.
+    expect(result.current.items).toHaveLength(2)
+    expect(result.current.selectedItems[0].key).not.toBe(redKey)
+    expect(result.current.selectedSubtotal).toBe(500)
+    expect(result.current.subtotal).toBe(1000)
+  })
+
+  it('resets to selected if a removed item is added back later', async () => {
+    const { result } = await renderCart()
+
+    act(() => {
+      result.current.addItem({ slug: 'red' }, 1)
+    })
+    await waitFor(() => expect(result.current.items).toHaveLength(1))
+
+    act(() => {
+      result.current.toggleItemSelected('red')
+    })
+    await waitFor(() => expect(result.current.selectedItems).toHaveLength(0))
+
+    act(() => {
+      result.current.removeItem('red')
+    })
+    await waitFor(() => expect(result.current.items).toHaveLength(0))
+
+    act(() => {
+      result.current.addItem({ slug: 'red' }, 1)
+    })
+    await waitFor(() => expect(result.current.items).toHaveLength(1))
+    expect(result.current.items[0].isSelected).toBe(true)
+  })
 })
