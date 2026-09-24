@@ -18,11 +18,11 @@ import igVideo2 from '../assets/images/ivy_bag_ig_video2.mp4'
 
 const tiles = [
   { type: 'video', src: igVideo1 },
-  { type: 'image', src: ivyBagOrange, webp: ivyBagOrangeWebp, fit: 'contain' },
-  { type: 'image', src: ivyBagWhite, webp: ivyBagWhiteWebp, fit: 'contain' },
-  { type: 'image', src: ivyBagBlack, webp: ivyBagBlackWebp, fit: 'contain' },
+  { type: 'image', src: ivyBagOrange, webp: ivyBagOrangeWebp },
+  { type: 'image', src: ivyBagWhite, webp: ivyBagWhiteWebp },
+  { type: 'image', src: ivyBagBlack, webp: ivyBagBlackWebp },
   { type: 'video', src: igVideo2 },
-  { type: 'image', src: ivyBagRed, webp: ivyBagRedWebp, fit: 'contain' },
+  { type: 'image', src: ivyBagRed, webp: ivyBagRedWebp },
 ]
 
 function InstagramStrip() {
@@ -51,9 +51,7 @@ function InstagramStrip() {
             target="_blank"
             rel="noreferrer"
             aria-label="View @lapritel on Instagram"
-            className={`flex aspect-square items-center justify-center bg-burgundy-tint/40 ${
-              tile.fit === 'cover' || tile.type === 'video' ? '' : 'sm:p-2'
-            }`}
+            className="flex aspect-square items-center justify-center bg-burgundy-tint/40"
           >
             {tile.type === 'video' ? (
               <video
@@ -71,7 +69,7 @@ function InstagramStrip() {
                 <img
                   src={tile.src}
                   alt="LAPRITEL handmade beaded bag"
-                  className={`h-full w-full ${tile.fit === 'cover' ? 'object-cover' : 'object-contain'}`}
+                  className="h-full w-full object-contain"
                   loading="lazy"
                   decoding="async"
                 />
