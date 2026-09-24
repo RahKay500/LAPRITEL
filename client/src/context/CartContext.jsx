@@ -118,6 +118,10 @@ export function CartProvider({ children }) {
       }
       return [...current, entry]
     })
+    // Adding an item had no visible feedback otherwise -- the count badge
+    // changes, but nothing draws the eye to it, so a customer could click
+    // Add to Cart and reasonably think nothing happened.
+    openDrawer()
   }
 
   function removeItem(key) {
