@@ -1,5 +1,34 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { fetchFeaturedCustomers } from '../services/featuredCustomers'
+
+const HOMEPAGE_LIMIT = 3
+
+export function FeaturedGrid({ customers }) {
+  return (
+    <div className="columns-1 gap-6 sm:columns-2 lg:columns-3">
+      {customers.map((customer) => (
+        <figure key={customer.id} className="mb-6 break-inside-avoid bg-burgundy-tint/30">
+          <img
+            src={customer.image_url}
+            alt={`A LAPRITEL bag carried by ${customer.first_name}`}
+            className="block h-auto w-full"
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption className="p-6">
+            <blockquote className="text-sm leading-relaxed text-ink/80">
+              &ldquo;{customer.quote}&rdquo;
+            </blockquote>
+            <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-burgundy">
+              {customer.first_name}
+            </p>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  )
+}
 
 function FeaturedCustomers() {
   const [customers, setCustomers] = useState([])
@@ -19,7 +48,7 @@ function FeaturedCustomers() {
   if (customers.length === 0) return null
 
   return (
-    <section className="px-4 py-16 sm:px-6 lg:px-12 lg:py-24">
+    <section className="px-4 py-12 sm:px-6 lg:px-12 lg:py-16">
       <div className="mx-auto max-w-6xl">
         <div className="text-center">
           <p className="text-sm font-semibold uppercase tracking-widest text-burgundy">
@@ -30,26 +59,17 @@ function FeaturedCustomers() {
           </h2>
         </div>
 
-        <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {customers.map((customer) => (
-            <figure key={customer.id} className="bg-burgundy-tint/30">
-              <img
-                src={customer.image_url}
-                alt={`A LAPRITEL bag carried by ${customer.first_name}`}
-                className="aspect-square w-full object-cover"
-                loading="lazy"
-                decoding="async"
-              />
-              <figcaption className="p-6">
-                <blockquote className="text-sm leading-relaxed text-ink/80">
-                  &ldquo;{customer.quote}&rdquo;
-                </blockquote>
-                <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-burgundy">
-                  {customer.first_name}
-                </p>
-              </figcaption>
-            </figure>
-          ))}
+        <div className="mt-8">
+          <FeaturedGrid customers={customers.slice(0, HOMEPAGE_LIMIT)} />
+        </div>
+
+        <div className="-mt-6 text-right">
+          <Link
+            to="/featured"
+            className="text-sm font-semibold uppercase tracking-wide text-burgundy underline-offset-4 hover:underline"
+          >
+            See all looks
+          </Link>
         </div>
       </div>
     </section>

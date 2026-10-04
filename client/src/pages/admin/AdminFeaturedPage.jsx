@@ -176,7 +176,7 @@ function AdminFeaturedPage() {
           <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {customers.map((customer) => (
               <div key={customer.id} className="border border-black/10">
-                <img src={customer.image_url} alt={`Photo of ${customer.first_name}`} className="aspect-square w-full object-cover" />
+                <img src={customer.image_url} alt={`Photo of ${customer.first_name}`} className="block h-auto w-full" />
                 <div className="p-4">
                   <p className="text-sm font-medium text-ink">{customer.first_name}</p>
                   <p className="mt-1 text-sm text-ink/70">&ldquo;{customer.quote}&rdquo;</p>

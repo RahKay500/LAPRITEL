@@ -1,4 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import FeaturedCustomers from './FeaturedCustomers'
 import { fetchFeaturedCustomers } from '../services/featuredCustomers'
@@ -14,7 +15,7 @@ beforeEach(() => {
 describe('FeaturedCustomers', () => {
   it('renders nothing when no one is featured', async () => {
     fetchFeaturedCustomers.mockResolvedValue([])
-    const { container } = render(<FeaturedCustomers />)
+    const { container } = render(<MemoryRouter><FeaturedCustomers /></MemoryRouter>)
 
     await waitFor(() => expect(fetchFeaturedCustomers).toHaveBeenCalled())
     expect(container).toBeEmptyDOMElement()
@@ -22,7 +23,7 @@ describe('FeaturedCustomers', () => {
 
   it('renders nothing when the request fails, so the homepage still loads', async () => {
     fetchFeaturedCustomers.mockRejectedValue(new Error('down'))
-    const { container } = render(<FeaturedCustomers />)
+    const { container } = render(<MemoryRouter><FeaturedCustomers /></MemoryRouter>)
 
     await waitFor(() => expect(fetchFeaturedCustomers).toHaveBeenCalled())
     expect(container).toBeEmptyDOMElement()
@@ -32,7 +33,7 @@ describe('FeaturedCustomers', () => {
     fetchFeaturedCustomers.mockResolvedValue([
       { id: '1', first_name: 'Ama', quote: 'I wear it everywhere.', image_url: 'https://example.com/ama.jpg' },
     ])
-    render(<FeaturedCustomers />)
+    render(<MemoryRouter><FeaturedCustomers /></MemoryRouter>)
 
     expect(await screen.findByText('Ama')).toBeInTheDocument()
     expect(screen.getByText(/I wear it everywhere\./)).toBeInTheDocument()

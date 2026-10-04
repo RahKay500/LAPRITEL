@@ -24,6 +24,7 @@ import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
 import TermsOfServicePage from './pages/TermsOfServicePage'
 import RefundPolicyPage from './pages/RefundPolicyPage'
 import ShippingReturnsPage from './pages/ShippingReturnsPage'
+import FeaturedPage from './pages/FeaturedPage'
 import FaqPage from './pages/FaqPage'
 import AdminLayout from './pages/admin/AdminLayout'
 import AdminOrdersPage from './pages/admin/AdminOrdersPage'
@@ -57,6 +58,7 @@ function App() {
           <Route path="/terms-of-service" element={<TermsOfServicePage />} />
           <Route path="/refund-policy" element={<RefundPolicyPage />} />
           <Route path="/shipping-returns" element={<ShippingReturnsPage />} />
+          <Route path="/featured" element={<FeaturedPage />} />
           <Route path="/faq" element={<FaqPage />} />
           <Route
             path="/profile"
