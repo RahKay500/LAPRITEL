@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { fetchFeaturedCustomers } from '../services/featuredCustomers'
 
-const HOMEPAGE_LIMIT = 3
+const HOMEPAGE_LIMIT = 1
 
 export function FeaturedGrid({ customers }) {
   return (
