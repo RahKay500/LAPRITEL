@@ -291,7 +291,7 @@ function AdminProductsPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
   const [addingForProductId, setAddingForProductId] = useState(null)
-  const [collapsedIds, setCollapsedIds] = useState({})
+  const [expandedIds, setExpandedIds] = useState({})
   const [editingVariantId, setEditingVariantId] = useState(null)
   const [isSaving, setIsSaving] = useState(false)
   const [actionError, setActionError] = useState('')
@@ -358,9 +358,9 @@ function AdminProductsPage() {
           <div className="flex flex-wrap items-center justify-between gap-3">
             <button
               type="button"
-              aria-expanded={!collapsedIds[product.id]}
+              aria-expanded={!!expandedIds[product.id]}
               onClick={() =>
-                setCollapsedIds((current) => ({ ...current, [product.id]: !current[product.id] }))
+                setExpandedIds((current) => ({ ...current, [product.id]: !current[product.id] }))
               }
               className="flex items-center gap-2 text-left"
             >
@@ -368,21 +368,22 @@ function AdminProductsPage() {
               <ChevronDown
                 size={20}
                 strokeWidth={1.5}
-                className={`text-ink/60 transition-transform ${collapsedIds[product.id] ? '-rotate-90' : ''}`}
+                className={`text-ink/60 transition-transform ${expandedIds[product.id] ? '' : '-rotate-90'}`}
               />
             </button>
             <button
               type="button"
-              onClick={() =>
+              onClick={() => {
                 setAddingForProductId(addingForProductId === product.id ? null : product.id)
-              }
+                setExpandedIds((current) => ({ ...current, [product.id]: true }))
+              }}
               className="rounded-full border border-burgundy px-5 py-2 text-xs font-semibold uppercase tracking-wide text-burgundy hover:bg-burgundy hover:text-white"
             >
               {addingForProductId === product.id ? 'Close' : 'Add Color Variant'}
             </button>
           </div>
 
-          {addingForProductId === product.id && !collapsedIds[product.id] && (
+          {addingForProductId === product.id && expandedIds[product.id] && (
             <VariantForm
               initialValues={emptyVariantForm}
               isSaving={isSaving}
@@ -391,7 +392,7 @@ function AdminProductsPage() {
             />
           )}
 
-          <div className={`mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 ${collapsedIds[product.id] ? 'hidden' : ''}`}>
+          <div className={`mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 ${expandedIds[product.id] ? '' : 'hidden'}`}>
             {product.product_variants.map((variant) =>
               editingVariantId === variant.id ? (
                 <div key={variant.id} className="sm:col-span-2 lg:col-span-3">
