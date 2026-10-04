@@ -100,7 +100,7 @@ function AboutPage() {
               Hours of Work, Bead by Bead
             </h2>
             <p className="mt-4 max-w-md text-ink/70">
-              Each Bag Ivy is hand-beaded by skilled artisans using
+              Each LAPRITEL bag is hand-beaded by skilled artisans using
               time-honored techniques. The beadwork is dense and deliberate,
               built bead by bead onto the bag's frame until the pattern is
               complete. No shortcuts, just steady hands and a finished piece
