@@ -81,14 +81,23 @@ function AdminFeaturedPage() {
         <h2 className="text-sm font-semibold uppercase tracking-wide text-ink">Add a featured customer</h2>
 
         <div>
-          <label htmlFor="photo" className="text-sm text-ink/70">Photo of them with a bag</label>
-          <input
-            id="photo"
-            type="file"
-            accept="image/*"
-            onChange={(event) => setPhoto(event.target.files[0] ?? null)}
-            className="mt-1 block w-full text-sm"
-          />
+          <span className="text-sm text-ink/70">Photo of them with a bag</span>
+          <div className="mt-2 flex flex-wrap items-center gap-3">
+            <label
+              htmlFor="photo"
+              className="cursor-pointer rounded-full border-2 border-burgundy px-6 py-2 text-xs font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white focus-within:ring-2 focus-within:ring-burgundy/40"
+            >
+              Choose photo
+            </label>
+            <input
+              id="photo"
+              type="file"
+              accept="image/*"
+              onChange={(event) => setPhoto(event.target.files[0] ?? null)}
+              className="sr-only"
+            />
+            <span className="text-sm text-ink/60">{photo ? photo.name : 'No file selected'}</span>
+          </div>
         </div>
 
         <div>
