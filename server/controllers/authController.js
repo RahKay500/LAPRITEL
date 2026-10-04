@@ -110,18 +110,23 @@ export function logout(req, res) {
   res.json({ message: 'Logged out' })
 }
 
-export async function getMe(req, res) {
+export function getMe(req, res) {
   if (!req.user) {
     return res.json({ user: null })
   }
 
-  const { data, error } = await supabase.auth.admin.getUserById(req.user.id)
-
-  if (error || !data.user) {
-    return res.json({ user: null })
-  }
-
-  res.json({ user: toPublicUser(data.user) })
+  // Everything here is already in the signed token, so skip the Supabase
+  // round trip that runs on every page load. Role changes are enforced from
+  // the token anyway (see requireAdmin), so this doesn't loosen anything.
+  res.json({
+    user: {
+      id: req.user.id,
+      email: req.user.email,
+      fullName: req.user.fullName,
+      phone: req.user.phone,
+      role: req.user.role,
+    },
+  })
 }
 
 export async function requestPasswordReset(req, res) {
