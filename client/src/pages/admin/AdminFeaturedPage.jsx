@@ -7,7 +7,22 @@ import {
 } from '../../services/admin'
 
 const QUOTE_MAX = 280
+const PHOTO_MAX_SIDE = 1600
 const emptyForm = { firstName: '', quote: '', consentConfirmed: false }
+
+// Full-size camera photos are often over Vercel's ~4.5 MB request limit, so
+// shrink them in the browser before uploading.
+async function shrinkPhoto(file) {
+  const bitmap = await createImageBitmap(file)
+  const scale = Math.min(1, PHOTO_MAX_SIDE / Math.max(bitmap.width, bitmap.height))
+  const canvas = document.createElement('canvas')
+  canvas.width = Math.round(bitmap.width * scale)
+  canvas.height = Math.round(bitmap.height * scale)
+  canvas.getContext('2d').drawImage(bitmap, 0, 0, canvas.width, canvas.height)
+  bitmap.close()
+  const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.9))
+  return new File([blob], 'featured.jpg', { type: 'image/jpeg' })
+}
 
 function AdminFeaturedPage() {
   const [customers, setCustomers] = useState([])
@@ -47,7 +62,7 @@ function AdminFeaturedPage() {
 
     setIsSaving(true)
     try {
-      const { imageUrl } = await uploadAdminImage(photo)
+      const { imageUrl } = await uploadAdminImage(await shrinkPhoto(photo))
       const customer = await createAdminFeaturedCustomer({
         firstName: form.firstName.trim(),
         quote: form.quote.trim(),
