@@ -19,6 +19,7 @@ import authRouter from './routes/auth.js'
 import productsRouter from './routes/products.js'
 import adminRouter from './routes/admin.js'
 import contactRouter from './routes/contact.js'
+import featuredCustomersRouter from './routes/featuredCustomers.js'
 
 const app = express()
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173'
@@ -67,6 +68,7 @@ app.use('/api/payments', paymentsRouter)
 app.use('/api/orders', ordersRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/products', productsRouter)
+app.use('/api/featured-customers', featuredCustomersRouter)
 app.use('/api/admin', adminRouter)
 app.use('/api/contact', contactRouter)
 

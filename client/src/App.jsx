@@ -30,6 +30,7 @@ import AdminOrdersPage from './pages/admin/AdminOrdersPage'
 import AdminProductsPage from './pages/admin/AdminProductsPage'
 import AdminCustomersPage from './pages/admin/AdminCustomersPage'
 import AdminMessagesPage from './pages/admin/AdminMessagesPage'
+import AdminFeaturedPage from './pages/admin/AdminFeaturedPage'
 import NotFoundPage from './pages/NotFoundPage'
 
 function App() {
@@ -86,6 +87,7 @@ function App() {
             <Route path="products" element={<AdminProductsPage />} />
             <Route path="customers" element={<AdminCustomersPage />} />
             <Route path="messages" element={<AdminMessagesPage />} />
+            <Route path="featured" element={<AdminFeaturedPage />} />
             <Route path="*" element={<Navigate to="orders" replace />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />

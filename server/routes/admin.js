@@ -6,6 +6,11 @@ import { listOrders, setOrderStatus } from '../controllers/adminOrdersController
 import { listCustomers } from '../controllers/adminCustomersController.js'
 import { listContactMessages } from '../controllers/adminContactController.js'
 import {
+  listAdminFeaturedCustomers,
+  addFeaturedCustomer,
+  removeFeaturedCustomer,
+} from '../controllers/featuredCustomersController.js'
+import {
   listProducts,
   addVariant,
   editVariant,
@@ -61,6 +66,25 @@ router.patch(
 router.get('/customers', listCustomers)
 
 router.get('/contact-messages', listContactMessages)
+
+router.get('/featured-customers', listAdminFeaturedCustomers)
+router.post(
+  '/featured-customers',
+  [
+    body('firstName').isString().trim().matches(/^[A-Za-z\s'-]+$/).isLength({ max: 50 }),
+    body('quote').isString().trim().notEmpty().isLength({ max: 280 }),
+    body('imageUrl').isURL({ protocols: ['https'], require_protocol: true }),
+    body('consentConfirmed').custom((value) => value === true),
+  ],
+  validate,
+  addFeaturedCustomer
+)
+router.delete(
+  '/featured-customers/:id',
+  [param('id').isUUID()],
+  validate,
+  removeFeaturedCustomer
+)
 
 router.get('/products', listProducts)
 

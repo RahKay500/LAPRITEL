@@ -31,6 +31,18 @@ export function fetchAdminContactMessages() {
   return api.get('/admin/contact-messages')
 }
 
+export function fetchAdminFeaturedCustomers() {
+  return api.get('/admin/featured-customers')
+}
+
+export function createAdminFeaturedCustomer(payload) {
+  return api.post('/admin/featured-customers', payload)
+}
+
+export function deleteAdminFeaturedCustomer(id) {
+  return api.delete(`/admin/featured-customers/${id}`)
+}
+
 export function fetchAdminProducts() {
   return api.get('/admin/products')
 }

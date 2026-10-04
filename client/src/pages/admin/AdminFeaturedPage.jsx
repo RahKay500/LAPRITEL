@@ -1,0 +1,176 @@
+import { useEffect, useState } from 'react'
+import {
+  createAdminFeaturedCustomer,
+  deleteAdminFeaturedCustomer,
+  fetchAdminFeaturedCustomers,
+  uploadAdminImage,
+} from '../../services/admin'
+
+const QUOTE_MAX = 280
+const emptyForm = { firstName: '', quote: '', consentConfirmed: false }
+
+function AdminFeaturedPage() {
+  const [customers, setCustomers] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [form, setForm] = useState(emptyForm)
+  const [photo, setPhoto] = useState(null)
+  const [isSaving, setIsSaving] = useState(false)
+  const [formError, setFormError] = useState('')
+
+  useEffect(() => {
+    fetchAdminFeaturedCustomers()
+      .then(setCustomers)
+      .catch((err) => setError(err.message))
+      .finally(() => setIsLoading(false))
+  }, [])
+
+  function handleChange(event) {
+    const { name, value, type, checked } = event.target
+    setForm((current) => ({ ...current, [name]: type === 'checkbox' ? checked : value }))
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault()
+    setFormError('')
+
+    if (!photo) return setFormError('Choose a photo first.')
+    if (!/^[A-Za-z\s'-]+$/.test(form.firstName.trim()) || form.firstName.trim().length > 50) {
+      return setFormError('Enter a first name (letters only).')
+    }
+    if (!form.quote.trim() || form.quote.trim().length > QUOTE_MAX) {
+      return setFormError(`Enter a quote (up to ${QUOTE_MAX} characters).`)
+    }
+    if (!form.consentConfirmed) {
+      return setFormError('Confirm the customer agreed to be featured before saving.')
+    }
+
+    setIsSaving(true)
+    try {
+      const { imageUrl } = await uploadAdminImage(photo)
+      const customer = await createAdminFeaturedCustomer({
+        firstName: form.firstName.trim(),
+        quote: form.quote.trim(),
+        imageUrl,
+        consentConfirmed: true,
+      })
+      setCustomers((current) => [customer, ...current])
+      setForm(emptyForm)
+      setPhoto(null)
+      event.target.reset()
+    } catch (err) {
+      setFormError(err.message)
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  async function handleDelete(customer) {
+    if (!window.confirm(`Remove ${customer.first_name} from the featured section?`)) return
+    try {
+      await deleteAdminFeaturedCustomer(customer.id)
+      setCustomers((current) => current.filter((item) => item.id !== customer.id))
+    } catch (err) {
+      setError(err.message)
+    }
+  }
+
+  return (
+    <div className="space-y-10">
+      <form onSubmit={handleSubmit} noValidate className="max-w-xl space-y-4 border border-black/10 p-6">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-ink">Add a featured customer</h2>
+
+        <div>
+          <label htmlFor="photo" className="text-sm text-ink/70">Photo of them with a bag</label>
+          <input
+            id="photo"
+            type="file"
+            accept="image/*"
+            onChange={(event) => setPhoto(event.target.files[0] ?? null)}
+            className="mt-1 block w-full text-sm"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="firstName" className="text-sm text-ink/70">First name</label>
+          <input
+            id="firstName"
+            name="firstName"
+            type="text"
+            value={form.firstName}
+            onChange={handleChange}
+            className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="quote" className="text-sm text-ink/70">
+            Quote ({form.quote.length}/{QUOTE_MAX})
+          </label>
+          <textarea
+            id="quote"
+            name="quote"
+            rows={3}
+            value={form.quote}
+            onChange={handleChange}
+            maxLength={QUOTE_MAX}
+            className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+          />
+        </div>
+
+        <label className="flex items-start gap-3 text-sm text-ink/70">
+          <input
+            type="checkbox"
+            name="consentConfirmed"
+            checked={form.consentConfirmed}
+            onChange={handleChange}
+            className="mt-1 h-4 w-4 accent-burgundy"
+          />
+          They have agreed to their photo and first name being shown on the website.
+        </label>
+
+        {formError && <p role="alert" className="text-sm text-burgundy">{formError}</p>}
+
+        <button
+          type="submit"
+          disabled={isSaving}
+          className="rounded-full border-2 border-burgundy px-8 py-2.5 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {isSaving ? 'Saving...' : 'Add to featured'}
+        </button>
+      </form>
+
+      <div>
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-ink">Currently featured</h2>
+        {isLoading ? (
+          <p className="mt-4 text-ink/60">Loading...</p>
+        ) : error ? (
+          <p className="mt-4 text-sm text-burgundy">{error}</p>
+        ) : customers.length === 0 ? (
+          <p className="mt-4 text-ink/60">No one is featured yet.</p>
+        ) : (
+          <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {customers.map((customer) => (
+              <div key={customer.id} className="border border-black/10">
+                <img src={customer.image_url} alt={`Photo of ${customer.first_name}`} className="aspect-square w-full object-cover" />
+                <div className="p-4">
+                  <p className="text-sm font-medium text-ink">{customer.first_name}</p>
+                  <p className="mt-1 text-sm text-ink/70">&ldquo;{customer.quote}&rdquo;</p>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(customer)}
+                    className="mt-3 text-xs font-semibold uppercase tracking-wide text-burgundy hover:underline"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+export default AdminFeaturedPage
