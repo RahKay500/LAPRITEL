@@ -12,6 +12,7 @@ import {
 } from '../controllers/featuredCustomersController.js'
 import {
   listProducts,
+  addProduct,
   addVariant,
   editVariant,
   removeVariant,
@@ -87,6 +88,17 @@ router.delete(
 )
 
 router.get('/products', listProducts)
+
+router.post(
+  '/products',
+  [
+    body('name').isString().trim().notEmpty().isLength({ max: 80 }),
+    body('slug').isString().trim().matches(/^[a-z0-9]+(-[a-z0-9]+)*$/).isLength({ max: 80 }),
+    body('description').optional({ values: 'null' }).isString().trim().isLength({ max: 1000 }),
+  ],
+  validate,
+  addProduct
+)
 
 router.post(
   '/products/:productId/variants',

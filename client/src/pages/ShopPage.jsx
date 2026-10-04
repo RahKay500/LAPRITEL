@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Check, ChevronDown, Filter } from 'lucide-react'
-import { useProductVariants } from '../hooks/useProductVariants'
 import { fetchProducts } from '../services/products'
 import { useCart } from '../context/useCart'
 import { usePageMeta } from '../hooks/usePageMeta'
@@ -12,34 +11,43 @@ const sortOptions = [
   { value: 'price-desc', label: 'Price: High to Low' },
 ]
 
+function toCartVariant(variant, productName) {
+  return {
+    name: variant.color_name,
+    slug: variant.color_slug,
+    hex: variant.hex,
+    price: Number(variant.price),
+    image: variant.image_url || undefined,
+    isCustom: Boolean(variant.is_custom),
+    productName,
+  }
+}
+
 function ShopPage() {
-  usePageMeta(
-    'Shop Bag Ivy',
-    'Browse Bag Ivy in every hand-beaded colorway. Filter by color and sort by price.'
-  )
+  usePageMeta('Shop', 'Browse every LAPRITEL collection. Filter by colour and sort by price.')
 
   const [searchParams, setSearchParams] = useSearchParams()
-  const activeColor = searchParams.get('color') || 'all'
+  const [collections, setCollections] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState('')
   const [sortOrder, setSortOrder] = useState('default')
-  const { product, variants: allVariants, isLoading, error } = useProductVariants('ivy-bag')
-  const ivyBagVariants = useMemo(
-    () => allVariants.filter((variant) => !variant.isCustom),
-    [allVariants]
-  )
-  const { addItem } = useCart()
-  const [addedSlug, setAddedSlug] = useState(null)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const filterRef = useRef(null)
-  const [otherProducts, setOtherProducts] = useState([])
+  const { addItem } = useCart()
+  const [addedSlug, setAddedSlug] = useState(null)
 
   useEffect(() => {
     let isMounted = true
     fetchProducts()
       .then((products) => {
-        if (!isMounted) return
-        setOtherProducts(products.filter((item) => item.slug !== 'ivy-bag'))
+        if (isMounted) setCollections(products)
       })
-      .catch(() => {})
+      .catch(() => {
+        if (isMounted) setError("We couldn't load the collections right now. Please try again shortly.")
+      })
+      .finally(() => {
+        if (isMounted) setIsLoading(false)
+      })
     return () => {
       isMounted = false
     }
@@ -55,34 +63,48 @@ function ShopPage() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  function setActiveColor(slug) {
-    if (slug === 'all') {
-      setSearchParams({})
-    } else {
-      setSearchParams({ color: slug })
-    }
-    setIsFilterOpen(false)
-  }
+  const selectedCollection =
+    collections.find((item) => item.slug === searchParams.get('collection')) || collections[0]
+  const activeColor = searchParams.get('color') || 'all'
 
-  const activeVariant = ivyBagVariants.find((variant) => variant.slug === activeColor)
+  const standardVariants = useMemo(
+    () =>
+      (selectedCollection?.product_variants || [])
+        .filter((variant) => variant.is_active !== false && !variant.is_custom)
+        .map((variant) => toCartVariant(variant, selectedCollection.name)),
+    [selectedCollection]
+  )
+  const hasCustomVariants = (selectedCollection?.product_variants || []).some(
+    (variant) => variant.is_active !== false && variant.is_custom
+  )
 
   const visibleVariants = useMemo(() => {
     const filtered =
       activeColor === 'all'
-        ? ivyBagVariants
-        : ivyBagVariants.filter((variant) => variant.slug === activeColor)
+        ? standardVariants
+        : standardVariants.filter((variant) => variant.slug === activeColor)
 
-    if (sortOrder === 'price-asc') {
-      return [...filtered].sort((a, b) => a.price - b.price)
-    }
-    if (sortOrder === 'price-desc') {
-      return [...filtered].sort((a, b) => b.price - a.price)
-    }
+    if (sortOrder === 'price-asc') return [...filtered].sort((a, b) => a.price - b.price)
+    if (sortOrder === 'price-desc') return [...filtered].sort((a, b) => b.price - a.price)
     return filtered
-  }, [activeColor, sortOrder, ivyBagVariants])
+  }, [activeColor, sortOrder, standardVariants])
+
+  const activeVariant = standardVariants.find((variant) => variant.slug === activeColor)
+
+  function selectCollection(slug) {
+    setSearchParams({ collection: slug })
+    setIsFilterOpen(false)
+  }
+
+  function setActiveColor(slug) {
+    const next = { collection: selectedCollection.slug }
+    if (slug !== 'all') next.color = slug
+    setSearchParams(next)
+    setIsFilterOpen(false)
+  }
 
   function handleQuickAdd(variant) {
-    addItem(variant)
+    addItem({ slug: variant.slug }, 1)
     setAddedSlug(variant.slug)
     setTimeout(() => setAddedSlug(null), 1500)
   }
@@ -91,26 +113,24 @@ function ShopPage() {
   if (isLoading) {
     gridContent = <p className="mt-16 text-center text-ink/60">Loading collections…</p>
   } else if (error) {
-    gridContent = (
-      <p className="mt-16 text-center text-ink/60">
-        We couldn't load the collection right now. Please try again shortly.
-      </p>
-    )
+    gridContent = <p className="mt-16 text-center text-ink/60">{error}</p>
+  } else if (!selectedCollection) {
+    gridContent = <p className="mt-16 text-center text-ink/60">No collections yet.</p>
+  } else if (standardVariants.length === 0) {
+    gridContent = <p className="mt-16 text-center text-ink/60">Coming soon.</p>
   } else if (visibleVariants.length === 0) {
-    gridContent = (
-      <p className="mt-16 text-center text-ink/60">No bags match that color right now.</p>
-    )
+    gridContent = <p className="mt-16 text-center text-ink/60">No bags match that colour right now.</p>
   } else {
     gridContent = (
       <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
         {visibleVariants.map((variant) => (
           <div key={variant.slug}>
-            <Link to={`/shop/${product.slug}?color=${variant.slug}`}>
+            <Link to={`/shop/${selectedCollection.slug}?color=${variant.slug}`}>
               {variant.image ? (
                 <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint/40">
                   <img
                     src={variant.image}
-                    alt={`${product.name} in ${variant.name}`}
+                    alt={`${selectedCollection.name} in ${variant.name}`}
                     className="h-full w-full object-contain"
                     loading="lazy"
                     decoding="async"
@@ -157,148 +177,112 @@ function ShopPage() {
             Collections
           </h1>
           <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-            <a
-              href="#bag-ivy"
-              className="rounded-full border border-black/10 px-4 py-1.5 text-sm font-medium text-ink transition-colors hover:border-burgundy hover:text-burgundy"
-            >
-              Bag Ivy
-            </a>
-            {otherProducts.map((item) => (
-              <a
+            {collections.map((item) => (
+              <button
                 key={item.slug}
-                href={`#${item.slug}`}
-                className="rounded-full border border-black/10 px-4 py-1.5 text-sm font-medium text-ink transition-colors hover:border-burgundy hover:text-burgundy"
+                type="button"
+                onClick={() => selectCollection(item.slug)}
+                className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
+                  item.slug === selectedCollection?.slug
+                    ? 'border-burgundy bg-burgundy text-white'
+                    : 'border-black/10 text-ink hover:border-burgundy hover:text-burgundy'
+                }`}
               >
                 {item.name}
-              </a>
+              </button>
             ))}
           </div>
         </div>
 
-        <div
-          id="bag-ivy"
-          className="mt-12 flex scroll-mt-24 flex-wrap items-end justify-between gap-3"
-        >
-          <h2 className="text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
-            Bag Ivy
-          </h2>
-          <Link
-            to="/shop/ivy-bag#custom-colors"
-            className="text-sm font-medium text-burgundy underline-offset-4 hover:underline"
-          >
-            + Custom colors available
-          </Link>
-        </div>
-
-        <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setActiveColor('all')}
-              className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
-                activeColor === 'all'
-                  ? 'border-burgundy bg-burgundy text-white'
-                  : 'border-black/10 text-ink hover:border-burgundy'
-              }`}
-            >
-              All
-            </button>
-
-            <div className="relative" ref={filterRef}>
-              <button
-                type="button"
-                onClick={() => setIsFilterOpen((open) => !open)}
-                className={`flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
-                  activeColor === 'all'
-                    ? 'border-black/10 text-ink hover:border-burgundy'
-                    : 'border-burgundy bg-burgundy text-white'
-                }`}
-              >
-                <Filter size={14} strokeWidth={1.5} />
-                {activeColor !== 'all' && activeVariant ? activeVariant.name : 'Filter'}
-                <ChevronDown size={14} strokeWidth={1.5} />
-              </button>
-
-              {isFilterOpen && (
-                <div className="absolute left-0 top-full z-10 mt-2 flex w-64 flex-wrap gap-2 rounded-2xl border border-black/10 bg-white p-3 shadow-lg">
-                  {ivyBagVariants.map((variant) => (
-                    <button
-                      key={variant.slug}
-                      type="button"
-                      onClick={() => setActiveColor(variant.slug)}
-                      className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors ${
-                        activeColor === variant.slug
-                          ? 'border-burgundy bg-burgundy text-white'
-                          : 'border-black/10 text-ink hover:border-burgundy'
-                      }`}
-                    >
-                      <span
-                        className="block h-3 w-3 rounded-full border border-black/10"
-                        style={{ background: variant.hex }}
-                      />
-                      {variant.name}
-                    </button>
-                  ))}
-                </div>
+        {selectedCollection && (
+          <>
+            <div className="mt-12 flex flex-wrap items-end justify-between gap-3">
+              <h2 className="text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
+                {selectedCollection.name}
+              </h2>
+              {hasCustomVariants && (
+                <Link
+                  to={`/shop/${selectedCollection.slug}#custom-colors`}
+                  className="text-sm font-medium text-burgundy underline-offset-4 hover:underline"
+                >
+                  + Custom colours available
+                </Link>
               )}
             </div>
-          </div>
 
-          <label className="flex items-center gap-2 text-sm text-ink">
-            <span>Sort by</span>
-            <select
-              value={sortOrder}
-              onChange={(event) => setSortOrder(event.target.value)}
-              className="rounded-full border border-black/10 px-3 py-1.5 text-sm outline-none focus:border-burgundy"
-            >
-              {sortOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
+            <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setActiveColor('all')}
+                  className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
+                    activeColor === 'all'
+                      ? 'border-burgundy bg-burgundy text-white'
+                      : 'border-black/10 text-ink hover:border-burgundy'
+                  }`}
+                >
+                  All
+                </button>
 
-        {gridContent}
+                <div className="relative" ref={filterRef}>
+                  <button
+                    type="button"
+                    onClick={() => setIsFilterOpen((open) => !open)}
+                    className={`flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
+                      activeColor === 'all'
+                        ? 'border-black/10 text-ink hover:border-burgundy'
+                        : 'border-burgundy bg-burgundy text-white'
+                    }`}
+                  >
+                    <Filter size={14} strokeWidth={1.5} />
+                    {activeColor !== 'all' && activeVariant ? activeVariant.name : 'Filter'}
+                    <ChevronDown size={14} strokeWidth={1.5} />
+                  </button>
 
-        {otherProducts.map((item) => {
-          const variant = item.product_variants[0]
-          if (!variant) return null
-          return (
-            <div key={item.slug} id={item.slug} className="mt-20 scroll-mt-24">
-              <h2 className="text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
-                {item.name}
-              </h2>
-              <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
-                <Link to={`/shop/${item.slug}`}>
-                  {variant.image_url ? (
-                    <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint/40">
-                      <img
-                        src={variant.image_url}
-                        alt={item.name}
-                        className="h-full w-full object-contain"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </div>
-                  ) : (
-                    <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint/40">
-                      <span
-                        className="block h-14 w-14 rounded-full border border-black/10"
-                        style={{ background: variant.hex }}
-                      />
+                  {isFilterOpen && (
+                    <div className="absolute left-0 top-full z-10 mt-2 flex w-64 flex-wrap gap-2 rounded-2xl border border-black/10 bg-white p-3 shadow-lg">
+                      {standardVariants.map((variant) => (
+                        <button
+                          key={variant.slug}
+                          type="button"
+                          onClick={() => setActiveColor(variant.slug)}
+                          className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors ${
+                            activeColor === variant.slug
+                              ? 'border-burgundy bg-burgundy text-white'
+                              : 'border-black/10 text-ink hover:border-burgundy'
+                          }`}
+                        >
+                          <span
+                            className="block h-3 w-3 rounded-full border border-black/10"
+                            style={{ background: variant.hex }}
+                          />
+                          {variant.name}
+                        </button>
+                      ))}
                     </div>
                   )}
-                  <p className="mt-3 text-sm font-semibold uppercase tracking-wide text-ink">
-                    {item.name}
-                  </p>
-                  <p className="mt-1 text-xs text-ink/60">GHS {variant.price}</p>
-                </Link>
+                </div>
               </div>
+
+              <label className="flex items-center gap-2 text-sm text-ink">
+                <span>Sort by</span>
+                <select
+                  value={sortOrder}
+                  onChange={(event) => setSortOrder(event.target.value)}
+                  className="rounded-full border border-black/10 px-3 py-1.5 text-sm outline-none focus:border-burgundy"
+                >
+                  {sortOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
             </div>
-          )
-        })}
+          </>
+        )}
+
+        {gridContent}
       </div>
     </div>
   )

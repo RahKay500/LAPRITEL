@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import {
   fetchAdminProducts,
+  createAdminProduct,
   createAdminVariant,
   updateAdminVariant,
   deleteAdminVariant,
@@ -14,6 +15,98 @@ const emptyVariantForm = {
   price: '',
   imageUrl: '',
   isCustom: false,
+}
+
+function slugify(value) {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
+function NewCollectionForm({ onCreated }) {
+  const [name, setName] = useState('')
+  const [slug, setSlug] = useState('')
+  const [description, setDescription] = useState('')
+  const [isSaving, setIsSaving] = useState(false)
+  const [error, setError] = useState('')
+
+  function handleNameChange(event) {
+    setName(event.target.value)
+    setSlug(slugify(event.target.value))
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault()
+    setError('')
+    if (!name.trim()) return setError('Enter a collection name.')
+    if (!slug) return setError('Enter a URL slug, e.g. bag-glanzy.')
+
+    setIsSaving(true)
+    try {
+      await createAdminProduct({ name: name.trim(), slug, description: description.trim() || null })
+      setName('')
+      setSlug('')
+      setDescription('')
+      onCreated()
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} noValidate className="max-w-xl space-y-4 border border-black/10 p-6">
+      <h2 className="text-sm font-semibold uppercase tracking-wide text-ink">New collection</h2>
+
+      <div>
+        <label htmlFor="collectionName" className="text-sm text-ink/70">Name</label>
+        <input
+          id="collectionName"
+          type="text"
+          value={name}
+          onChange={handleNameChange}
+          placeholder="e.g. Bag Glanzy"
+          className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+        />
+      </div>
+
+      <div>
+        <label htmlFor="collectionSlug" className="text-sm text-ink/70">URL slug</label>
+        <input
+          id="collectionSlug"
+          type="text"
+          value={slug}
+          onChange={(event) => setSlug(slugify(event.target.value))}
+          className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+        />
+        <p className="mt-1 text-xs text-ink/50">The page address: /shop/{slug || 'your-slug'}</p>
+      </div>
+
+      <div>
+        <label htmlFor="collectionDescription" className="text-sm text-ink/70">Description (optional)</label>
+        <textarea
+          id="collectionDescription"
+          rows={3}
+          value={description}
+          onChange={(event) => setDescription(event.target.value)}
+          className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+        />
+      </div>
+
+      {error && <p role="alert" className="text-sm text-burgundy">{error}</p>}
+
+      <button
+        type="submit"
+        disabled={isSaving}
+        className="rounded-full border-2 border-burgundy px-8 py-2.5 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        {isSaving ? 'Saving...' : 'Create collection'}
+      </button>
+    </form>
+  )
 }
 
 function VariantForm({ initialValues, onSubmit, onCancel, isSaving, showActiveToggle = false }) {
@@ -250,11 +343,13 @@ function AdminProductsPage() {
 
   if (isLoading) return <p className="text-ink/60">Loading products...</p>
   if (error) return <p className="text-sm text-burgundy">{error}</p>
-  if (products.length === 0) return <p className="text-ink/60">No products yet.</p>
 
   return (
     <div className="space-y-10">
+      <NewCollectionForm onCreated={loadProducts} />
+
       {actionError && <p className="text-sm text-burgundy">{actionError}</p>}
+      {products.length === 0 && <p className="text-ink/60">No collections yet. Create one above.</p>}
 
       {products.map((product) => (
         <div key={product.id}>

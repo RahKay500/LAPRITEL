@@ -47,6 +47,10 @@ export function fetchAdminProducts() {
   return api.get('/admin/products')
 }
 
+export function createAdminProduct(payload) {
+  return api.post('/admin/products', payload)
+}
+
 export function createAdminVariant(productId, payload) {
   return api.post(`/admin/products/${productId}/variants`, payload)
 }

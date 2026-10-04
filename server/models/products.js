@@ -82,7 +82,40 @@ export async function getAllProductsForAdmin() {
   return data
 }
 
+export async function createProduct({ name, slug, description }) {
+  const { data, error } = await supabase
+    .from('products')
+    .insert({ name, slug, description: description || null })
+    .select()
+    .single()
+
+  if (error) {
+    if (error.code === '23505') {
+      throw Object.assign(new Error('A collection with this URL slug already exists'), { status: 409 })
+    }
+    throw new Error(`Failed to create collection: ${error.message}`)
+  }
+
+  invalidateProductsCache()
+  return data
+}
+
 export async function createVariant(productId, variant) {
+  const { data: existing, error: lookupError } = await supabase
+    .from('product_variants')
+    .select('id')
+    .eq('color_slug', variant.colorSlug)
+
+  if (lookupError) {
+    throw new Error(`Failed to check colour slug: ${lookupError.message}`)
+  }
+  if (existing.length > 0) {
+    throw Object.assign(
+      new Error(`The colour slug "${variant.colorSlug}" is already used. Pick a unique one, e.g. include the collection name.`),
+      { status: 409 }
+    )
+  }
+
   const { data, error } = await supabase
     .from('product_variants')
     .insert({

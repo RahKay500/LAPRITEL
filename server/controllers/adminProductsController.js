@@ -2,6 +2,7 @@ import { randomUUID } from 'crypto'
 import { supabase } from '../config/supabase.js'
 import {
   getAllProductsForAdmin,
+  createProduct,
   createVariant,
   updateVariant,
   deleteVariant,
@@ -10,6 +11,11 @@ import {
 export async function listProducts(req, res) {
   const products = await getAllProductsForAdmin()
   res.json(products)
+}
+
+export async function addProduct(req, res) {
+  const product = await createProduct(req.body)
+  res.status(201).json(product)
 }
 
 export async function addVariant(req, res) {
