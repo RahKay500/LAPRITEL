@@ -43,6 +43,7 @@ function Navbar() {
 
         <Link
           to="/"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl font-extrabold tracking-widest text-burgundy md:static md:left-auto md:top-auto md:order-1 md:translate-x-0 md:translate-y-0"
         >
           LAPRITEL
