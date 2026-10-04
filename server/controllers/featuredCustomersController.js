@@ -1,3 +1,4 @@
+import { parsePaging } from '../utils/paging.js'
 import {
   getFeaturedCustomers,
   createFeaturedCustomer,
@@ -12,7 +13,8 @@ export async function listPublicFeaturedCustomers(req, res) {
 }
 
 export async function listAdminFeaturedCustomers(req, res) {
-  const customers = await getFeaturedCustomers()
+  const { limit, offset } = parsePaging(req.query)
+  const customers = await getFeaturedCustomers({ limit, offset })
   res.json(customers)
 }
 

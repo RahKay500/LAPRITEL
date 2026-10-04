@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
 import { fetchAdminCustomers } from '../../services/admin'
+import { usePagedList } from '../../hooks/usePagedList'
 
 function formatDate(dateString) {
   return new Date(dateString).toLocaleDateString('en-GB', {
@@ -10,16 +10,8 @@ function formatDate(dateString) {
 }
 
 function AdminCustomersPage() {
-  const [customers, setCustomers] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState('')
-
-  useEffect(() => {
-    fetchAdminCustomers()
-      .then(setCustomers)
-      .catch((err) => setError(err.message))
-      .finally(() => setIsLoading(false))
-  }, [])
+  const { items: customers, hasMore, isLoading, isLoadingMore, error, loadMore } =
+    usePagedList(fetchAdminCustomers)
 
   if (isLoading) return <p className="text-ink/60">Loading customers...</p>
   if (error) return <p className="text-sm text-burgundy">{error}</p>
@@ -59,6 +51,18 @@ function AdminCustomersPage() {
           ))}
         </tbody>
       </table>
+      {hasMore && (
+  <div className="mt-8 text-center">
+    <button
+      type="button"
+      onClick={loadMore}
+      disabled={isLoadingMore}
+      className="rounded-full border-2 border-burgundy px-8 py-2.5 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+    >
+      {isLoadingMore ? 'Loading...' : 'Load more'}
+    </button>
+  </div>
+)}
     </div>
   )
 }

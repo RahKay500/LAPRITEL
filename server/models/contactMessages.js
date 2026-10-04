@@ -14,11 +14,17 @@ export async function createContactMessage({ fullName, email, message }) {
   return data
 }
 
-export async function getAllContactMessages() {
-  const { data, error } = await supabase
+export async function getAllContactMessages({ limit, offset = 0 } = {}) {
+  let query = supabase
     .from('contact_messages')
     .select('*')
     .order('created_at', { ascending: false })
+
+  if (limit) {
+    query = query.range(offset, offset + limit - 1)
+  }
+
+  const { data, error } = await query
 
   if (error) {
     throw new Error(`Failed to fetch messages: ${error.message}`)

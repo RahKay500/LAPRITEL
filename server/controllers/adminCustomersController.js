@@ -1,7 +1,9 @@
 import { supabase } from '../config/supabase.js'
+import { parsePaging } from '../utils/paging.js'
 
 export async function listCustomers(req, res) {
-  const { data, error } = await supabase.auth.admin.listUsers()
+  const { limit, page } = parsePaging(req.query)
+  const { data, error } = await supabase.auth.admin.listUsers({ page, perPage: limit })
 
   if (error) {
     throw new Error(`Failed to list customers: ${error.message}`)

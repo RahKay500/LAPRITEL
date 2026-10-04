@@ -1,5 +1,11 @@
 import { api } from './api'
 
+function pageQuery({ page, limit }) {
+  const params = new URLSearchParams({ page: String(page) })
+  if (limit) params.set('limit', String(limit))
+  return `?${params.toString()}`
+}
+
 export const ORDER_STATUSES = [
   'pending',
   'paid',
@@ -23,16 +29,16 @@ export function updateAdminOrderStatus(reference, status) {
   return api.patch(`/admin/orders/${encodeURIComponent(reference)}/status`, { status })
 }
 
-export function fetchAdminCustomers() {
-  return api.get('/admin/customers')
+export function fetchAdminCustomers({ page = 1, limit } = {}) {
+  return api.get(`/admin/customers${pageQuery({ page, limit })}`)
 }
 
-export function fetchAdminContactMessages() {
-  return api.get('/admin/contact-messages')
+export function fetchAdminContactMessages({ page = 1, limit } = {}) {
+  return api.get(`/admin/contact-messages${pageQuery({ page, limit })}`)
 }
 
-export function fetchAdminFeaturedCustomers() {
-  return api.get('/admin/featured-customers')
+export function fetchAdminFeaturedCustomers({ page = 1, limit } = {}) {
+  return api.get(`/admin/featured-customers${pageQuery({ page, limit })}`)
 }
 
 export function createAdminFeaturedCustomer(payload) {

@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import {
   createAdminFeaturedCustomer,
   deleteAdminFeaturedCustomer,
   fetchAdminFeaturedCustomers,
   uploadAdminImage,
 } from '../../services/admin'
+import { usePagedList } from '../../hooks/usePagedList'
 
 const QUOTE_MAX = 280
 const PHOTO_MAX_SIDE = 1600
@@ -25,20 +26,20 @@ async function shrinkPhoto(file) {
 }
 
 function AdminFeaturedPage() {
-  const [customers, setCustomers] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState('')
+  const {
+    items: customers,
+    setItems: setCustomers,
+    hasMore,
+    isLoading,
+    isLoadingMore,
+    error,
+    setError,
+    loadMore,
+  } = usePagedList(fetchAdminFeaturedCustomers)
   const [form, setForm] = useState(emptyForm)
   const [photo, setPhoto] = useState(null)
   const [isSaving, setIsSaving] = useState(false)
   const [formError, setFormError] = useState('')
-
-  useEffect(() => {
-    fetchAdminFeaturedCustomers()
-      .then(setCustomers)
-      .catch((err) => setError(err.message))
-      .finally(() => setIsLoading(false))
-  }, [])
 
   function handleChange(event) {
     const { name, value, type, checked } = event.target
@@ -190,6 +191,18 @@ function AdminFeaturedPage() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+        {hasMore && (
+          <div className="mt-8 text-center">
+            <button
+              type="button"
+              onClick={loadMore}
+              disabled={isLoadingMore}
+              className="rounded-full border-2 border-burgundy px-8 py-2.5 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {isLoadingMore ? 'Loading...' : 'Load more'}
+            </button>
           </div>
         )}
       </div>
