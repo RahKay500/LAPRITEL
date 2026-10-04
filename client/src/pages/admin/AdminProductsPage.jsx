@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { ChevronDown } from 'lucide-react'
 import {
   fetchAdminProducts,
   createAdminProduct,
@@ -290,6 +291,7 @@ function AdminProductsPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
   const [addingForProductId, setAddingForProductId] = useState(null)
+  const [collapsedIds, setCollapsedIds] = useState({})
   const [editingVariantId, setEditingVariantId] = useState(null)
   const [isSaving, setIsSaving] = useState(false)
   const [actionError, setActionError] = useState('')
@@ -354,7 +356,21 @@ function AdminProductsPage() {
       {products.map((product) => (
         <div key={product.id}>
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <h2 className="text-2xl font-extrabold uppercase tracking-tight text-ink">{product.name}</h2>
+            <button
+              type="button"
+              aria-expanded={!collapsedIds[product.id]}
+              onClick={() =>
+                setCollapsedIds((current) => ({ ...current, [product.id]: !current[product.id] }))
+              }
+              className="flex items-center gap-2 text-left"
+            >
+              <h2 className="text-2xl font-extrabold uppercase tracking-tight text-ink">{product.name}</h2>
+              <ChevronDown
+                size={20}
+                strokeWidth={1.5}
+                className={`text-ink/60 transition-transform ${collapsedIds[product.id] ? '-rotate-90' : ''}`}
+              />
+            </button>
             <button
               type="button"
               onClick={() =>
@@ -366,7 +382,7 @@ function AdminProductsPage() {
             </button>
           </div>
 
-          {addingForProductId === product.id && (
+          {addingForProductId === product.id && !collapsedIds[product.id] && (
             <VariantForm
               initialValues={emptyVariantForm}
               isSaving={isSaving}
@@ -375,7 +391,7 @@ function AdminProductsPage() {
             />
           )}
 
-          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className={`mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 ${collapsedIds[product.id] ? 'hidden' : ''}`}>
             {product.product_variants.map((variant) =>
               editingVariantId === variant.id ? (
                 <div key={variant.id} className="sm:col-span-2 lg:col-span-3">
