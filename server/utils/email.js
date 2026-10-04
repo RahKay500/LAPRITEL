@@ -48,7 +48,7 @@ export async function sendOrderConfirmationEmail({ reference, customer, items, s
 
   const html = `
     <div style="font-family:Arial,sans-serif;color:#1a1a1a;max-width:480px;margin:0 auto;">
-      <h1 style="color:#800020;font-size:20px;">Thank you for your order!</h1>
+      <h1 style="color:#580D0D;font-size:20px;">Thank you for your order!</h1>
       <p>Hi ${escapeHtml(customer.fullName)}, your LAPRITEL order <strong>${escapeHtml(reference)}</strong> has been received and paid for.</p>
       <table style="width:100%;border-collapse:collapse;margin-top:16px;">
         ${itemRows}
@@ -101,7 +101,7 @@ export async function sendAdminOrderNotificationEmail({ reference, customer, ite
 
   const html = `
     <div style="font-family:Arial,sans-serif;color:#1a1a1a;max-width:480px;margin:0 auto;">
-      <h1 style="color:#800020;font-size:20px;">New order received</h1>
+      <h1 style="color:#580D0D;font-size:20px;">New order received</h1>
       <p>Order <strong>${escapeHtml(reference)}</strong> just came in and has been paid.</p>
       <table style="width:100%;border-collapse:collapse;margin-top:16px;">
         ${itemRows}
@@ -138,10 +138,10 @@ export async function sendPasswordResetEmail({ email, fullName, resetUrl }) {
 
   const html = `
     <div style="font-family:Arial,sans-serif;color:#1a1a1a;max-width:480px;margin:0 auto;">
-      <h1 style="color:#800020;font-size:20px;">Reset Your Password</h1>
+      <h1 style="color:#580D0D;font-size:20px;">Reset Your Password</h1>
       <p>Hi ${escapeHtml(fullName)}, we received a request to reset your LAPRITEL password.</p>
       <p style="margin-top:16px;">
-        <a href="${resetUrl}" style="display:inline-block;background:#800020;color:#fff;padding:12px 24px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:600;">
+        <a href="${resetUrl}" style="display:inline-block;background:#580D0D;color:#fff;padding:12px 24px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:600;">
           Reset Password
         </a>
       </p>
