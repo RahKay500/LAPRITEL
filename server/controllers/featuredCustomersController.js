@@ -5,7 +5,9 @@ import {
 } from '../models/featuredCustomers.js'
 
 export async function listPublicFeaturedCustomers(req, res) {
-  const customers = await getFeaturedCustomers()
+  const limit = Math.min(Math.max(parseInt(req.query.limit, 10) || 24, 1), 100)
+  const offset = Math.max(parseInt(req.query.offset, 10) || 0, 0)
+  const customers = await getFeaturedCustomers({ limit, offset })
   res.json(customers)
 }
 

@@ -12,7 +12,7 @@ export function FeaturedGrid({ customers }) {
           <img
             src={customer.image_url}
             alt={`A LAPRITEL bag carried by ${customer.first_name}`}
-            className="block h-auto w-full"
+            className="mx-auto block max-h-[480px] w-auto max-w-full"
             loading="lazy"
             decoding="async"
           />
@@ -35,7 +35,7 @@ function FeaturedCustomers() {
 
   useEffect(() => {
     let isMounted = true
-    fetchFeaturedCustomers()
+    fetchFeaturedCustomers({ limit: HOMEPAGE_LIMIT })
       .then((data) => {
         if (isMounted) setCustomers(data)
       })
@@ -60,7 +60,7 @@ function FeaturedCustomers() {
         </div>
 
         <div className="mt-8">
-          <FeaturedGrid customers={customers.slice(0, HOMEPAGE_LIMIT)} />
+          <FeaturedGrid customers={customers} />
         </div>
 
         <div className="-mt-6 text-right">
