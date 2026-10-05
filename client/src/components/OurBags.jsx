@@ -7,7 +7,7 @@ const HOMEPAGE_COLLECTION_LIMIT = 4
 
 function OurBags() {
   const [products, setProducts] = useState([])
-  const [selectedColors, setSelectedColors] = useState({ 'ivy-bag': 'purple' })
+  const [selectedColors, setSelectedColors] = useState({})
   const seasonYear = new Date().getFullYear()
 
   useEffect(() => {
@@ -48,22 +48,25 @@ function OurBags() {
 
             <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
               {products.slice(0, HOMEPAGE_COLLECTION_LIMIT).map((product, index) => {
-                const standardVariants = product.product_variants.filter(
-                  (v) => v.image_url && !v.is_custom
-                )
+                const standardVariants = product.product_variants
+                  .filter((v) => v.image_url && !v.is_custom)
+                  .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
                 const variant =
                   standardVariants.find((v) => v.color_slug === selectedColors[product.slug]) ||
                   standardVariants[0] ||
                   product.product_variants[0]
                 if (!variant) return null
+                const image = selectedColors[product.slug]
+                  ? variant.image_url
+                  : product.cover_image_url || variant.image_url
                 return (
                   <Reveal key={product.slug} delay={index * 100}>
                     <div>
                       <Link to={`/shop/${product.slug}?color=${variant.color_slug}`} className="group block">
                         <div className="relative aspect-square w-full overflow-hidden bg-burgundy-tint">
-                          {product.cover_image_url || variant.image_url ? (
+                          {image ? (
                             <img
-                              src={product.cover_image_url || variant.image_url}
+                              src={image}
                               alt={product.name}
                               className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                               loading="lazy"
