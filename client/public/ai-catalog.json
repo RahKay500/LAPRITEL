@@ -1,0 +1,15 @@
+{
+  "name": "LAPRITEL",
+  "description": "Ghana-based maker of hand-beaded handbags, made to order with ready-to-ship colours where stock is available.",
+  "url": "https://lapritel.vercel.app",
+  "resources": [
+    { "type": "webpage", "name": "Collections", "url": "https://lapritel.vercel.app/collections" },
+    { "type": "webpage", "name": "Shop", "url": "https://lapritel.vercel.app/shop" },
+    { "type": "webpage", "name": "Featured", "url": "https://lapritel.vercel.app/featured" },
+    { "type": "webpage", "name": "About", "url": "https://lapritel.vercel.app/about" },
+    { "type": "webpage", "name": "Contact", "url": "https://lapritel.vercel.app/contact" },
+    { "type": "webpage", "name": "FAQ", "url": "https://lapritel.vercel.app/faq" },
+    { "type": "webpage", "name": "Shipping and returns", "url": "https://lapritel.vercel.app/shipping-returns" },
+    { "type": "webpage", "name": "Refund policy", "url": "https://lapritel.vercel.app/refund-policy" }
+  ]
+}

@@ -1,0 +1,25 @@
+# LAPRITEL
+
+> LAPRITEL is a Ghana-based maker of hand-beaded handbags. Each bag is fully beaded by skilled artisans and made to order, with ready-to-ship colours where stock is available.
+
+## Shop
+
+- [Collections](https://lapritel.vercel.app/collections): every LAPRITEL bag collection
+- [Shop](https://lapritel.vercel.app/shop): browse bags and colours
+- [Featured](https://lapritel.vercel.app/featured): customers wearing LAPRITEL
+
+## Help
+
+- [FAQ](https://lapritel.vercel.app/faq): common questions
+- [Shipping and returns](https://lapritel.vercel.app/shipping-returns): delivery times and returns
+- [Refund policy](https://lapritel.vercel.app/refund-policy): refund terms
+- [Contact](https://lapritel.vercel.app/contact): get in touch
+
+## About
+
+- [About LAPRITEL](https://lapritel.vercel.app/about): the brand and how the bags are made
+
+## Policies
+
+- [Privacy policy](https://lapritel.vercel.app/privacy-policy)
+- [Terms of service](https://lapritel.vercel.app/terms-of-service)
