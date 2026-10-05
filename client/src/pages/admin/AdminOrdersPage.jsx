@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { fetchAdminOrders, updateAdminOrderStatus, ORDER_STATUSES } from '../../services/admin'
 import { isRiskyStatusChange } from './orderStatusRisk'
 
@@ -27,9 +27,13 @@ function AdminOrdersPage() {
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
 
+  const searchRef = useRef('')
   useEffect(() => {
     const id = setTimeout(() => {
-      setSearch(searchInput.trim())
+      const next = searchInput.trim()
+      if (next === searchRef.current) return
+      searchRef.current = next
+      setSearch(next)
       setPage(1)
     }, SEARCH_DEBOUNCE_MS)
     return () => clearTimeout(id)
