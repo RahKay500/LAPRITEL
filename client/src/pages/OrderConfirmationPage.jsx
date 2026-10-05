@@ -53,7 +53,7 @@ function OrderConfirmationPage() {
     <div className="px-4 py-12 text-center sm:px-6 lg:px-12 lg:py-16">
       <div className="mx-auto max-w-xl">
         <h1 className="text-3xl font-extrabold uppercase tracking-tight text-ink sm:text-4xl">
-          Thank You, {order.customer_name.split(' ')[0]}!
+          Thank You{order.customer_name ? `, ${order.customer_name.split(' ')[0]}` : ''}!
         </h1>
         <p className="mt-3 text-ink/70">
           Your order has been received and is being prepared.
@@ -84,10 +84,12 @@ function OrderConfirmationPage() {
           </div>
         </div>
 
-        <p className="mt-6 text-sm text-ink/60">
-          We'll deliver to {order.delivery_address}, {order.delivery_city},{' '}
-          {order.delivery_region}.
-        </p>
+        {order.delivery_address && (
+          <p className="mt-6 text-sm text-ink/60">
+            We'll deliver to {order.delivery_address}, {order.delivery_city},{' '}
+            {order.delivery_region}.
+          </p>
+        )}
 
         <Link
           to="/shop"
