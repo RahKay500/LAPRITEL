@@ -13,7 +13,7 @@ This project is being built from scratch — there is no existing codebase yet. 
 - Site flow and shopping experience: staysixteen.com (announcement bar, nav, collection pages, PDP, cart, checkout)
 
 ### Brand styling
-- Primary: Burgundy `#800020`
+- Primary: Burgundy `#580D0D`
 - Background: White `#FFFFFF`
 - Accent (light sections): `#f5e6ea`
 - Text: Near-black `#1a1a1a`
@@ -27,7 +27,7 @@ This project is being built from scratch — there is no existing codebase yet. 
 - **Backend**: Node.js + Express
 - **Database/Auth**: Supabase
 - **Payments**: Paystack (Ghana-based; GHS + cards)
-- **Image hosting**: Cloudinary or Supabase Storage
+- **Image hosting**: Supabase Storage
 
 ## Repository Structure
 
@@ -66,7 +66,7 @@ Client and server are separate workspaces with their own `package.json`/dependen
 ## Pages & Features
 
 1. **Homepage** — announcement bar, sticky nav (logo, cart icon, account icon), hero with CTA, featured Ivy Bag section, color variants showcase, brand story snippet, testimonials, Instagram-style photo strip, newsletter signup, footer.
-2. **Shop/Collection Page** — grid of Ivy Bag color variants, filter by color, sort by price, quick-add from card.
+2. **Shop/Collection Page** — collections as a dropdown, grid of colour variants per collection, filter by colour, quick-add and wishlist from each card. Colours are not sorted by price; they follow the order set in the database.
 3. **Product Detail Page** — image gallery, color selector that switches the displayed image, description, size/care accordion, Add to Cart, related products.
 4. **Cart Page** — item list, quantity controls, subtotal, checkout CTA.
 5. **Checkout Page** — customer details, delivery address, order summary, Paystack payment.
