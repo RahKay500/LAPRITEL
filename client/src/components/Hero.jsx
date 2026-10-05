@@ -51,6 +51,8 @@ function Hero() {
               key={slide.id}
               src={slide.mobileImage}
               alt={slide.alt}
+              loading={slide.id === HERO_SLIDES[0].id ? 'eager' : 'lazy'}
+              fetchPriority={slide.id === HERO_SLIDES[0].id ? 'high' : 'auto'}
               className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-in-out ${
                 slide.id === activeSlide.id ? 'opacity-100' : 'opacity-0'
               }`}
@@ -159,6 +161,7 @@ function Hero() {
                 key={slide.id}
                 src={slide.image}
                 alt={slide.alt}
+                loading="lazy"
                 className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-in-out ${
                   slide.id === activeSlide.id ? 'opacity-100' : 'opacity-0'
                 }`}
