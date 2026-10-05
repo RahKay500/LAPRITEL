@@ -9,7 +9,11 @@ const redis =
     ? Redis.fromEnv()
     : null
 
-function createLimiter({ limit, window, message }) {
+if (!redis && process.env.NODE_ENV === 'production') {
+  console.warn('Upstash Redis is not configured: rate limits are per-instance only.')
+}
+
+function createLimiter({ name, limit, window, message }) {
   if (!redis) {
     const hits = new Map()
     const windowMs = parseWindowToMs(window)
@@ -34,6 +38,7 @@ function createLimiter({ limit, window, message }) {
 
   const ratelimit = new Ratelimit({
     redis,
+    prefix: `rl:${name}`,
     limiter: Ratelimit.slidingWindow(limit, window),
   })
 
@@ -53,18 +58,21 @@ function parseWindowToMs(window) {
 }
 
 export const apiLimiter = createLimiter({
+  name: 'api',
   limit: 100,
   window: '15 m',
   message: 'Too many requests, please try again later.',
 })
 
 export const authLimiter = createLimiter({
+  name: 'auth',
   limit: 10,
   window: '15 m',
   message: 'Too many attempts, please try again later.',
 })
 
 export const paymentLimiter = createLimiter({
+  name: 'pay',
   limit: 20,
   window: '15 m',
   message: 'Too many payment attempts, please try again later.',
