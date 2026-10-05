@@ -114,7 +114,7 @@ function AboutPage() {
           <img
             src={craftImage}
             alt="Close-up of Bag Ivy beadwork"
-            className="order-1 aspect-[4/3] w-full object-cover lg:order-2"
+            className="order-1 aspect-4/3 w-full object-cover lg:order-2"
             loading="lazy"
             decoding="async"
           />
