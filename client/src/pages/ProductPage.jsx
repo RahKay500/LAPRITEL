@@ -195,7 +195,7 @@ function ProductPage() {
                   <img
                     src={effectiveVariant.image}
                     alt={`${product.name} in ${effectiveVariant.name}`}
-                    className="h-full w-full object-contain"
+                    className="h-full w-full object-cover"
                   />
                   <div className="absolute bottom-0 left-0 bg-black/50 px-3 py-1.5">
                     <p className="text-xs font-bold uppercase tracking-widest text-white">
@@ -227,6 +227,12 @@ function ProductPage() {
               <div>
                 <p className="text-3xl font-extrabold text-burgundy">
                   GHS {effectiveVariant.price}
+                </p>
+
+                <p className="mt-3 text-xs font-semibold uppercase tracking-widest text-ink/60">
+                  {effectiveVariant.readyToShip
+                    ? 'Ready to ship'
+                    : 'Made to order · ready in 5–7 working days'}
                 </p>
 
                 <div className="mt-6 flex items-center gap-3">

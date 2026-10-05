@@ -252,6 +252,19 @@ function VariantForm({ initialValues, onSubmit, onCancel, isSaving, showActiveTo
         </label>
       )}
 
+      {showActiveToggle && (
+        <label className="flex items-center gap-2 text-sm text-ink/70 sm:col-span-2">
+          <input
+            type="checkbox"
+            checked={Boolean(form.readyToShip)}
+            onChange={(event) =>
+              setForm((current) => ({ ...current, readyToShip: event.target.checked }))
+            }
+          />
+          Ready to ship (in stock) — otherwise shown as made to order
+        </label>
+      )}
+
       <label className="flex items-center gap-2 text-sm text-ink/70 sm:col-span-2">
         <input
           type="checkbox"
@@ -405,6 +418,7 @@ function AdminProductsPage() {
                       imageUrl: variant.image_url || '',
                       isActive: variant.is_active,
                       isCustom: variant.is_custom,
+                      readyToShip: variant.ready_to_ship,
                     }}
                     isSaving={isSaving}
                     showActiveToggle

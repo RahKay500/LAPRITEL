@@ -17,6 +17,7 @@ function toVariant(variant, productName) {
     price: Number(variant.price),
     image: variant.image_url || undefined,
     isCustom: Boolean(variant.is_custom),
+    readyToShip: Boolean(variant.ready_to_ship),
     productName,
   }
 }

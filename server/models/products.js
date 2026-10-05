@@ -147,6 +147,7 @@ export async function updateVariant(id, variant) {
   if (variant.imageUrl !== undefined) updates.image_url = variant.imageUrl
   if (variant.isActive !== undefined) updates.is_active = variant.isActive
   if (variant.isCustom !== undefined) updates.is_custom = variant.isCustom
+  if (variant.readyToShip !== undefined) updates.ready_to_ship = variant.readyToShip
 
   const { data, error } = await supabase
     .from('product_variants')

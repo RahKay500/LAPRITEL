@@ -5,6 +5,7 @@ import { useCart } from '../context/useCart'
 import { api } from '../services/api'
 import { grossUpForPaystackFee } from '../utils/pricing'
 import { usePageMeta } from '../hooks/usePageMeta'
+import LeadTimeNote from '../components/LeadTimeNote'
 
 const ghanaRegions = [
   'Greater Accra',
@@ -345,6 +346,7 @@ function CheckoutPage() {
                   <span>Subtotal</span>
                   <span>GHS {subtotal}</span>
                 </div>
+                <LeadTimeNote items={checkoutItems} className="text-right" />
                 <div className="flex justify-between text-ink/70">
                   <span>Payment Processing Fee</span>
                   <span>GHS {processingFee.toFixed(2)}</span>

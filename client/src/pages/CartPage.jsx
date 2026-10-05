@@ -3,6 +3,7 @@ import { Minus, Plus, Trash2 } from 'lucide-react'
 import { useCart } from '../context/useCart'
 import { usePageMeta } from '../hooks/usePageMeta'
 import ColorSwatch from '../components/ColorSwatch'
+import LeadTimeNote from '../components/LeadTimeNote'
 
 function CartPage() {
   usePageMeta('Your Cart', 'Review the items in your cart before checking out.')
@@ -138,6 +139,7 @@ function CartPage() {
             </span>
             <span className="text-xl font-extrabold text-burgundy">GHS {selectedSubtotal}</span>
           </div>
+          <LeadTimeNote items={selectedItems} className="mt-2 text-right" />
           <p className="-mt-2 w-full text-right text-xs text-ink/50 sm:max-w-sm">
             A small payment processing fee is added at checkout.
           </p>
