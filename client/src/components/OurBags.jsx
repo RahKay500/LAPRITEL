@@ -61,9 +61,9 @@ function OurBags() {
                     <div>
                       <Link to={`/shop/${product.slug}?color=${variant.color_slug}`} className="group block">
                         <div className="relative aspect-square w-full overflow-hidden bg-burgundy-tint">
-                          {variant.image_url ? (
+                          {product.cover_image_url || variant.image_url ? (
                             <img
-                              src={variant.image_url}
+                              src={product.cover_image_url || variant.image_url}
                               alt={product.name}
                               className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                               loading="lazy"
