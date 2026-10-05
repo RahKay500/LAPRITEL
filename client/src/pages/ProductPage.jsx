@@ -6,6 +6,8 @@ import { useCart } from '../context/useCart'
 import { useWishlist } from '../context/useWishlist'
 import { usePageMeta } from '../hooks/usePageMeta'
 import ColorSwatch from '../components/ColorSwatch'
+import ProductImage from '../components/product/ProductImage'
+import ColourPicker from '../components/product/ColourPicker'
 import ProductDetails from '../components/product/ProductDetails'
 import RelatedBags from '../components/product/RelatedBags'
 
@@ -182,39 +184,7 @@ function ProductPage() {
             <p className="mt-4 max-w-md text-ink/60">{product.description}</p>
 
             <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-16">
-              {effectiveVariant.image ? (
-                <div id="product-image" className="relative aspect-square w-full scroll-mt-20 overflow-hidden bg-burgundy-tint">
-                  <img
-                    src={effectiveVariant.image}
-                    alt={`${product.name} in ${effectiveVariant.name}`}
-                    className="h-full w-full object-cover"
-                  />
-                  <div className="absolute bottom-0 left-0 bg-black/50 px-3 py-1.5">
-                    <p className="text-xs font-bold uppercase tracking-widest text-white">
-                      {effectiveVariant.name}
-                    </p>
-                  </div>
-                </div>
-              ) : (
-                <div id="product-image" className="flex aspect-square w-full scroll-mt-20 items-center justify-center bg-burgundy-tint">
-                  <div className="text-center">
-                    <ColorSwatch
-                      hex={effectiveVariant.hex}
-                      topHex={effectiveVariant.topHex}
-                      bottomHex={effectiveVariant.bottomHex}
-                      isTwoTone={effectiveVariant.isTwoTone}
-                      className="mx-auto h-20 w-20"
-                    />
-                    <p className="mt-4 text-sm text-ink/50">
-                      {isTwoToneReady
-                        ? 'Custom two-tone colour — no preview photo'
-                        : effectiveVariant.isCustom
-                          ? 'Custom colour — made to order, no preview photo'
-                          : 'Photo coming soon'}
-                    </p>
-                  </div>
-                </div>
-              )}
+              <ProductImage variant={effectiveVariant} productName={product.name} isTwoToneReady={isTwoToneReady} />
 
               <div>
                 <p className="text-3xl font-extrabold text-burgundy">
@@ -289,34 +259,7 @@ function ProductPage() {
                   Buy Now
                 </button>
 
-                {standardVariants.length > 1 && (
-                  <div className="mt-6">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-ink/60">
-                      {selectedVariant.isCustom ? 'Custom Colour' : 'Colour'} &mdash;{' '}
-                      <span className="text-burgundy">{selectedVariant.name}</span>
-                    </p>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {standardVariants.map((variant) => (
-                        <button
-                          key={variant.slug}
-                          type="button"
-                          aria-label={variant.name}
-                          onClick={() => selectColor(variant.slug)}
-                          className={`h-9 w-9 rounded-full border-2 transition-colors ${
-                            variant.slug === selectedVariant.slug
-                              ? 'border-burgundy'
-                              : 'border-transparent hover:border-black/20'
-                          }`}
-                        >
-                          <span
-                            className="block h-full w-full rounded-full border border-black/10"
-                            style={{ background: variant.hex }}
-                          />
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                <ColourPicker variants={standardVariants} selected={selectedVariant} onSelect={selectColor} />
 
                 {customVariants.length > 0 && (
                   <div id="custom-colors" className="mt-6 scroll-mt-24 border-t border-black/10 pt-6">
