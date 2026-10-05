@@ -1,6 +1,7 @@
 import express from 'express'
 import { body, param, validationResult } from 'express-validator'
 import { createRequest, getRequest, payRequest } from '../controllers/buyRequestsController.js'
+import { NAME_PATTERN, PHONE_PATTERN } from '../shared/validation.js'
 
 const router = express.Router()
 
@@ -18,9 +19,9 @@ router.post(
     body('items').isArray({ min: 1 }),
     body('items.*.slug').isString().notEmpty(),
     body('items.*.quantity').isInt({ min: 1 }),
-    body('requester.fullName').isString().trim().matches(/^[A-Za-z\s'-]+$/),
+    body('requester.fullName').isString().trim().matches(NAME_PATTERN),
     body('requester.email').isEmail(),
-    body('requester.phone').isString().trim().matches(/^[0-9]{10}$/),
+    body('requester.phone').isString().trim().matches(PHONE_PATTERN),
     body('requester.address').isString().trim().notEmpty(),
     body('requester.city').isString().trim().notEmpty(),
     body('requester.region').isString().trim().notEmpty(),

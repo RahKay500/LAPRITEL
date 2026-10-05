@@ -3,13 +3,14 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { sanitizeField } from '../utils/sanitizeField'
+import { NAME_PATTERN, PHONE_PATTERN } from '../shared/validation'
 
 function validate(form) {
   const errors = {}
-  if (!/^[A-Za-z\s'-]+$/.test(form.fullName.trim())) {
+  if (!NAME_PATTERN.test(form.fullName.trim())) {
     errors.fullName = 'Enter a valid name (letters only)'
   }
-  if (!/^[0-9]{10}$/.test(form.phone.trim())) errors.phone = 'Enter a valid 10-digit phone number'
+  if (!PHONE_PATTERN.test(form.phone.trim())) errors.phone = 'Enter a valid 10-digit phone number'
   return errors
 }
 

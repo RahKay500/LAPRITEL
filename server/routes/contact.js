@@ -1,6 +1,7 @@
 import express from 'express'
 import { body, validationResult } from 'express-validator'
 import { submitContactMessage } from '../controllers/contactController.js'
+import { NAME_PATTERN } from '../shared/validation.js'
 
 const router = express.Router()
 
@@ -15,7 +16,7 @@ function validate(req, res, next) {
 router.post(
   '/',
   [
-    body('fullName').isString().trim().matches(/^[A-Za-z\s'-]+$/).isLength({ max: 100 }),
+    body('fullName').isString().trim().matches(NAME_PATTERN).isLength({ max: 100 }),
     body('email').isEmail(),
     body('message').isString().trim().notEmpty().isLength({ max: 2000 }),
   ],

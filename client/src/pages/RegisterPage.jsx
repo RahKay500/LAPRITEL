@@ -4,6 +4,7 @@ import { useAuth } from '../context/useAuth'
 import { usePageMeta } from '../hooks/usePageMeta'
 import PasswordInput from '../components/PasswordInput'
 import { sanitizeField } from '../utils/sanitizeField'
+import { EMAIL_PATTERN, NAME_PATTERN, PHONE_PATTERN } from '../shared/validation'
 
 const initialForm = {
   fullName: '',
@@ -15,11 +16,11 @@ const initialForm = {
 
 function validate(form) {
   const errors = {}
-  if (!/^[A-Za-z\s'-]+$/.test(form.fullName.trim())) {
+  if (!NAME_PATTERN.test(form.fullName.trim())) {
     errors.fullName = 'Enter a valid name (letters only)'
   }
-  if (!/^\S+@\S+\.\S+$/.test(form.email)) errors.email = 'Enter a valid email address'
-  if (!/^[0-9]{10}$/.test(form.phone.trim())) errors.phone = 'Enter a valid 10-digit phone number'
+  if (!EMAIL_PATTERN.test(form.email)) errors.email = 'Enter a valid email address'
+  if (!PHONE_PATTERN.test(form.phone.trim())) errors.phone = 'Enter a valid 10-digit phone number'
   if (form.password.length < 8) errors.password = 'Password must be at least 8 characters'
   if (form.confirmPassword !== form.password) errors.confirmPassword = 'Passwords do not match'
   return errors

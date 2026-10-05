@@ -1,3 +1,4 @@
+import { EMAIL_PATTERN, NAME_PATTERN, PHONE_PATTERN } from '../shared/validation'
 export const ghanaRegions = [
   'Greater Accra',
   'Ashanti',
@@ -57,19 +58,19 @@ export function persistDetails(form, shouldSave) {
 
 export function validate(form) {
   const errors = {}
-  if (!/^[A-Za-z\s'-]+$/.test(form.fullName.trim())) {
+  if (!NAME_PATTERN.test(form.fullName.trim())) {
     errors.fullName = 'Enter a valid name (letters only)'
   }
-  if (!/^\S+@\S+\.\S+$/.test(form.email)) errors.email = 'Enter a valid email address'
-  if (!/^[0-9]{10}$/.test(form.phone.trim())) errors.phone = 'Enter a valid 10-digit phone number'
+  if (!EMAIL_PATTERN.test(form.email)) errors.email = 'Enter a valid email address'
+  if (!PHONE_PATTERN.test(form.phone.trim())) errors.phone = 'Enter a valid 10-digit phone number'
   if (!form.address.trim()) errors.address = 'Delivery address is required'
   if (!form.city.trim()) errors.city = 'City/town is required'
   if (!form.region) errors.region = 'Select a region'
   if (form.sendToSomeone) {
-    if (!/^[A-Za-z\s'-]+$/.test(form.recipientName.trim())) {
+    if (!NAME_PATTERN.test(form.recipientName.trim())) {
       errors.recipientName = 'Enter the recipient name (letters only)'
     }
-    if (!/^[0-9]{10}$/.test(form.recipientPhone.trim())) {
+    if (!PHONE_PATTERN.test(form.recipientPhone.trim())) {
       errors.recipientPhone = 'Enter the recipient 10-digit phone number'
     }
   }

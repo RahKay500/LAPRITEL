@@ -6,6 +6,7 @@ import {
   uploadAdminImage,
 } from '../../services/admin'
 import { usePagedList } from '../../hooks/usePagedList'
+import { NAME_PATTERN } from '../../shared/validation'
 
 const QUOTE_MAX = 280
 const PHOTO_MAX_SIDE = 1600
@@ -51,7 +52,7 @@ function AdminFeaturedPage() {
     setFormError('')
 
     if (!photo) return setFormError('Choose a photo first.')
-    if (!/^[A-Za-z\s'-]+$/.test(form.firstName.trim()) || form.firstName.trim().length > 50) {
+    if (!NAME_PATTERN.test(form.firstName.trim()) || form.firstName.trim().length > 50) {
       return setFormError('Enter a first name (letters only).')
     }
     if (!form.quote.trim() || form.quote.trim().length > QUOTE_MAX) {

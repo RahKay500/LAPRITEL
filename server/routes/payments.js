@@ -3,6 +3,7 @@ import { body, validationResult } from 'express-validator'
 import { verifyPayment } from '../controllers/paymentController.js'
 import { paymentLimiter } from '../middleware/rateLimiter.js'
 import { attachUserIfPresent } from '../middleware/auth.js'
+import { NAME_PATTERN, PHONE_PATTERN } from '../shared/validation.js'
 
 const router = express.Router()
 
@@ -17,9 +18,9 @@ router.post(
     body('items.*.name').isString().notEmpty(),
     body('items.*.price').isFloat({ min: 0 }),
     body('items.*.quantity').isInt({ min: 1 }),
-    body('customer.fullName').isString().trim().matches(/^[A-Za-z\s'-]+$/),
+    body('customer.fullName').isString().trim().matches(NAME_PATTERN),
     body('customer.email').isEmail(),
-    body('customer.phone').isString().trim().matches(/^[0-9]{10}$/),
+    body('customer.phone').isString().trim().matches(PHONE_PATTERN),
     body('customer.address').isString().trim().notEmpty(),
     body('customer.city').isString().trim().notEmpty(),
     body('customer.region').isString().trim().notEmpty(),
@@ -27,12 +28,12 @@ router.post(
       .optional({ values: 'falsy' })
       .isString()
       .trim()
-      .matches(/^[A-Za-z\s'-]+$/),
+      .matches(NAME_PATTERN),
     body('customer.recipientPhone')
       .optional({ values: 'falsy' })
       .isString()
       .trim()
-      .matches(/^[0-9]{10}$/),
+      .matches(PHONE_PATTERN),
   ],
   (req, res, next) => {
     const errors = validationResult(req)

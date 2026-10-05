@@ -3,15 +3,16 @@ import { Camera, MessageCircle } from 'lucide-react'
 import { submitContactForm } from '../services/contact'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { sanitizeField } from '../utils/sanitizeField'
+import { EMAIL_PATTERN, NAME_PATTERN } from '../shared/validation'
 
 const initialForm = { fullName: '', email: '', message: '' }
 
 function validate(form) {
   const errors = {}
-  if (!/^[A-Za-z\s'-]+$/.test(form.fullName.trim())) {
+  if (!NAME_PATTERN.test(form.fullName.trim())) {
     errors.fullName = 'Enter a valid name (letters only)'
   }
-  if (!/^\S+@\S+\.\S+$/.test(form.email)) errors.email = 'Enter a valid email address'
+  if (!EMAIL_PATTERN.test(form.email)) errors.email = 'Enter a valid email address'
   if (!form.message.trim()) errors.message = 'Message is required'
   return errors
 }

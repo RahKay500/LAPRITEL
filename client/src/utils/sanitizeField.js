@@ -1,4 +1,4 @@
-const NAME_DISALLOWED = /[^A-Za-z\s'-]/g
+import { NAME_DISALLOWED } from '../shared/validation'
 const ADDRESS_DISALLOWED = /[^A-Za-z0-9\s,.'#/-]/g
 const EMOJI = /\p{Extended_Pictographic}/gu
 

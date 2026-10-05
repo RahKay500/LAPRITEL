@@ -18,6 +18,7 @@ import {
   removeVariant,
   uploadImage,
 } from '../controllers/adminProductsController.js'
+import { NAME_PATTERN, SLUG_PATTERN } from '../shared/validation.js'
 
 const router = express.Router()
 const upload = multer({
@@ -72,7 +73,7 @@ router.get('/featured-customers', listAdminFeaturedCustomers)
 router.post(
   '/featured-customers',
   [
-    body('firstName').isString().trim().matches(/^[A-Za-z\s'-]+$/).isLength({ max: 50 }),
+    body('firstName').isString().trim().matches(NAME_PATTERN).isLength({ max: 50 }),
     body('quote').isString().trim().notEmpty().isLength({ max: 280 }),
     body('imageUrl').isURL({ protocols: ['https'], require_protocol: true }),
     body('consentConfirmed').custom((value) => value === true),
@@ -93,7 +94,7 @@ router.post(
   '/products',
   [
     body('name').isString().trim().notEmpty().isLength({ max: 80 }),
-    body('slug').isString().trim().matches(/^[a-z0-9]+(-[a-z0-9]+)*$/).isLength({ max: 80 }),
+    body('slug').isString().trim().matches(SLUG_PATTERN).isLength({ max: 80 }),
     body('description').optional({ values: 'null' }).isString().trim().isLength({ max: 1000 }),
   ],
   validate,

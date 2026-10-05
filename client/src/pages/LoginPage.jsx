@@ -3,10 +3,11 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 import { usePageMeta } from '../hooks/usePageMeta'
 import PasswordInput from '../components/PasswordInput'
+import { EMAIL_PATTERN } from '../shared/validation'
 
 function validate(form) {
   const errors = {}
-  if (!/^\S+@\S+\.\S+$/.test(form.email)) errors.email = 'Enter a valid email address'
+  if (!EMAIL_PATTERN.test(form.email)) errors.email = 'Enter a valid email address'
   if (!form.password) errors.password = 'Password is required'
   return errors
 }

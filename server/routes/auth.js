@@ -11,6 +11,7 @@ import {
 } from '../controllers/authController.js'
 import { requireAuth, attachUserIfPresent } from '../middleware/auth.js'
 import { authLimiter } from '../middleware/rateLimiter.js'
+import { NAME_PATTERN, PHONE_PATTERN } from '../shared/validation.js'
 
 const router = express.Router()
 
@@ -26,9 +27,9 @@ router.post(
   '/register',
   authLimiter,
   [
-    body('fullName').isString().trim().matches(/^[A-Za-z\s'-]+$/),
+    body('fullName').isString().trim().matches(NAME_PATTERN),
     body('email').isEmail(),
-    body('phone').isString().trim().matches(/^[0-9]{10}$/),
+    body('phone').isString().trim().matches(PHONE_PATTERN),
     body('password').isString().isLength({ min: 8 }),
   ],
   validate,
@@ -67,8 +68,8 @@ router.patch(
   '/me',
   requireAuth,
   [
-    body('fullName').isString().trim().matches(/^[A-Za-z\s'-]+$/),
-    body('phone').isString().trim().matches(/^[0-9]{10}$/),
+    body('fullName').isString().trim().matches(NAME_PATTERN),
+    body('phone').isString().trim().matches(PHONE_PATTERN),
   ],
   validate,
   updateProfile

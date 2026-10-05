@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import PaystackPop from '@paystack/inline-js'
 import { fetchBuyRequest, payBuyRequest } from '../services/buyRequests'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { EMAIL_PATTERN } from '../shared/validation'
 
 function BuyForMePage() {
   usePageMeta('Buy for me', 'Pay for a LAPRITEL bag for a friend.')
@@ -33,7 +34,7 @@ function BuyForMePage() {
 
   function handlePay(event) {
     event.preventDefault()
-    if (!/^\S+@\S+\.\S+$/.test(payerEmail)) {
+    if (!EMAIL_PATTERN.test(payerEmail)) {
       setEmailError('Enter a valid email address')
       return
     }

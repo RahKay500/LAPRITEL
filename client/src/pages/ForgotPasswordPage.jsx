@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { EMAIL_PATTERN } from '../shared/validation'
 
 function ForgotPasswordPage() {
   usePageMeta('Forgot Password', 'Reset the password for your LAPRITEL account.')
@@ -14,7 +15,7 @@ function ForgotPasswordPage() {
 
   async function handleSubmit(event) {
     event.preventDefault()
-    if (!/^\S+@\S+\.\S+$/.test(email)) {
+    if (!EMAIL_PATTERN.test(email)) {
       setError('Enter a valid email address')
       return
     }
