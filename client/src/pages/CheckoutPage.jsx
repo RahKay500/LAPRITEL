@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import PaystackPop from '@paystack/inline-js'
 import { useCart } from '../context/useCart'
 import { api } from '../services/api'
+import { createBuyRequest } from '../services/buyRequests'
 import { usePageMeta } from '../hooks/usePageMeta'
 import LeadTimeNote from '../components/LeadTimeNote'
 import { sanitizeField } from '../utils/sanitizeField'
@@ -502,6 +503,41 @@ function CheckoutPage() {
               >
                 {isProcessing ? 'Processing...' : 'Checkout'}
               </button>
+
+              <button
+                type="button"
+                onClick={handleBuyForMe}
+                disabled={isCreatingLink || checkoutItems.length === 0}
+                className="mt-3 w-full rounded-full px-8 py-3 text-sm font-semibold uppercase tracking-widest text-burgundy underline-offset-4 hover:underline disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {isCreatingLink ? 'Creating link...' : 'Buy for me'}
+              </button>
+
+              {buyLink && (
+                <div className="mt-4 space-y-3 border border-black/10 p-4 text-left text-sm">
+                  <p className="text-ink/80">
+                    Send this link to the friend who will pay. Your order is delivered to you.
+                  </p>
+                  <p className="break-all text-xs text-ink/70">{buyLink}</p>
+                  <div className="flex flex-wrap gap-3">
+                    <button
+                      type="button"
+                      onClick={() => navigator.clipboard?.writeText(buyLink)}
+                      className="rounded-full border border-burgundy px-4 py-2 text-xs font-bold uppercase tracking-widest text-burgundy"
+                    >
+                      Copy link
+                    </button>
+                    <a
+                      href={`https://wa.me/?text=${encodeURIComponent(`Buy for me on LAPRITEL: ${buyLink}`)}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="rounded-full border border-burgundy px-4 py-2 text-xs font-bold uppercase tracking-widest text-burgundy"
+                    >
+                      Share on WhatsApp
+                    </a>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </form>

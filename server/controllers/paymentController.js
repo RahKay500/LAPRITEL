@@ -1,13 +1,14 @@
 import { getActiveVariantPriceMap, getActiveVariantMetaMap } from '../models/products.js'
 import { verifyTransaction, isValidWebhookSignature } from '../utils/paystack.js'
 import { sendOrderConfirmationEmail, sendAdminOrderNotificationEmail } from '../utils/email.js'
+import { getBuyRequestByToken, isBuyRequestOpen, markBuyRequestPaid } from '../models/buyRequests.js'
 import {
   createOrder,
   getOrderByReference,
   markOrderPaidIfPending,
 } from '../models/orders.js'
 
-async function priceOrder(items) {
+export async function priceOrder(items) {
   const [priceMap, metaMap] = await Promise.all([getActiveVariantPriceMap(), getActiveVariantMetaMap()])
 
   let subtotalPesewas = 0
@@ -37,7 +38,7 @@ async function priceOrder(items) {
   }
 }
 
-function transactionMatches(transaction, expectedChargePesewas, email) {
+export function transactionMatches(transaction, expectedChargePesewas, email) {
   return (
     transaction.status === 'success' &&
     transaction.amount === expectedChargePesewas &&
@@ -46,7 +47,7 @@ function transactionMatches(transaction, expectedChargePesewas, email) {
   )
 }
 
-async function fulfillOrder({ reference, customer, priced, userId }) {
+export async function fulfillOrder({ reference, customer, priced, userId }) {
   if (await getOrderByReference(reference)) return
 
   const order = await createOrder({
@@ -110,7 +111,11 @@ export async function handleWebhook(req, res) {
   if (event.event === 'charge.success') {
     const data = event.data
     const reference = data.reference
-    const { items, customer } = data.metadata || {}
+    const { items, customer, buyRequestToken } = data.metadata || {}
+
+    if (buyRequestToken) {
+      await fulfillBuyRequestFromWebhook(buyRequestToken, data)
+    }
 
     if (Array.isArray(items) && customer) {
       try {
@@ -130,4 +135,28 @@ export async function handleWebhook(req, res) {
   }
 
   res.sendStatus(200)
+}
+
+export async function fulfillBuyRequest(request, transaction) {
+  const priced = await priceOrder(request.items)
+  if (!transactionMatches(transaction, priced.expectedChargePesewas, transaction.customer?.email)) {
+    throw new Error('Buy request payment does not match the request total')
+  }
+  await fulfillOrder({
+    reference: transaction.reference,
+    customer: { ...request.requester, email: transaction.customer.email },
+    priced,
+    userId: null,
+  })
+  await markBuyRequestPaid(request.id)
+}
+
+async function fulfillBuyRequestFromWebhook(token, transaction) {
+  const request = await getBuyRequestByToken(token)
+  if (!isBuyRequestOpen(request)) return
+  try {
+    await fulfillBuyRequest(request, transaction)
+  } catch (error) {
+    console.error(`Paystack webhook: could not fulfil buy request ${token}:`, error.message)
+  }
 }

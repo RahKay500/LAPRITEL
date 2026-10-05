@@ -10,6 +10,7 @@ import RequireAdmin from './components/RequireAdmin'
 import HomePage from './pages/HomePage'
 const ShopPage = lazy(() => import('./pages/ShopPage'))
 const CollectionsPage = lazy(() => import('./pages/CollectionsPage'))
+const BuyForMePage = lazy(() => import('./pages/BuyForMePage'))
 const ProductPage = lazy(() => import('./pages/ProductPage'))
 const CartPage = lazy(() => import('./pages/CartPage'))
 const WishlistPage = lazy(() => import('./pages/WishlistPage'))
@@ -48,6 +49,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/collections" element={<CollectionsPage />} />
+          <Route path="/buy-for-me/:token" element={<BuyForMePage />} />
             <Route path="/shop" element={<ShopPage />} />
             <Route path="/shop/:slug" element={<ProductPage />} />
             <Route path="/cart" element={<CartPage />} />
