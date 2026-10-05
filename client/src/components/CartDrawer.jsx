@@ -5,7 +5,16 @@ import { useCart } from '../context/useCart'
 import ColorSwatch from './ColorSwatch'
 
 function CartDrawer() {
-  const { items, removeItem, updateQuantity, subtotal, isDrawerOpen, closeDrawer } = useCart()
+  const {
+    items,
+    removeItem,
+    updateQuantity,
+    toggleItemSelected,
+    selectedItems,
+    selectedSubtotal,
+    isDrawerOpen,
+    closeDrawer,
+  } = useCart()
 
   useEffect(() => {
     if (!isDrawerOpen) return
@@ -72,7 +81,22 @@ function CartDrawer() {
           <>
             <div className="flex-1 divide-y divide-black/10 overflow-y-auto px-5">
               {items.map((item) => (
-                <div key={item.key} className="flex gap-4 py-5">
+                <div
+                  key={item.key}
+                  className={`flex gap-4 py-5 ${item.isSelected ? '' : 'opacity-50'}`}
+                >
+                  <label className="flex flex-none items-start pt-1">
+                    <span className="sr-only">
+                      {item.isSelected ? 'Included in checkout' : 'Excluded from checkout'} —{' '}
+                      {item.productName} ({item.name})
+                    </span>
+                    <input
+                      type="checkbox"
+                      checked={item.isSelected}
+                      onChange={() => toggleItemSelected(item.key)}
+                      className="h-4 w-4 accent-burgundy"
+                    />
+                  </label>
                   {item.image ? (
                     <div className="flex h-20 w-20 flex-none items-center justify-center bg-burgundy-tint/40">
                       <img
@@ -141,8 +165,11 @@ function CartDrawer() {
 
             <div className="border-t border-black/10 px-5 py-5">
               <div className="flex justify-between text-base">
-                <span className="font-medium text-ink">Subtotal</span>
-                <span className="text-xl font-extrabold text-burgundy">GHS {subtotal}</span>
+                <span className="font-medium text-ink">
+                  Subtotal
+                  {selectedItems.length !== items.length && ` (${selectedItems.length} selected)`}
+                </span>
+                <span className="text-xl font-extrabold text-burgundy">GHS {selectedSubtotal}</span>
               </div>
               <p className="mt-1 text-xs text-ink/50">
                 A small payment processing fee is added at checkout.
