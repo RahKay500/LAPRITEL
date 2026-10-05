@@ -1,6 +1,25 @@
 import { Component } from 'react'
 import { Sentry } from '../config/sentry.js'
 
+const STALE_BUILD_PATTERN = /Failed to fetch dynamically imported module|Importing a module script failed|ChunkLoadError/
+const RELOAD_KEY = 'lapritel_stale_build_reload'
+const RELOAD_WINDOW_MS = 60_000
+
+function isStaleBuildError(error) {
+  return STALE_BUILD_PATTERN.test(error?.message || '')
+}
+
+function reloadOnce() {
+  try {
+    const last = Number(sessionStorage.getItem(RELOAD_KEY) || 0)
+    if (Date.now() - last < RELOAD_WINDOW_MS) return false
+    sessionStorage.setItem(RELOAD_KEY, String(Date.now()))
+    return true
+  } catch {
+    return false
+  }
+}
+
 class ErrorBoundary extends Component {
   state = { hasError: false }
 
@@ -9,6 +28,10 @@ class ErrorBoundary extends Component {
   }
 
   componentDidCatch(error, info) {
+    if (isStaleBuildError(error) && reloadOnce()) {
+      window.location.reload()
+      return
+    }
     console.error('Unhandled UI error:', error, info)
     if (import.meta.env.VITE_SENTRY_DSN) {
       Sentry.captureException(error, { extra: { componentStack: info.componentStack } })
