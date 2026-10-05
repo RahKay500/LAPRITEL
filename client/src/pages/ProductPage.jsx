@@ -6,13 +6,8 @@ import { useCart } from '../context/useCart'
 import { useWishlist } from '../context/useWishlist'
 import { usePageMeta } from '../hooks/usePageMeta'
 import ColorSwatch from '../components/ColorSwatch'
-
-const SPECS = [
-  { label: 'Style', value: 'Structured beaded handbag' },
-  { label: 'Beadwork', value: 'Full coverage seed beads, hand-stitched' },
-  { label: 'Dimensions', value: '22 cm × 18 cm × 8 cm' },
-  { label: 'Carry', value: 'Top handle, 15 cm drop' },
-]
+import ProductDetails from '../components/product/ProductDetails'
+import RelatedBags from '../components/product/RelatedBags'
 
 function ProductPage() {
   const { slug } = useParams()
@@ -58,9 +53,6 @@ function ProductPage() {
   const navigate = useNavigate()
   const { isWishlisted, toggleWishlist } = useWishlist()
   const [isAdded, setIsAdded] = useState(false)
-  const [isCareOpen, setIsCareOpen] = useState(false)
-  const [isShippingOpen, setIsShippingOpen] = useState(false)
-  const [isFaqOpen, setIsFaqOpen] = useState(false)
   const [isCustomOpen, setIsCustomOpen] = useState(() => window.location.hash === '#custom-colors')
   const [quantity, setQuantity] = useState(1)
   const wishlisted = Boolean(product && selectedVariant && isWishlisted(product.slug, selectedVariant.slug))
@@ -472,180 +464,13 @@ function ProductPage() {
                   </div>
                 )}
 
-                <div className="mt-6 overflow-hidden border border-black/5">
-                  {SPECS.map((spec, index) => (
-                    <div
-                      key={spec.label}
-                      className={`flex flex-col gap-1 px-4 py-3 sm:flex-row sm:items-center sm:gap-4 ${
-                        index % 2 === 0 ? 'bg-white' : 'bg-burgundy-tint/40'
-                      }`}
-                    >
-                      <p className="w-28 shrink-0 text-[11px] font-semibold uppercase tracking-wide text-ink/50">
-                        {spec.label}
-                      </p>
-                      <p className="text-sm text-ink">{spec.value}</p>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-8 border-t border-black/10 pt-4">
-                  <button
-                    type="button"
-                    onClick={() => setIsCareOpen((open) => !open)}
-                    className="flex w-full items-center justify-between text-left text-sm font-semibold text-ink"
-                  >
-                    Size & Care
-                    {isCareOpen ? (
-                      <ChevronUp size={16} strokeWidth={1.5} />
-                    ) : (
-                      <ChevronDown size={16} strokeWidth={1.5} />
-                    )}
-                  </button>
-                  {isCareOpen && (
-                    <div className="mt-3 space-y-2 text-sm text-ink/70">
-                      <p>Approx. 22cm wide x 18cm tall, with a 15cm handle drop.</p>
-                      <p>
-                        Wipe clean with a soft, dry cloth. Avoid water, perfume,
-                        and direct sunlight for extended periods to preserve the
-                        beadwork.
-                      </p>
-                      <p>Store in the provided pouch when not in use.</p>
-                    </div>
-                  )}
-                </div>
-
-                <div className="mt-4 border-t border-black/10 pt-4">
-                  <button
-                    type="button"
-                    onClick={() => setIsShippingOpen((open) => !open)}
-                    className="flex w-full items-center justify-between text-left text-sm font-semibold text-ink"
-                  >
-                    Shipping & Returns
-                    {isShippingOpen ? (
-                      <ChevronUp size={16} strokeWidth={1.5} />
-                    ) : (
-                      <ChevronDown size={16} strokeWidth={1.5} />
-                    )}
-                  </button>
-                  {isShippingOpen && (
-                    <div className="mt-3 space-y-2 text-sm text-ink/70">
-                      <p>
-                        Every bag is made to order and hand-beaded once you
-                        place your order &mdash; production takes 5&ndash;7
-                        working days, and your order ships as soon as it's
-                        done.
-                      </p>
-                      <p>
-                        Because each piece is handmade, we don't accept
-                        returns or exchanges for change of mind. If your bag
-                        arrives damaged, defective, or isn't what you ordered,
-                        contact us within 48 hours of delivery and we'll sort
-                        out a replacement or refund.
-                      </p>
-                      <p>
-                        <Link to="/refund-policy" className="text-burgundy hover:underline">
-                          Read the full Refund Policy
-                        </Link>
-                      </p>
-                    </div>
-                  )}
-                </div>
-
-                <div className="mt-4 border-t border-black/10 pt-4">
-                  <button
-                    type="button"
-                    onClick={() => setIsFaqOpen((open) => !open)}
-                    className="flex w-full items-center justify-between text-left text-sm font-semibold text-ink"
-                  >
-                    FAQ
-                    {isFaqOpen ? (
-                      <ChevronUp size={16} strokeWidth={1.5} />
-                    ) : (
-                      <ChevronDown size={16} strokeWidth={1.5} />
-                    )}
-                  </button>
-                  {isFaqOpen && (
-                    <div className="mt-3 space-y-4 text-sm text-ink/70">
-                      <div>
-                        <p className="font-semibold text-ink">Is this bag really handmade?</p>
-                        <p className="mt-1">
-                          Yes — every bag is hand-beaded by skilled artisans, taking hours of
-                          careful work to complete.
-                        </p>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-ink">How long will my order take?</p>
-                        <p className="mt-1">
-                          Since each bag is made to order, production takes 5&ndash;7 working
-                          days, and your order ships as soon as it's done.
-                        </p>
-                      </div>
-                      {customVariants.length > 0 && (
-                        <div>
-                          <p className="font-semibold text-ink">Can I request a custom colour?</p>
-                          <p className="mt-1">
-                            Yes — scroll up to{' '}
-                            <a href="#custom-colors" className="text-burgundy hover:underline">
-                              Custom Colours
-                            </a>{' '}
-                            to pick one colour, or two colours for a top-and-bottom combination,
-                            at no extra cost.
-                          </p>
-                        </div>
-                      )}
-                      <div>
-                        <p className="font-semibold text-ink">What if my bag arrives damaged?</p>
-                        <p className="mt-1">
-                          Contact us within 48 hours of delivery and we'll arrange a replacement
-                          or refund — see our{' '}
-                          <Link to="/refund-policy" className="text-burgundy hover:underline">
-                            Refund Policy
-                          </Link>{' '}
-                          for details.
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </div>
+                <ProductDetails hasCustomVariants={customVariants.length > 0} />
               </div>
             </div>
           </div>
         </div>
 
-        {relatedVariants.length > 0 && (
-        <div className="mt-20">
-          <h2 className="text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
-            More Colorways
-          </h2>
-          <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4 lg:grid-cols-7">
-            {relatedVariants.map((variant) => (
-              <Link key={variant.slug} to={`/shop/${product.slug}?color=${variant.slug}`}>
-                {variant.image ? (
-                  <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint/40">
-                    <img
-                      src={variant.image}
-                      alt={`${product.name} in ${variant.name}`}
-                      className="h-full w-full object-contain"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </div>
-                ) : (
-                  <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint/40">
-                    <span
-                      className="block h-10 w-10 rounded-full border border-black/10"
-                      style={{ background: variant.hex }}
-                    />
-                  </div>
-                )}
-                <p className="mt-2 text-center text-xs font-semibold uppercase tracking-wide text-ink">
-                  {variant.name}
-                </p>
-              </Link>
-            ))}
-          </div>
-        </div>
-        )}
+        {relatedVariants.length > 0 && <RelatedBags relatedVariants={relatedVariants} product={product} />}
       </div>
     </div>
   )

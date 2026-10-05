@@ -19,3 +19,11 @@ test('quick add puts a bag in the cart', async ({ page }) => {
 
   await expect(page.getByRole('dialog', { name: 'Shopping cart' })).toContainText('Pink')
 })
+
+test('the product page opens its details and shows other colours', async ({ page }) => {
+  await page.goto('/shop/bag-glanzy?color=glanzy-pink')
+
+  await expect(page.getByRole('heading', { name: 'More Colorways' })).toBeVisible()
+  await page.getByRole('button', { name: /Size & Care/ }).click()
+  await expect(page.getByText(/Approx\. 22cm wide/)).toBeVisible()
+})
