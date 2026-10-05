@@ -5,33 +5,80 @@ import { sendOrderConfirmationEmail, sendAdminOrderNotificationEmail } from '../
 import {
   createOrder,
   getOrderByReference,
-  updateOrderStatusByReference,
+  markOrderPaidIfPending,
 } from '../models/orders.js'
 
-async function calculateExpectedAmounts(items) {
-  const priceMap = await getActiveVariantPriceMap()
+async function priceOrder(items) {
+  const [priceMap, metaMap] = await Promise.all([getActiveVariantPriceMap(), getActiveVariantMetaMap()])
 
-  const subtotalPesewas = items.reduce((total, item) => {
+  let subtotalPesewas = 0
+  const lines = items.map((item) => {
     const price = priceMap.get(item.slug)
     if (price === undefined) {
       throw new Error(`Unknown product variant: ${item.slug}`)
     }
-    return total + Math.round(price * 100) * item.quantity
-  }, 0)
+    const quantity = Number(item.quantity)
+    subtotalPesewas += Math.round(price * 100) * quantity
+
+    const meta = metaMap.get(item.slug)
+    return {
+      slug: item.slug,
+      name: meta.colorName,
+      productName: meta.productName,
+      isCustom: meta.isCustom,
+      price,
+      quantity,
+    }
+  })
 
   return {
+    lines,
     subtotal: subtotalPesewas / 100,
     expectedChargePesewas: grossUpForPaystackFee(subtotalPesewas),
+  }
+}
+
+function transactionMatches(transaction, expectedChargePesewas, email) {
+  return (
+    transaction.status === 'success' &&
+    transaction.amount === expectedChargePesewas &&
+    transaction.currency === 'GHS' &&
+    transaction.customer?.email?.toLowerCase() === email?.toLowerCase()
+  )
+}
+
+async function fulfillOrder({ reference, customer, priced, userId }) {
+  if (await getOrderByReference(reference)) return
+
+  const order = await createOrder({
+    reference,
+    status: 'paid',
+    customer,
+    subtotal: priced.subtotal,
+    items: priced.lines,
+    userId,
+  })
+  if (!order) return
+
+  try {
+    await sendOrderConfirmationEmail({ reference, customer, items: priced.lines, subtotal: priced.subtotal })
+  } catch (emailError) {
+    console.error('Failed to send order confirmation email:', emailError.message)
+  }
+
+  try {
+    await sendAdminOrderNotificationEmail({ reference, customer, items: priced.lines, subtotal: priced.subtotal })
+  } catch (emailError) {
+    console.error('Failed to send admin order notification email:', emailError.message)
   }
 }
 
 export async function verifyPayment(req, res) {
   const { reference, items, customer } = req.body
 
-  let subtotal
-  let expectedChargePesewas
+  let priced
   try {
-    ;({ subtotal, expectedChargePesewas } = await calculateExpectedAmounts(items))
+    priced = await priceOrder(items)
   } catch (error) {
     return res.status(400).json({ verified: false, message: error.message })
   }
@@ -43,54 +90,11 @@ export async function verifyPayment(req, res) {
     return res.status(400).json({ verified: false, message: error.message })
   }
 
-  const isSuccessful = transaction.status === 'success'
-  const isCorrectAmount = transaction.amount === expectedChargePesewas
-  const isCorrectCurrency = transaction.currency === 'GHS'
-  // Without this, an attacker could pay for their own order, then submit an
-  // arbitrary customer object (any recipient email, unescaped HTML in
-  // address/name fields) — sending a spoofed "order confirmed" email from
-  // our own SMTP sender to a victim of their choosing.
-  const isCorrectCustomer =
-    transaction.customer?.email?.toLowerCase() === customer.email?.toLowerCase()
-
-  if (!isSuccessful || !isCorrectAmount || !isCorrectCurrency || !isCorrectCustomer) {
-    return res.status(400).json({
-      verified: false,
-      message: 'Payment could not be verified',
-    })
+  if (!transactionMatches(transaction, priced.expectedChargePesewas, customer.email)) {
+    return res.status(400).json({ verified: false, message: 'Payment could not be verified' })
   }
 
-  const existingOrder = await getOrderByReference(reference)
-  if (!existingOrder) {
-    let itemsWithMeta = items
-    try {
-      const metaMap = await getActiveVariantMetaMap()
-      itemsWithMeta = items.map((item) => ({ ...item, ...metaMap.get(item.slug) }))
-    } catch (metaError) {
-      console.error('Failed to resolve variant details for order:', metaError.message)
-    }
-
-    await createOrder({
-      reference,
-      status: 'paid',
-      customer,
-      subtotal,
-      items: itemsWithMeta,
-      userId: req.user?.id,
-    })
-
-    try {
-      await sendOrderConfirmationEmail({ reference, customer, items: itemsWithMeta, subtotal })
-    } catch (emailError) {
-      console.error('Failed to send order confirmation email:', emailError.message)
-    }
-
-    try {
-      await sendAdminOrderNotificationEmail({ reference, customer, items: itemsWithMeta, subtotal })
-    } catch (emailError) {
-      console.error('Failed to send admin order notification email:', emailError.message)
-    }
-  }
+  await fulfillOrder({ reference, customer, priced, userId: req.user?.id })
 
   res.json({ verified: true, reference, amount: transaction.amount / 100 })
 }
@@ -105,11 +109,24 @@ export async function handleWebhook(req, res) {
   const event = JSON.parse(req.body.toString('utf8'))
 
   if (event.event === 'charge.success') {
-    const reference = event.data.reference
-    const order = await getOrderByReference(reference)
-    if (order) {
-      await updateOrderStatusByReference(reference, 'paid')
+    const data = event.data
+    const reference = data.reference
+    const { items, customer } = data.metadata || {}
+
+    if (Array.isArray(items) && customer) {
+      try {
+        const priced = await priceOrder(items)
+        if (transactionMatches(data, priced.expectedChargePesewas, customer.email)) {
+          await fulfillOrder({ reference, customer, priced, userId: null })
+        } else {
+          console.error(`Paystack webhook: amount or customer mismatch for ${reference}`)
+        }
+      } catch (error) {
+        console.error(`Paystack webhook: could not fulfil ${reference}:`, error.message)
+      }
     }
+
+    await markOrderPaidIfPending(reference)
     console.log(`Paystack webhook: charge.success for ${reference}`)
   }
 

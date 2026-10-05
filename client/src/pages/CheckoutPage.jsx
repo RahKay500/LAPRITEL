@@ -86,6 +86,15 @@ function CheckoutPage() {
       email: form.email,
       amount: totalPesewas,
       currency: 'GHS',
+      metadata: {
+        items: checkoutItems.map((item) => ({
+          slug: item.slug,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+        })),
+        customer: form,
+      },
       onSuccess: async (transaction) => {
         try {
           await api.post('/payments/verify', {

@@ -20,12 +20,13 @@ export async function createOrder({ reference, status, customer, subtotal, items
     .single()
 
   if (orderError) {
+    if (orderError.code === '23505') return null
     throw new Error(`Failed to create order: ${orderError.message}`)
   }
 
   const orderItems = items.map((item) => ({
     order_id: order.id,
-    product_name: item.productName || 'Bag Ivy',
+    product_name: item.productName,
     color_slug: item.slug,
     color_name: item.name,
     is_custom: item.isCustom || false,
@@ -109,15 +110,15 @@ export async function getAllOrders({ status, search, page = 1, limit = 20 } = {}
   return { orders, total: count }
 }
 
-export async function claimOrdersByEmail(userId, email) {
+export async function markOrderPaidIfPending(reference) {
   const { error } = await supabase
     .from('orders')
-    .update({ user_id: userId })
-    .ilike('customer_email', email)
-    .is('user_id', null)
+    .update({ status: 'paid' })
+    .eq('reference', reference)
+    .eq('status', 'pending')
 
   if (error) {
-    throw new Error(`Failed to claim orders: ${error.message}`)
+    throw new Error(`Failed to mark order paid: ${error.message}`)
   }
 }
 
