@@ -54,9 +54,10 @@ function Navbar() {
             <li key={link.to}>
               <NavLink
                 to={link.to}
+                end={link.to === '/'}
                 className={({ isActive }) =>
-                  `text-xs font-semibold uppercase tracking-widest transition-colors hover:text-burgundy ${
-                    isActive ? 'text-burgundy' : 'text-ink'
+                  `border-b-2 pb-1 text-xs font-semibold uppercase tracking-widest transition-colors hover:text-burgundy ${
+                    isActive ? 'border-burgundy text-burgundy' : 'border-transparent text-ink'
                   }`
                 }
               >
@@ -106,10 +107,11 @@ function Navbar() {
               <li key={link.to}>
                 <NavLink
                   to={link.to}
+                  end={link.to === '/'}
                   onClick={() => setIsMenuOpen(false)}
                   className={({ isActive }) =>
-                    `block px-2 py-2.5 text-sm font-semibold uppercase tracking-widest ${
-                      isActive ? 'text-burgundy' : 'text-ink'
+                    `block rounded-md px-2 py-2.5 text-sm font-semibold uppercase tracking-widest ${
+                      isActive ? 'bg-burgundy-tint/50 text-burgundy' : 'text-ink'
                     }`
                   }
                 >

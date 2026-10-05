@@ -66,6 +66,7 @@ function ShopPage() {
     () =>
       (selectedCollection?.product_variants || [])
         .filter((variant) => variant.is_active !== false && !variant.is_custom)
+        .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
         .map((variant) => toCartVariant(variant, selectedCollection.name)),
     [selectedCollection]
   )
@@ -135,7 +136,7 @@ function ShopPage() {
                   <img
                     src={variant.image}
                     alt={`${selectedCollection.name} in ${variant.name}`}
-                    className="h-full w-full object-contain"
+                    className="h-full w-full object-cover"
                     loading="lazy"
                     decoding="async"
                   />
