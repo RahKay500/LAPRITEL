@@ -134,6 +134,11 @@ function AdminOrdersPage() {
                   <p className="text-sm font-medium text-ink">Order {order.reference}</p>
                   <p className="text-xs text-ink/75">{formatDate(order.created_at)}</p>
                   <p className="mt-2 text-sm text-ink/85">{order.customer_name}</p>
+                  {order.recipient_name && (
+                    <p className="mt-1 text-xs text-ink/75">
+                      Deliver to {order.recipient_name} · {order.recipient_phone}
+                    </p>
+                  )}
                   <p className="text-xs text-ink/75">
                     {order.customer_email} · {order.customer_phone}
                   </p>

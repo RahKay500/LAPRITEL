@@ -23,6 +23,16 @@ router.post(
     body('customer.address').isString().trim().notEmpty(),
     body('customer.city').isString().trim().notEmpty(),
     body('customer.region').isString().trim().notEmpty(),
+    body('customer.recipientName')
+      .optional({ values: 'falsy' })
+      .isString()
+      .trim()
+      .matches(/^[A-Za-z\s'-]+$/),
+    body('customer.recipientPhone')
+      .optional({ values: 'falsy' })
+      .isString()
+      .trim()
+      .matches(/^[0-9]{10}$/),
   ],
   (req, res, next) => {
     const errors = validationResult(req)

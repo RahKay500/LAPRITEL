@@ -14,6 +14,8 @@ export async function createOrder({ reference, status, customer, subtotal, items
       delivery_city: customer.city,
       delivery_region: customer.region,
       delivery_notes: customer.notes || null,
+      recipient_name: customer.recipientName || null,
+      recipient_phone: customer.recipientPhone || null,
       subtotal,
     })
     .select()

@@ -5,6 +5,7 @@ const EMOJI = /\p{Extended_Pictographic}/gu
 const FILTERS = {
   fullName: (value) => value.replace(NAME_DISALLOWED, ''),
   firstName: (value) => value.replace(NAME_DISALLOWED, ''),
+  recipientName: (value) => value.replace(NAME_DISALLOWED, ''),
   address: (value) => value.replace(ADDRESS_DISALLOWED, ''),
   city: (value) => value.replace(ADDRESS_DISALLOWED, ''),
   notes: (value) => value.replace(EMOJI, ''),
