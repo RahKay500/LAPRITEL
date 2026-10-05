@@ -25,7 +25,7 @@ async function findUserByEmail(email) {
   }
 }
 
-const COOKIE_MAX_AGE = 7 * 24 * 60 * 60 * 1000
+const COOKIE_MAX_AGE = 3 * 24 * 60 * 60 * 1000
 
 function signToken(user) {
   return jwt.sign(
@@ -37,7 +37,7 @@ function signToken(user) {
       role: user.app_metadata?.role || 'customer',
     },
     process.env.JWT_SECRET,
-    { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+    { expiresIn: process.env.JWT_EXPIRES_IN || '3d' }
   )
 }
 

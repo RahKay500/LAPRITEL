@@ -6,6 +6,7 @@ import { api } from '../services/api'
 import { grossUpForPaystackFee } from '../utils/pricing'
 import { usePageMeta } from '../hooks/usePageMeta'
 import LeadTimeNote from '../components/LeadTimeNote'
+import { sanitizeField } from '../utils/sanitizeField'
 
 const ghanaRegions = [
   'Greater Accra',
@@ -68,7 +69,7 @@ function CheckoutPage() {
 
   function handleChange(event) {
     const { name, value } = event.target
-    setForm((current) => ({ ...current, [name]: value }))
+    setForm((current) => ({ ...current, [name]: sanitizeField(name, value) }))
   }
 
   function handlePayment(event) {

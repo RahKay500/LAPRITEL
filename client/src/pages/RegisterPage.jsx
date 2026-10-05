@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 import { usePageMeta } from '../hooks/usePageMeta'
 import PasswordInput from '../components/PasswordInput'
+import { sanitizeField } from '../utils/sanitizeField'
 
 const initialForm = {
   fullName: '',
@@ -36,7 +37,7 @@ function RegisterPage() {
 
   function handleChange(event) {
     const { name, value } = event.target
-    setForm((current) => ({ ...current, [name]: value }))
+    setForm((current) => ({ ...current, [name]: sanitizeField(name, value) }))
   }
 
   async function handleSubmit(event) {

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { sanitizeField } from '../utils/sanitizeField'
 
 function validate(form) {
   const errors = {}
@@ -26,7 +27,7 @@ function ProfilePage() {
 
   function handleChange(event) {
     const { name, value } = event.target
-    setForm((current) => ({ ...current, [name]: value }))
+    setForm((current) => ({ ...current, [name]: sanitizeField(name, value) }))
   }
 
   async function handleSubmit(event) {

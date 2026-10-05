@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Camera, MessageCircle } from 'lucide-react'
 import { submitContactForm } from '../services/contact'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { sanitizeField } from '../utils/sanitizeField'
 
 const initialForm = { fullName: '', email: '', message: '' }
 
@@ -26,7 +27,7 @@ function ContactPage() {
 
   function handleChange(event) {
     const { name, value } = event.target
-    setForm((current) => ({ ...current, [name]: value }))
+    setForm((current) => ({ ...current, [name]: sanitizeField(name, value) }))
   }
 
   async function handleSubmit(event) {
