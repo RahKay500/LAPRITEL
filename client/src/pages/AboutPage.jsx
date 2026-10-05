@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Gem, Heart, Leaf } from 'lucide-react'
 import storyImage from '../assets/images/ivy_bag_hotpink.jpg'
-import craftImage from '../assets/images/ivy_bag_orange.jpg'
+import craftImage from '../assets/images/craft_emerald.jpg'
 import { usePageMeta } from '../hooks/usePageMeta'
 
 const values = [
@@ -113,8 +113,8 @@ function AboutPage() {
           </div>
           <img
             src={craftImage}
-            alt="Close-up of Bag Ivy beadwork"
-            className="order-1 aspect-4/3 w-full object-cover lg:order-2"
+            alt="Bag Glanzy in Emerald, handcrafted with beads"
+            className="order-1 aspect-4/5 max-h-130 w-full object-cover lg:order-2"
             loading="lazy"
             decoding="async"
           />
