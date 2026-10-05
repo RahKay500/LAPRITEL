@@ -35,17 +35,38 @@ export async function removeVariant(req, res) {
   res.json({ message: 'Variant deleted' })
 }
 
+const IMAGE_TYPES = {
+  jpg: { contentType: 'image/jpeg', matches: (b) => b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff },
+  png: {
+    contentType: 'image/png',
+    matches: (b) => b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47,
+  },
+  webp: {
+    contentType: 'image/webp',
+    matches: (b) =>
+      b.toString('ascii', 0, 4) === 'RIFF' && b.toString('ascii', 8, 12) === 'WEBP',
+  },
+}
+
+function detectImageType(buffer) {
+  return Object.keys(IMAGE_TYPES).find((ext) => IMAGE_TYPES[ext].matches(buffer)) || null
+}
+
 export async function uploadImage(req, res) {
   if (!req.file) {
     return res.status(400).json({ message: 'No image file provided' })
   }
 
-  const extension = req.file.originalname.split('.').pop()
+  const extension = detectImageType(req.file.buffer)
+  if (!extension) {
+    return res.status(400).json({ message: 'Only JPEG, PNG or WebP images are allowed' })
+  }
+
   const filename = `${randomUUID()}.${extension}`
 
   const { error } = await supabase.storage
     .from('product-images')
-    .upload(filename, req.file.buffer, { contentType: req.file.mimetype })
+    .upload(filename, req.file.buffer, { contentType: IMAGE_TYPES[extension].contentType })
 
   if (error) {
     return res.status(500).json({ message: `Upload failed: ${error.message}` })
