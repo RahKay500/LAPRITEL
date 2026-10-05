@@ -97,6 +97,8 @@ function CheckoutPage() {
   const [errors, setErrors] = useState({})
   const [isProcessing, setIsProcessing] = useState(false)
   const [paymentError, setPaymentError] = useState('')
+  const [buyLink, setBuyLink] = useState('')
+  const [isCreatingLink, setIsCreatingLink] = useState(false)
 
   const publicKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY
 
@@ -107,6 +109,26 @@ function CheckoutPage() {
   function handleChange(event) {
     const { name, value } = event.target
     setForm((current) => ({ ...current, [name]: sanitizeField(name, value) }))
+  }
+
+  async function handleBuyForMe() {
+    const validation = validate(form)
+    setErrors(validation)
+    if (Object.keys(validation).length > 0) return
+
+    setIsCreatingLink(true)
+    setPaymentError('')
+    try {
+      const { token } = await createBuyRequest({
+        items: checkoutItems.map((item) => ({ slug: item.slug, quantity: item.quantity })),
+        requester: form,
+      })
+      setBuyLink(`${window.location.origin}/buy-for-me/${token}`)
+    } catch (error) {
+      setPaymentError(error.message || 'Could not create the link. Please try again.')
+    } finally {
+      setIsCreatingLink(false)
+    }
   }
 
   function handlePayment(event) {
