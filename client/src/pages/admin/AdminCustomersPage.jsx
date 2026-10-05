@@ -19,7 +19,7 @@ function AdminCustomersPage() {
 
   return (
     <div className="overflow-x-auto border border-black/15">
-      <table className="w-full min-w-[640px] text-left text-sm">
+      <table className="w-full min-w-160 text-left text-sm">
         <thead>
           <tr className="border-b border-black/15 bg-burgundy-tint/40 text-xs uppercase tracking-wide text-ink/75">
             <th className="px-4 py-3">Name</th>

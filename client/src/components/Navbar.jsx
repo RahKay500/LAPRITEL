@@ -26,17 +26,17 @@ function Navbar() {
           type="button"
           aria-label="Toggle menu"
           aria-expanded={isMenuOpen}
-          className="flex h-6 w-8 flex-col items-center justify-center gap-[7px] md:hidden"
+          className="flex h-6 w-8 flex-col items-center justify-center gap-1.75 md:hidden"
           onClick={() => setIsMenuOpen((open) => !open)}
         >
           <span
-            className={`block h-[2px] w-8 bg-ink transition-transform duration-300 ease-out ${
-              isMenuOpen ? 'translate-y-[4.5px] rotate-45' : ''
+            className={`block h-0.5 w-8 bg-ink transition-transform duration-300 ease-out ${
+              isMenuOpen ? 'translate-y-1.125 rotate-45' : ''
             }`}
           />
           <span
-            className={`block h-[2px] w-8 bg-ink transition-transform duration-300 ease-out ${
-              isMenuOpen ? '-translate-y-[4.5px] -rotate-45' : ''
+            className={`block h-0.5 w-8 bg-ink transition-transform duration-300 ease-out ${
+              isMenuOpen ? '-translate-y-1.125 -rotate-45' : ''
             }`}
           />
         </button>

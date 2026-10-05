@@ -96,7 +96,7 @@ function AdminOrdersPage() {
           value={searchInput}
           onChange={(event) => setSearchInput(event.target.value)}
           placeholder="Search by name, email, or order reference"
-          className="min-w-[240px] flex-1 border border-black/15 px-3 py-2 text-sm outline-none focus:border-burgundy"
+          className="min-w-60 flex-1 border border-black/15 px-3 py-2 text-sm outline-none focus:border-burgundy"
         />
         <select
           value={statusFilter}

@@ -11,7 +11,7 @@ function FeaturedCard({ customer }) {
       <img
         src={customer.image_url}
         alt={`A LAPRITEL bag carried by ${customer.first_name}`}
-        className="mx-auto block max-h-[480px] w-auto max-w-full"
+        className="mx-auto block max-h-120 w-auto max-w-full"
         loading="lazy"
         decoding="async"
       />

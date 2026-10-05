@@ -41,7 +41,7 @@ function CartDrawer() {
       <div
         aria-hidden="true"
         onClick={closeDrawer}
-        className={`fixed inset-0 z-[60] bg-black/40 transition-opacity duration-300 ${
+        className={`fixed inset-0 z-60 bg-black/40 transition-opacity duration-300 ${
           isDrawerOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
       />
@@ -50,7 +50,7 @@ function CartDrawer() {
         role="dialog"
         aria-modal="true"
         aria-label="Shopping cart"
-        className={`fixed right-0 top-0 z-[70] flex h-full w-full max-w-sm flex-col bg-white shadow-2xl transition-transform duration-300 ease-out ${
+        className={`fixed right-0 top-0 z-70 flex h-full w-full max-w-sm flex-col bg-white shadow-2xl transition-transform duration-300 ease-out ${
           isDrawerOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
