@@ -36,6 +36,31 @@ const initialForm = {
   notes: '',
 }
 
+const SAVED_DETAILS_KEY = 'lapritel_checkout_details'
+const SAVED_FIELDS = ['fullName', 'email', 'phone', 'address', 'city', 'region']
+
+function readSavedDetails() {
+  try {
+    const raw = localStorage.getItem(SAVED_DETAILS_KEY)
+    return raw ? { ...initialForm, ...JSON.parse(raw) } : null
+  } catch {
+    return null
+  }
+}
+
+function persistDetails(form, shouldSave) {
+  try {
+    if (!shouldSave) {
+      localStorage.removeItem(SAVED_DETAILS_KEY)
+      return
+    }
+    const details = Object.fromEntries(SAVED_FIELDS.map((field) => [field, form[field]]))
+    localStorage.setItem(SAVED_DETAILS_KEY, JSON.stringify(details))
+  } catch {
+    // Storage can be unavailable (private browsing); checkout still works without it.
+  }
+}
+
 function validate(form) {
   const errors = {}
   if (!/^[A-Za-z\s'-]+$/.test(form.fullName.trim())) {
@@ -54,7 +79,9 @@ function CheckoutPage() {
 
   const { items, selectedItems: checkoutItems, selectedSubtotal: subtotal, clearCart } = useCart()
   const navigate = useNavigate()
-  const [form, setForm] = useState(initialForm)
+  const [savedDetails] = useState(readSavedDetails)
+  const [form, setForm] = useState(savedDetails ?? initialForm)
+  const [saveDetails, setSaveDetails] = useState(Boolean(savedDetails))
   const [errors, setErrors] = useState({})
   const [isProcessing, setIsProcessing] = useState(false)
   const [paymentError, setPaymentError] = useState('')
@@ -95,6 +122,7 @@ function CheckoutPage() {
         customer: form,
       },
       onSuccess: async (transaction) => {
+        persistDetails(form, saveDetails)
         try {
           await api.post('/payments/verify', {
             reference: transaction.reference,
@@ -366,6 +394,16 @@ function CheckoutPage() {
               <p className="mt-2 text-right text-xs text-ink/60">
                 A payment processing fee may be added by Paystack at the final payment.
               </p>
+
+              <label className="mt-6 flex items-start gap-2 text-sm text-ink/70">
+                <input
+                  type="checkbox"
+                  checked={saveDetails}
+                  onChange={(event) => setSaveDetails(event.target.checked)}
+                  className="mt-1 h-4 w-4 accent-burgundy"
+                />
+                <span>Save my details on this device for next time</span>
+              </label>
 
               {!publicKey && (
                 <p className="mt-4 text-xs text-burgundy">
