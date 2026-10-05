@@ -6,17 +6,17 @@ import Reveal from './Reveal'
 // sharp at the ~135px mobile size but blurs once stretched to fill a much
 // bigger desktop cell.
 import ivyBagOrange from '../assets/images/ivy_bag_orange.jpg'
-import ivyBagWhite from '../assets/images/ivy_bag_white.jpeg'
 import ivyBagRed from '../assets/images/ivy_bag_red.jpg'
-import ivyBagBlack from '../assets/images/ivy_bag_black.jpg'
 import igVideo1 from '../assets/images/ivy_bag_ig_video1.mp4'
 import igVideo2 from '../assets/images/ivy_bag_ig_video2.mp4'
+import fringeBagGreen from '../assets/images/follow_fringe.jpg'
+import fringeBagPink from '../assets/images/follow_pink.jpg'
 
 const tiles = [
   { type: 'video', src: igVideo1 },
   { type: 'image', src: ivyBagOrange },
-  { type: 'image', src: ivyBagWhite },
-  { type: 'image', src: ivyBagBlack },
+  { type: 'image', src: fringeBagGreen },
+  { type: 'image', src: fringeBagPink },
   { type: 'video', src: igVideo2 },
   { type: 'image', src: ivyBagRed },
 ]

@@ -86,7 +86,7 @@ function Hero() {
               to="/shop"
               className="text-xs font-semibold uppercase tracking-wide text-white/80 underline-offset-4 transition-colors hover:text-white hover:underline"
             >
-              See All Colours
+              Browse Collections
             </Link>
           </div>
 
@@ -137,7 +137,7 @@ function Hero() {
                 to="/shop"
                 className="text-sm font-semibold uppercase tracking-wide text-white/80 underline-offset-4 transition-colors hover:text-white hover:underline"
               >
-                See All Colours
+                Browse Collections
               </Link>
             </div>
 

@@ -2,29 +2,37 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { fetchFeaturedCustomers } from '../services/featuredCustomers'
 
-const HOMEPAGE_LIMIT = 1
+const HOMEPAGE_LIMIT = 2
+
+function FeaturedCard({ customer }) {
+  return (
+    <figure className="bg-burgundy-tint/30">
+      <img
+        src={customer.image_url}
+        alt={`A LAPRITEL bag carried by ${customer.first_name}`}
+        className="mx-auto block max-h-[480px] w-auto max-w-full"
+        loading="lazy"
+        decoding="async"
+      />
+      <figcaption className="p-6">
+        <blockquote className="text-sm leading-relaxed text-ink/80">
+          &ldquo;{customer.quote}&rdquo;
+        </blockquote>
+        <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-burgundy">
+          {customer.first_name}
+        </p>
+      </figcaption>
+    </figure>
+  )
+}
 
 export function FeaturedGrid({ customers }) {
   return (
     <div className="columns-1 gap-6 sm:columns-2 lg:columns-3">
       {customers.map((customer) => (
-        <figure key={customer.id} className="mb-6 break-inside-avoid bg-burgundy-tint/30">
-          <img
-            src={customer.image_url}
-            alt={`A LAPRITEL bag carried by ${customer.first_name}`}
-            className="mx-auto block max-h-[480px] w-auto max-w-full"
-            loading="lazy"
-            decoding="async"
-          />
-          <figcaption className="p-6">
-            <blockquote className="text-sm leading-relaxed text-ink/80">
-              &ldquo;{customer.quote}&rdquo;
-            </blockquote>
-            <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-burgundy">
-              {customer.first_name}
-            </p>
-          </figcaption>
-        </figure>
+        <div key={customer.id} className="mb-6 break-inside-avoid">
+          <FeaturedCard customer={customer} />
+        </div>
       ))}
     </div>
   )
@@ -59,8 +67,10 @@ function FeaturedCustomers() {
           </h2>
         </div>
 
-        <div className="mt-8">
-          <FeaturedGrid customers={customers} />
+        <div className="mx-auto mt-8 grid max-w-4xl gap-6 sm:grid-cols-2">
+          {customers.map((customer) => (
+            <FeaturedCard key={customer.id} customer={customer} />
+          ))}
         </div>
 
         <div className="-mt-6 text-right">
