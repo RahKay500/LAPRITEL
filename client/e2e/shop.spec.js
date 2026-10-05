@@ -27,3 +27,13 @@ test('the product page opens its details and shows other colours', async ({ page
   await page.getByRole('button', { name: /Size & Care/ }).click()
   await expect(page.getByText(/Approx\. 22cm wide/)).toBeVisible()
 })
+
+test('the custom colour section switches to two colours', async ({ page }) => {
+  await page.goto('/shop/bag-glanzy?color=glanzy-pink')
+
+  await page.getByRole('button', { name: /Want a different shade/ }).click()
+  await page.getByRole('button', { name: 'Two Colours' }).click()
+
+  await expect(page.getByText(/^Top colour/)).toBeVisible()
+  await expect(page.getByText(/^Bottom colour/)).toBeVisible()
+})

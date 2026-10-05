@@ -6,6 +6,8 @@ export const products = [
     product_variants: [
       { color_name: 'Pink', color_slug: 'glanzy-pink', hex: '#F472B6', price: 800, image_url: 'https://example.com/pink.jpg', is_active: true, is_custom: false, created_at: '2000-01-01T00:00:01Z' },
       { color_name: 'Emerald', color_slug: 'glanzy-emerald', hex: '#0F7A3E', price: 800, image_url: 'https://example.com/emerald.jpg', is_active: true, is_custom: false, created_at: '2000-01-01T00:00:04Z' },
+      { color_name: 'Gold', color_slug: 'custom-gold', hex: '#D4AF37', price: 900, image_url: null, is_active: true, is_custom: true, created_at: '2000-01-01T00:00:06Z' },
+      { color_name: 'Silver', color_slug: 'custom-silver', hex: '#C0C0C0', price: 900, image_url: null, is_active: true, is_custom: true, created_at: '2000-01-01T00:00:07Z' },
     ],
   },
 ]

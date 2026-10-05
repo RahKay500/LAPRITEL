@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { Check, ChevronDown, ChevronUp, Heart, Minus, Plus } from 'lucide-react'
+import { Check, Heart, Minus, Plus } from 'lucide-react'
 import { useProductVariants } from '../hooks/useProductVariants'
 import { useCart } from '../context/useCart'
 import { useWishlist } from '../context/useWishlist'
 import { usePageMeta } from '../hooks/usePageMeta'
-import ColorSwatch from '../components/ColorSwatch'
 import ProductImage from '../components/product/ProductImage'
 import ColourPicker from '../components/product/ColourPicker'
+import CustomColourPicker from '../components/product/CustomColourPicker'
 import ProductDetails from '../components/product/ProductDetails'
 import RelatedBags from '../components/product/RelatedBags'
 
@@ -262,149 +262,23 @@ function ProductPage() {
                 <ColourPicker variants={standardVariants} selected={selectedVariant} onSelect={selectColor} />
 
                 {customVariants.length > 0 && (
-                  <div id="custom-colors" className="mt-6 scroll-mt-24 border-t border-black/10 pt-6">
-                    <button
-                      type="button"
-                      onClick={() => setIsCustomOpen((open) => !open)}
-                      className="flex w-full items-center justify-between text-left"
-                    >
-                      <span className="text-xs font-semibold uppercase tracking-widest text-burgundy">
-                        Want a different shade? &mdash; Custom colours, made to order
-                      </span>
-                      {isCustomOpen ? (
-                        <ChevronUp size={16} strokeWidth={1.5} className="shrink-0 text-ink/60" />
-                      ) : (
-                        <ChevronDown size={16} strokeWidth={1.5} className="shrink-0 text-ink/60" />
-                      )}
-                    </button>
-
-                    {isCustomOpen && (
-                      <>
-
-                    {customVariants.length > 1 && (
-                      <div className="mt-3 flex gap-2">
-                        <button
-                          type="button"
-                          onClick={() => setCustomMode('single')}
-                          className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-wide transition-colors ${
-                            customMode === 'single'
-                              ? 'border-burgundy bg-burgundy text-white'
-                              : 'border-black/10 text-ink/60 hover:border-burgundy'
-                          }`}
-                        >
-                          One Colour
-                        </button>
-                        <button
-                          type="button"
-                          onClick={selectTwoToneMode}
-                          className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-wide transition-colors ${
-                            customMode === 'two-tone'
-                              ? 'border-burgundy bg-burgundy text-white'
-                              : 'border-black/10 text-ink/60 hover:border-burgundy'
-                          }`}
-                        >
-                          Two Colours
-                        </button>
-                      </div>
-                    )}
-
-                    {customMode === 'single' ? (
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        {customVariants.map((variant) => (
-                          <button
-                            key={variant.slug}
-                            type="button"
-                            aria-label={`${variant.name} (custom)`}
-                            onClick={() => selectColor(variant.slug)}
-                            className={`h-9 w-9 rounded-full border-2 transition-colors ${
-                              variant.slug === selectedVariant.slug
-                                ? 'border-burgundy'
-                                : 'border-transparent hover:border-black/20'
-                            }`}
-                          >
-                            <ColorSwatch
-                              hex={variant.hex}
-                              image={variant.image}
-                              alt={variant.name}
-                              className="h-full w-full"
-                            />
-                          </button>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="mt-4 space-y-4">
-                        <div>
-                          <p className="text-[11px] font-semibold uppercase tracking-wide text-ink/50">
-                            Top colour{topVariant ? ` — ${topVariant.name}` : ''}
-                          </p>
-                          <div className="mt-2 flex flex-wrap gap-2">
-                            {customVariants
-                              .filter((variant) => variant.slug !== bottomSlug)
-                              .map((variant) => (
-                                <button
-                                  key={variant.slug}
-                                  type="button"
-                                  aria-label={`${variant.name} (top, custom)`}
-                                  onClick={() => selectTopColor(variant.slug)}
-                                  className={`h-9 w-9 rounded-full border-2 transition-colors ${
-                                    variant.slug === topSlug
-                                      ? 'border-burgundy'
-                                      : 'border-transparent hover:border-black/20'
-                                  }`}
-                                >
-                                  <ColorSwatch
-                                    hex={variant.hex}
-                                    image={variant.image}
-                                    alt={variant.name}
-                                    className="h-full w-full"
-                                  />
-                                </button>
-                              ))}
-                          </div>
-                        </div>
-
-                        <div>
-                          <p className="text-[11px] font-semibold uppercase tracking-wide text-ink/50">
-                            Bottom colour{bottomVariant ? ` — ${bottomVariant.name}` : ''}
-                          </p>
-                          <div className="mt-2 flex flex-wrap gap-2">
-                            {customVariants
-                              .filter((variant) => variant.slug !== topSlug)
-                              .map((variant) => (
-                                <button
-                                  key={variant.slug}
-                                  type="button"
-                                  aria-label={`${variant.name} (bottom, custom)`}
-                                  onClick={() => selectBottomColor(variant.slug)}
-                                  className={`h-9 w-9 rounded-full border-2 transition-colors ${
-                                    variant.slug === bottomSlug
-                                      ? 'border-burgundy'
-                                      : 'border-transparent hover:border-black/20'
-                                  }`}
-                                >
-                                  <ColorSwatch
-                                    hex={variant.hex}
-                                    image={variant.image}
-                                    alt={variant.name}
-                                    className="h-full w-full"
-                                  />
-                                </button>
-                              ))}
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    <p className="mt-3 text-xs text-ink/50">
-                      {customMode === 'two-tone'
-                        ? isTwoToneReady
-                          ? 'Hand-beaded to order in your two chosen colours — no preview photo, same price.'
-                          : 'Pick a top and a bottom colour to continue.'
-                        : 'Hand-beaded to order in your chosen colour — no preview photo, same price.'}
-                    </p>
-                      </>
-                    )}
-                  </div>
+                  <CustomColourPicker
+                    variants={customVariants}
+                    mode={customMode}
+                    isOpen={isCustomOpen}
+                    onToggle={() => setIsCustomOpen((open) => !open)}
+                    onSingleMode={() => setCustomMode('single')}
+                    onTwoToneMode={selectTwoToneMode}
+                    selectedSlug={selectedVariant.slug}
+                    onSelectSingle={selectColor}
+                    topSlug={topSlug}
+                    bottomSlug={bottomSlug}
+                    topVariant={topVariant}
+                    bottomVariant={bottomVariant}
+                    isTwoToneReady={isTwoToneReady}
+                    onTopColor={selectTopColor}
+                    onBottomColor={selectBottomColor}
+                  />
                 )}
 
                 <ProductDetails hasCustomVariants={customVariants.length > 0} />
