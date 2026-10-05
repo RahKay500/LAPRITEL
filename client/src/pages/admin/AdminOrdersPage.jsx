@@ -3,6 +3,7 @@ import { fetchAdminOrders, updateAdminOrderStatus, ORDER_STATUSES } from '../../
 import { isRiskyStatusChange } from './orderStatusRisk'
 
 const PAGE_SIZE = 20
+const PAID_ONLY_STATUSES = ['processing', 'shipped', 'delivered']
 // Keeps requests from firing on every keystroke while still feeling instant.
 const SEARCH_DEBOUNCE_MS = 350
 
@@ -150,7 +151,11 @@ function AdminOrdersPage() {
                     className="rounded-full border border-black/10 px-3 py-1.5 text-sm capitalize outline-none focus:border-burgundy disabled:opacity-50"
                   >
                     {ORDER_STATUSES.map((status) => (
-                      <option key={status} value={status}>
+                      <option
+                        key={status}
+                        value={status}
+                        disabled={order.status === 'pending' && PAID_ONLY_STATUSES.includes(status)}
+                      >
                         {status}
                       </option>
                     ))}
