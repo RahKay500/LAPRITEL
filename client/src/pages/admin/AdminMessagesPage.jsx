@@ -15,14 +15,14 @@ function AdminMessagesPage() {
   const { items: messages, hasMore, isLoading, isLoadingMore, error, loadMore } =
     usePagedList(fetchAdminContactMessages)
 
-  if (isLoading) return <p className="text-ink/60">Loading messages...</p>
+  if (isLoading) return <p className="text-ink/75">Loading messages...</p>
   if (error) return <p className="text-sm text-burgundy">{error}</p>
-  if (messages.length === 0) return <p className="text-ink/60">No messages yet.</p>
+  if (messages.length === 0) return <p className="text-ink/75">No messages yet.</p>
 
   return (
     <div className="space-y-4">
       {messages.map((message) => (
-        <div key={message.id} className="border border-black/10 p-6">
+        <div key={message.id} className="border border-black/15 p-6">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <p className="text-sm font-medium text-ink">{message.full_name}</p>
@@ -33,7 +33,7 @@ function AdminMessagesPage() {
                 {message.email}
               </a>
             </div>
-            <p className="text-xs text-ink/60">{formatDate(message.created_at)}</p>
+            <p className="text-xs text-ink/75">{formatDate(message.created_at)}</p>
           </div>
 
           <p className="mt-4 whitespace-pre-wrap text-sm text-ink/80">{message.message}</p>

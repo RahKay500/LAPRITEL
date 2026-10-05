@@ -59,41 +59,41 @@ function NewCollectionForm({ onCreated }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="max-w-xl space-y-4 border border-black/10 p-6">
+    <form onSubmit={handleSubmit} noValidate className="max-w-xl space-y-4 border border-black/15 p-6">
       <h2 className="text-sm font-semibold uppercase tracking-wide text-ink">New collection</h2>
 
       <div>
-        <label htmlFor="collectionName" className="text-sm text-ink/70">Name</label>
+        <label htmlFor="collectionName" className="text-sm text-ink/85">Name</label>
         <input
           id="collectionName"
           type="text"
           value={name}
           onChange={handleNameChange}
           placeholder="e.g. Bag Glanzy"
-          className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+          className="mt-1 w-full border border-black/15 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
         />
       </div>
 
       <div>
-        <label htmlFor="collectionSlug" className="text-sm text-ink/70">URL slug</label>
+        <label htmlFor="collectionSlug" className="text-sm text-ink/85">URL slug</label>
         <input
           id="collectionSlug"
           type="text"
           value={slug}
           onChange={(event) => setSlug(slugify(event.target.value))}
-          className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+          className="mt-1 w-full border border-black/15 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
         />
-        <p className="mt-1 text-xs text-ink/50">The page address: /shop/{slug || 'your-slug'}</p>
+        <p className="mt-1 text-xs text-ink/65">The page address: /shop/{slug || 'your-slug'}</p>
       </div>
 
       <div>
-        <label htmlFor="collectionDescription" className="text-sm text-ink/70">Description (optional)</label>
+        <label htmlFor="collectionDescription" className="text-sm text-ink/85">Description (optional)</label>
         <textarea
           id="collectionDescription"
           rows={3}
           value={description}
           onChange={(event) => setDescription(event.target.value)}
-          className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+          className="mt-1 w-full border border-black/15 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
         />
       </div>
 
@@ -148,10 +148,10 @@ function VariantForm({ initialValues, onSubmit, onCancel, isSaving, showActiveTo
   return (
     <form
       onSubmit={handleSubmit}
-      className="mt-4 grid gap-4 border border-black/10 p-4 sm:grid-cols-2"
+      className="mt-4 grid gap-4 border border-black/15 p-4 sm:grid-cols-2"
     >
       <div>
-        <label htmlFor="colorName" className="text-sm text-ink/70">
+        <label htmlFor="colorName" className="text-sm text-ink/85">
           Color Name
         </label>
         <input
@@ -160,12 +160,12 @@ function VariantForm({ initialValues, onSubmit, onCancel, isSaving, showActiveTo
           value={form.colorName}
           onChange={handleChange}
           required
-          className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+          className="mt-1 w-full border border-black/15 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
         />
       </div>
 
       <div>
-        <label htmlFor="colorSlug" className="text-sm text-ink/70">
+        <label htmlFor="colorSlug" className="text-sm text-ink/85">
           Color Slug
         </label>
         <input
@@ -174,12 +174,12 @@ function VariantForm({ initialValues, onSubmit, onCancel, isSaving, showActiveTo
           value={form.colorSlug}
           onChange={handleChange}
           required
-          className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+          className="mt-1 w-full border border-black/15 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
         />
       </div>
 
       <div>
-        <label htmlFor="hex" className="text-sm text-ink/70">
+        <label htmlFor="hex" className="text-sm text-ink/85">
           Swatch Color
         </label>
         <div className="mt-1 flex items-center gap-2">
@@ -189,20 +189,20 @@ function VariantForm({ initialValues, onSubmit, onCancel, isSaving, showActiveTo
             type="color"
             value={form.hex}
             onChange={handleChange}
-            className="h-10 w-14 cursor-pointer rounded-lg border border-black/10"
+            className="h-10 w-14 cursor-pointer rounded-lg border border-black/15"
           />
           <input
             name="hex"
             value={form.hex}
             onChange={handleChange}
             required
-            className="w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+            className="w-full border border-black/15 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
           />
         </div>
       </div>
 
       <div>
-        <label htmlFor="price" className="text-sm text-ink/70">
+        <label htmlFor="price" className="text-sm text-ink/85">
           Price (GHS)
         </label>
         <input
@@ -214,12 +214,12 @@ function VariantForm({ initialValues, onSubmit, onCancel, isSaving, showActiveTo
           value={form.price}
           onChange={handleChange}
           required
-          className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+          className="mt-1 w-full border border-black/15 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
         />
       </div>
 
       <div className="sm:col-span-2">
-        <label htmlFor="image" className="text-sm text-ink/70">
+        <label htmlFor="image" className="text-sm text-ink/85">
           Product Image
         </label>
         <input
@@ -227,9 +227,9 @@ function VariantForm({ initialValues, onSubmit, onCancel, isSaving, showActiveTo
           type="file"
           accept="image/*"
           onChange={handleFileChange}
-          className="mt-1 block w-full text-sm text-ink/70"
+          className="mt-1 block w-full text-sm text-ink/85"
         />
-        {isUploading && <p className="mt-1 text-xs text-ink/60">Uploading...</p>}
+        {isUploading && <p className="mt-1 text-xs text-ink/75">Uploading...</p>}
         {form.imageUrl && (
           <img
             src={form.imageUrl}
@@ -240,7 +240,7 @@ function VariantForm({ initialValues, onSubmit, onCancel, isSaving, showActiveTo
       </div>
 
       {showActiveToggle && (
-        <label className="flex items-center gap-2 text-sm text-ink/70 sm:col-span-2">
+        <label className="flex items-center gap-2 text-sm text-ink/85 sm:col-span-2">
           <input
             type="checkbox"
             checked={form.isActive}
@@ -253,7 +253,7 @@ function VariantForm({ initialValues, onSubmit, onCancel, isSaving, showActiveTo
       )}
 
       {showActiveToggle && (
-        <label className="flex items-center gap-2 text-sm text-ink/70 sm:col-span-2">
+        <label className="flex items-center gap-2 text-sm text-ink/85 sm:col-span-2">
           <input
             type="checkbox"
             checked={Boolean(form.readyToShip)}
@@ -265,7 +265,7 @@ function VariantForm({ initialValues, onSubmit, onCancel, isSaving, showActiveTo
         </label>
       )}
 
-      <label className="flex items-center gap-2 text-sm text-ink/70 sm:col-span-2">
+      <label className="flex items-center gap-2 text-sm text-ink/85 sm:col-span-2">
         <input
           type="checkbox"
           checked={form.isCustom}
@@ -290,7 +290,7 @@ function VariantForm({ initialValues, onSubmit, onCancel, isSaving, showActiveTo
         <button
           type="button"
           onClick={onCancel}
-          className="text-sm font-semibold uppercase tracking-wide text-ink/70 underline-offset-4 transition-colors hover:text-burgundy hover:underline"
+          className="text-sm font-semibold uppercase tracking-wide text-ink/85 underline-offset-4 transition-colors hover:text-burgundy hover:underline"
         >
           Cancel
         </button>
@@ -356,7 +356,7 @@ function AdminProductsPage() {
     }
   }
 
-  if (isLoading) return <p className="text-ink/60">Loading products...</p>
+  if (isLoading) return <p className="text-ink/75">Loading products...</p>
   if (error) return <p className="text-sm text-burgundy">{error}</p>
 
   return (
@@ -364,7 +364,7 @@ function AdminProductsPage() {
       <NewCollectionForm onCreated={loadProducts} />
 
       {actionError && <p className="text-sm text-burgundy">{actionError}</p>}
-      {products.length === 0 && <p className="text-ink/60">No collections yet. Create one above.</p>}
+      {products.length === 0 && <p className="text-ink/75">No collections yet. Create one above.</p>}
 
       {products.map((product) => (
         <div key={product.id}>
@@ -381,7 +381,7 @@ function AdminProductsPage() {
               <ChevronDown
                 size={20}
                 strokeWidth={1.5}
-                className={`text-ink/60 transition-transform ${expandedIds[product.id] ? '' : '-rotate-90'}`}
+                className={`text-ink/75 transition-transform ${expandedIds[product.id] ? '' : '-rotate-90'}`}
               />
             </button>
             <button
@@ -429,7 +429,7 @@ function AdminProductsPage() {
               ) : (
                 <div
                   key={variant.id}
-                  className={`border border-black/10 p-4 ${
+                  className={`border border-black/15 p-4 ${
                     variant.is_active ? '' : 'opacity-50'
                   }`}
                 >
@@ -444,15 +444,15 @@ function AdminProductsPage() {
                       />
                     ) : (
                       <span
-                        className="block h-14 w-14 rounded-lg border border-black/10"
+                        className="block h-14 w-14 rounded-lg border border-black/15"
                         style={{ backgroundColor: variant.hex }}
                       />
                     )}
                     <div>
                       <p className="text-sm font-medium text-ink">{variant.color_name}</p>
-                      <p className="text-xs text-ink/60">GHS {variant.price}</p>
+                      <p className="text-xs text-ink/75">GHS {variant.price}</p>
                       {variant.is_custom && (
-                        <p className="text-xs font-medium text-ink/60">Custom (made to order)</p>
+                        <p className="text-xs font-medium text-ink/75">Custom (made to order)</p>
                       )}
                       {!variant.is_active && (
                         <p className="text-xs font-medium text-burgundy">Inactive</p>
@@ -464,14 +464,14 @@ function AdminProductsPage() {
                     <button
                       type="button"
                       onClick={() => setEditingVariantId(variant.id)}
-                      className="rounded-full border border-black/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-ink hover:border-burgundy"
+                      className="rounded-full border border-black/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-ink hover:border-burgundy"
                     >
                       Edit
                     </button>
                     <button
                       type="button"
                       onClick={() => handleDeleteVariant(variant)}
-                      className="rounded-full border border-black/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-burgundy hover:border-burgundy"
+                      className="rounded-full border border-black/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-burgundy hover:border-burgundy"
                     >
                       Delete
                     </button>

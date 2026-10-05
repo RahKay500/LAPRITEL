@@ -13,15 +13,15 @@ function AdminCustomersPage() {
   const { items: customers, hasMore, isLoading, isLoadingMore, error, loadMore } =
     usePagedList(fetchAdminCustomers)
 
-  if (isLoading) return <p className="text-ink/60">Loading customers...</p>
+  if (isLoading) return <p className="text-ink/75">Loading customers...</p>
   if (error) return <p className="text-sm text-burgundy">{error}</p>
-  if (customers.length === 0) return <p className="text-ink/60">No customers yet.</p>
+  if (customers.length === 0) return <p className="text-ink/75">No customers yet.</p>
 
   return (
-    <div className="overflow-x-auto border border-black/10">
+    <div className="overflow-x-auto border border-black/15">
       <table className="w-full min-w-[640px] text-left text-sm">
         <thead>
-          <tr className="border-b border-black/10 bg-burgundy-tint/40 text-xs uppercase tracking-wide text-ink/60">
+          <tr className="border-b border-black/15 bg-burgundy-tint/40 text-xs uppercase tracking-wide text-ink/75">
             <th className="px-4 py-3">Name</th>
             <th className="px-4 py-3">Email</th>
             <th className="px-4 py-3">Phone</th>
@@ -31,10 +31,10 @@ function AdminCustomersPage() {
         </thead>
         <tbody>
           {customers.map((customer) => (
-            <tr key={customer.id} className="border-b border-black/10 last:border-0">
+            <tr key={customer.id} className="border-b border-black/15 last:border-0">
               <td className="px-4 py-3 text-ink">{customer.fullName || '—'}</td>
-              <td className="px-4 py-3 text-ink/70">{customer.email}</td>
-              <td className="px-4 py-3 text-ink/70">{customer.phone || '—'}</td>
+              <td className="px-4 py-3 text-ink/85">{customer.email}</td>
+              <td className="px-4 py-3 text-ink/85">{customer.phone || '—'}</td>
               <td className="px-4 py-3">
                 <span
                   className={`rounded-full px-2.5 py-1 text-xs font-medium capitalize ${
@@ -46,7 +46,7 @@ function AdminCustomersPage() {
                   {customer.role}
                 </span>
               </td>
-              <td className="px-4 py-3 text-ink/70">{formatDate(customer.createdAt)}</td>
+              <td className="px-4 py-3 text-ink/85">{formatDate(customer.createdAt)}</td>
             </tr>
           ))}
         </tbody>

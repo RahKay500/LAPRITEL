@@ -19,7 +19,7 @@ function AdminLayout() {
           Admin Dashboard
         </h1>
 
-        <div className="mt-6 flex gap-1 overflow-x-auto border-b border-black/10">
+        <div className="mt-6 flex gap-1 overflow-x-auto border-b border-black/15">
           {tabs.map((tab) => (
             <NavLink
               key={tab.to}
@@ -28,7 +28,7 @@ function AdminLayout() {
                 `whitespace-nowrap border-b-2 px-3 py-3 text-sm font-medium transition-colors ${
                   isActive
                     ? 'border-burgundy text-burgundy'
-                    : 'border-transparent text-ink/60 hover:text-ink'
+                    : 'border-transparent text-ink/75 hover:text-ink'
                 }`
               }
             >

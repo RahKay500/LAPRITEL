@@ -93,11 +93,11 @@ function AdminFeaturedPage() {
 
   return (
     <div className="space-y-10">
-      <form onSubmit={handleSubmit} noValidate className="max-w-xl space-y-4 border border-black/10 p-6">
+      <form onSubmit={handleSubmit} noValidate className="max-w-xl space-y-4 border border-black/15 p-6">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-ink">Add a featured customer</h2>
 
         <div>
-          <span className="text-sm text-ink/70">Photo of them with a bag</span>
+          <span className="text-sm text-ink/85">Photo of them with a bag</span>
           <div className="mt-2 flex flex-wrap items-center gap-3">
             <label
               htmlFor="photo"
@@ -112,24 +112,24 @@ function AdminFeaturedPage() {
               onChange={(event) => setPhoto(event.target.files[0] ?? null)}
               className="sr-only"
             />
-            <span className="text-sm text-ink/60">{photo ? photo.name : 'No file selected'}</span>
+            <span className="text-sm text-ink/75">{photo ? photo.name : 'No file selected'}</span>
           </div>
         </div>
 
         <div>
-          <label htmlFor="firstName" className="text-sm text-ink/70">First name</label>
+          <label htmlFor="firstName" className="text-sm text-ink/85">First name</label>
           <input
             id="firstName"
             name="firstName"
             type="text"
             value={form.firstName}
             onChange={handleChange}
-            className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+            className="mt-1 w-full border border-black/15 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
           />
         </div>
 
         <div>
-          <label htmlFor="quote" className="text-sm text-ink/70">
+          <label htmlFor="quote" className="text-sm text-ink/85">
             Quote ({form.quote.length}/{QUOTE_MAX})
           </label>
           <textarea
@@ -139,11 +139,11 @@ function AdminFeaturedPage() {
             value={form.quote}
             onChange={handleChange}
             maxLength={QUOTE_MAX}
-            className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+            className="mt-1 w-full border border-black/15 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
           />
         </div>
 
-        <label className="flex items-start gap-3 text-sm text-ink/70">
+        <label className="flex items-start gap-3 text-sm text-ink/85">
           <input
             type="checkbox"
             name="consentConfirmed"
@@ -168,19 +168,19 @@ function AdminFeaturedPage() {
       <div>
         <h2 className="text-sm font-semibold uppercase tracking-wide text-ink">Currently featured</h2>
         {isLoading ? (
-          <p className="mt-4 text-ink/60">Loading...</p>
+          <p className="mt-4 text-ink/75">Loading...</p>
         ) : error ? (
           <p className="mt-4 text-sm text-burgundy">{error}</p>
         ) : customers.length === 0 ? (
-          <p className="mt-4 text-ink/60">No one is featured yet.</p>
+          <p className="mt-4 text-ink/75">No one is featured yet.</p>
         ) : (
           <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {customers.map((customer) => (
-              <div key={customer.id} className="border border-black/10">
+              <div key={customer.id} className="border border-black/15">
                 <img src={customer.image_url} alt={`Photo of ${customer.first_name}`} className="mx-auto block max-h-[480px] w-auto max-w-full" />
                 <div className="p-4">
                   <p className="text-sm font-medium text-ink">{customer.first_name}</p>
-                  <p className="mt-1 text-sm text-ink/70">&ldquo;{customer.quote}&rdquo;</p>
+                  <p className="mt-1 text-sm text-ink/85">&ldquo;{customer.quote}&rdquo;</p>
                   <button
                     type="button"
                     onClick={() => handleDelete(customer)}
