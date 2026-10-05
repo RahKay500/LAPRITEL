@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { Camera } from 'lucide-react'
 import Reveal from './Reveal'
 // This grid is full-bleed (no max-width cap), so cells can run 400-600px+
@@ -20,6 +21,37 @@ const tiles = [
   { type: 'video', src: igVideo2 },
   { type: 'image', src: ivyBagRed },
 ]
+
+function VideoTile({ src }) {
+  const ref = useRef(null)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return undefined
+    el.muted = true
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) el.play().catch(() => {})
+        else el.pause()
+      },
+      { threshold: 0.25 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <video
+      ref={ref}
+      src={src}
+      className="h-full w-full object-cover"
+      muted
+      loop
+      playsInline
+      preload="none"
+    />
+  )
+}
 
 function InstagramStrip() {
   return (
@@ -50,31 +82,7 @@ function InstagramStrip() {
             className="flex aspect-square items-center justify-center bg-burgundy-tint/40"
           >
             {tile.type === 'video' ? (
-              <video
-                // React sets `muted` as a DOM property, not an HTML attribute,
-                // and only after the initial render -- so by the time Chrome
-                // evaluates autoplay eligibility (as soon as metadata loads),
-                // the element can still look unmuted and autoplay silently
-                // gets blocked for good (it doesn't retry on its own). Setting
-                // `muted` explicitly here before calling play() avoids that
-                // race. play() also needs to fire again once real data is
-                // available -- with preload="metadata" the element has no
-                // frame data yet at mount, and a play() call made that early
-                // gets silently dropped rather than queued.
-                ref={(el) => {
-                  if (!el) return
-                  el.muted = true
-                  const tryPlay = () => el.play().catch(() => {})
-                  tryPlay()
-                  el.addEventListener('canplay', tryPlay, { once: true })
-                }}
-                src={tile.src}
-                className="h-full w-full object-cover"
-                muted
-                loop
-                playsInline
-                preload="metadata"
-              />
+              <VideoTile src={tile.src} />
             ) : (
               <img
                 src={tile.src}
