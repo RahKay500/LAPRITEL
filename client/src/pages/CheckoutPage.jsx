@@ -319,7 +319,7 @@ function CheckoutPage() {
 
                 <div>
                   <label htmlFor="notes" className="text-sm text-ink/70">
-                    Delivery Notes (optional)
+                    Order Notes (optional)
                   </label>
                   <textarea
                     id="notes"
@@ -363,6 +363,9 @@ function CheckoutPage() {
                   GHS {totalToPay.toFixed(2)}
                 </span>
               </div>
+              <p className="mt-2 text-right text-xs text-ink/60">
+                A payment processing fee may be added by Paystack at the final payment.
+              </p>
 
               {!publicKey && (
                 <p className="mt-4 text-xs text-burgundy">
