@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import AnnouncementBar from './components/AnnouncementBar'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import ScrollToTop from './components/ScrollToTop'
 import CartDrawer from './components/CartDrawer'
 import RequireAuth from './components/RequireAuth'
 import RequireAdmin from './components/RequireAdmin'
@@ -38,6 +39,7 @@ function App() {
   return (
     <div className="flex min-h-dvh flex-col">
       <AnnouncementBar />
+      <ScrollToTop />
       <Navbar />
       <main className="flex-1">
         <Routes>

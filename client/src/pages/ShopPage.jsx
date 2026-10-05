@@ -5,12 +5,6 @@ import { fetchProducts } from '../services/products'
 import { useCart } from '../context/useCart'
 import { usePageMeta } from '../hooks/usePageMeta'
 
-const sortOptions = [
-  { value: 'default', label: 'Featured' },
-  { value: 'price-asc', label: 'Price: Low to High' },
-  { value: 'price-desc', label: 'Price: High to Low' },
-]
-
 function toCartVariant(variant, productName) {
   return {
     name: variant.color_name,
@@ -24,13 +18,12 @@ function toCartVariant(variant, productName) {
 }
 
 function ShopPage() {
-  usePageMeta('Shop', 'Browse every LAPRITEL collection. Filter by colour and sort by price.')
+  usePageMeta('Shop', 'Browse every LAPRITEL collection and filter by colour.')
 
   const [searchParams, setSearchParams] = useSearchParams()
   const [collections, setCollections] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
-  const [sortOrder, setSortOrder] = useState('default')
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const filterRef = useRef(null)
   const { addItem } = useCart()
@@ -78,16 +71,13 @@ function ShopPage() {
     (variant) => variant.is_active !== false && variant.is_custom
   )
 
-  const visibleVariants = useMemo(() => {
-    const filtered =
+  const visibleVariants = useMemo(
+    () =>
       activeColor === 'all'
         ? standardVariants
-        : standardVariants.filter((variant) => variant.slug === activeColor)
-
-    if (sortOrder === 'price-asc') return [...filtered].sort((a, b) => a.price - b.price)
-    if (sortOrder === 'price-desc') return [...filtered].sort((a, b) => b.price - a.price)
-    return filtered
-  }, [activeColor, sortOrder, standardVariants])
+        : standardVariants.filter((variant) => variant.slug === activeColor),
+    [activeColor, standardVariants]
+  )
 
   const activeVariant = standardVariants.find((variant) => variant.slug === activeColor)
 
@@ -263,21 +253,6 @@ function ShopPage() {
                   )}
                 </div>
               </div>
-
-              <label className="flex items-center gap-2 text-sm text-ink">
-                <span>Sort by</span>
-                <select
-                  value={sortOrder}
-                  onChange={(event) => setSortOrder(event.target.value)}
-                  className="rounded-full border border-black/10 px-3 py-1.5 text-sm outline-none focus:border-burgundy"
-                >
-                  {sortOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
             </div>
           </>
         )}

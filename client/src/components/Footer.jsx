@@ -42,8 +42,8 @@ function Footer() {
               </Link>
             </li>
             <li>
-              <Link to="/shop" className={linkClass}>
-                Bag Ivy
+              <Link to="/shop?collection=bag-glanzy" className={linkClass}>
+                Bag Glanzy
               </Link>
             </li>
           </ul>

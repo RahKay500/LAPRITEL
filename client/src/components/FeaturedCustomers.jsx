@@ -4,19 +4,24 @@ import { fetchFeaturedCustomers } from '../services/featuredCustomers'
 
 const HOMEPAGE_LIMIT = 2
 
-function FeaturedCard({ customer }) {
+function FeaturedCard({ customer, fill = false, className = '' }) {
+  const quote = customer.quote.replace(/^[“"]\s*|\s*[”"]$/g, '')
   return (
-    <figure className="bg-burgundy-tint/30">
+    <figure className={`bg-burgundy-tint/30 ${className}`}>
       <img
         src={customer.image_url}
         alt={`A LAPRITEL bag carried by ${customer.first_name}`}
-        className="mx-auto block max-h-[480px] w-auto max-w-full"
+        className={
+          fill
+            ? 'mx-auto block max-h-[480px] w-auto max-w-full sm:aspect-4/5 sm:h-auto sm:max-h-none sm:w-full sm:object-cover'
+            : 'mx-auto block max-h-[480px] w-auto max-w-full'
+        }
         loading="lazy"
         decoding="async"
       />
       <figcaption className="p-6">
         <blockquote className="text-sm leading-relaxed text-ink/80">
-          &ldquo;{customer.quote}&rdquo;
+          &ldquo;{quote}&rdquo;
         </blockquote>
         <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-burgundy">
           {customer.first_name}
@@ -68,8 +73,13 @@ function FeaturedCustomers() {
         </div>
 
         <div className="mx-auto mt-8 grid max-w-4xl gap-6 sm:grid-cols-2">
-          {customers.map((customer) => (
-            <FeaturedCard key={customer.id} customer={customer} />
+          {customers.map((customer, index) => (
+            <FeaturedCard
+              key={customer.id}
+              customer={customer}
+              fill
+              className={index > 0 ? 'hidden sm:block' : ''}
+            />
           ))}
         </div>
 
