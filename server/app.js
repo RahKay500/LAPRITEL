@@ -53,11 +53,17 @@ app.use(express.json())
 // GitHub Actions runners share IP pools with countless unrelated jobs, so if
 // this sat behind the limiter, other traffic on the same shared IP could
 // exhaust the quota and silently break the keep-alive ping.
+const HEALTH_PING_TTL_MS = 30 * 1000
+let lastHealthPing = 0
+
 app.get('/api/health', async (req, res) => {
-  try {
-    await supabase.from('products').select('id').limit(1)
-  } catch (error) {
-    console.error('Health check DB ping failed:', error.message)
+  if (Date.now() - lastHealthPing > HEALTH_PING_TTL_MS) {
+    lastHealthPing = Date.now()
+    try {
+      await supabase.from('products').select('id').limit(1)
+    } catch (error) {
+      console.error('Health check DB ping failed:', error.message)
+    }
   }
   res.json({ status: 'ok' })
 })

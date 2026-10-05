@@ -49,7 +49,7 @@ function setAuthCookie(res, token) {
     // production, so the cookie must be SameSite=None to be sent on
     // cross-origin API calls — which itself requires Secure (HTTPS).
     secure: isProduction,
-    sameSite: isProduction ? 'none' : 'lax',
+    sameSite: 'lax',
     maxAge: COOKIE_MAX_AGE,
   })
 }
@@ -106,7 +106,7 @@ export function logout(req, res) {
   res.clearCookie('token', {
     httpOnly: true,
     secure: isProduction,
-    sameSite: isProduction ? 'none' : 'lax',
+    sameSite: 'lax',
   })
   res.json({ message: 'Logged out' })
 }
