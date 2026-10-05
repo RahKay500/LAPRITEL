@@ -1,4 +1,5 @@
 import { randomUUID } from 'crypto'
+import sharp from 'sharp'
 import { supabase } from '../config/supabase.js'
 import {
   getAllProductsForAdmin,
@@ -57,16 +58,21 @@ export async function uploadImage(req, res) {
     return res.status(400).json({ message: 'No image file provided' })
   }
 
-  const extension = detectImageType(req.file.buffer)
-  if (!extension) {
+  if (!detectImageType(req.file.buffer)) {
     return res.status(400).json({ message: 'Only JPEG, PNG or WebP images are allowed' })
   }
 
-  const filename = `${randomUUID()}.${extension}`
+  const resized = await sharp(req.file.buffer)
+    .rotate()
+    .resize({ width: 1000, height: 1000, fit: 'inside', withoutEnlargement: true })
+    .jpeg({ quality: 85, mozjpeg: true })
+    .toBuffer()
+
+  const filename = `${randomUUID()}.jpg`
 
   const { error } = await supabase.storage
     .from('product-images')
-    .upload(filename, req.file.buffer, { contentType: IMAGE_TYPES[extension].contentType })
+    .upload(filename, resized, { contentType: 'image/jpeg' })
 
   if (error) {
     return res.status(500).json({ message: `Upload failed: ${error.message}` })
