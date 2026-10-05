@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Gem, Heart, Leaf } from 'lucide-react'
-import storyImage from '../assets/images/ivy_bag_hotpink.jpg'
+import storyImage from '../assets/images/story_marine.jpg'
 import craftImage from '../assets/images/craft_emerald.jpg'
 import { usePageMeta } from '../hooks/usePageMeta'
 
@@ -152,7 +152,7 @@ function AboutPage() {
             to="/shop"
             className="mt-6 inline-block rounded-full border-2 border-burgundy px-8 py-3 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white"
           >
-            Shop Bag Ivy
+            Shop All Bags
           </Link>
         </div>
       </div>
