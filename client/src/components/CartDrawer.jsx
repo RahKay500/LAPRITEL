@@ -171,9 +171,6 @@ function CartDrawer() {
                 </span>
                 <span className="text-xl font-extrabold text-burgundy">GHS {selectedSubtotal}</span>
               </div>
-              <p className="mt-1 text-xs text-ink/50">
-                A small payment processing fee is added at checkout.
-              </p>
               <Link
                 to="/checkout"
                 onClick={closeDrawer}

@@ -140,9 +140,6 @@ function CartPage() {
             <span className="text-xl font-extrabold text-burgundy">GHS {selectedSubtotal}</span>
           </div>
           <LeadTimeNote items={selectedItems} className="mt-2 text-right" />
-          <p className="-mt-2 w-full text-right text-xs text-ink/50 sm:max-w-sm">
-            A small payment processing fee is added at checkout.
-          </p>
           {selectedItems.length === 0 ? (
             <p className="w-full text-right text-sm text-burgundy sm:max-w-sm">
               Select at least one item to checkout.

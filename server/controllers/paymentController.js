@@ -1,6 +1,5 @@
 import { getActiveVariantPriceMap, getActiveVariantMetaMap } from '../models/products.js'
 import { verifyTransaction, isValidWebhookSignature } from '../utils/paystack.js'
-import { grossUpForPaystackFee } from '../utils/pricing.js'
 import { sendOrderConfirmationEmail, sendAdminOrderNotificationEmail } from '../utils/email.js'
 import {
   createOrder,
@@ -34,7 +33,7 @@ async function priceOrder(items) {
   return {
     lines,
     subtotal: subtotalPesewas / 100,
-    expectedChargePesewas: grossUpForPaystackFee(subtotalPesewas),
+    expectedChargePesewas: subtotalPesewas,
   }
 }
 

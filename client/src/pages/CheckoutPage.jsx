@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import PaystackPop from '@paystack/inline-js'
 import { useCart } from '../context/useCart'
 import { api } from '../services/api'
-import { grossUpForPaystackFee } from '../utils/pricing'
 import { usePageMeta } from '../hooks/usePageMeta'
 import LeadTimeNote from '../components/LeadTimeNote'
 import { sanitizeField } from '../utils/sanitizeField'
@@ -63,8 +62,7 @@ function CheckoutPage() {
   const publicKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY
 
   const subtotalPesewas = Math.round(subtotal * 100)
-  const totalPesewas = grossUpForPaystackFee(subtotalPesewas)
-  const processingFee = (totalPesewas - subtotalPesewas) / 100
+  const totalPesewas = subtotalPesewas
   const totalToPay = totalPesewas / 100
 
   function handleChange(event) {
@@ -357,10 +355,6 @@ function CheckoutPage() {
                   <span>GHS {subtotal}</span>
                 </div>
                 <LeadTimeNote items={checkoutItems} className="text-right" />
-                <div className="flex justify-between text-ink/70">
-                  <span>Payment Processing Fee</span>
-                  <span>GHS {processingFee.toFixed(2)}</span>
-                </div>
               </div>
 
               <div className="mt-4 flex justify-between border-t border-black/10 pt-4 text-base">
