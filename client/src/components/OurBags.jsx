@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { fetchProducts } from '../services/products'
 import Reveal from './Reveal'
 
+const HOMEPAGE_COLLECTION_LIMIT = 4
+
 function OurBags() {
   const [products, setProducts] = useState([])
   const [selectedColors, setSelectedColors] = useState({ 'ivy-bag': 'purple' })
@@ -44,8 +46,8 @@ function OurBags() {
               </p>
             </Reveal>
 
-            <div className="mt-10 grid gap-8 sm:grid-cols-3">
-              {products.map((product, index) => {
+            <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              {products.slice(0, HOMEPAGE_COLLECTION_LIMIT).map((product, index) => {
                 const standardVariants = product.product_variants.filter(
                   (v) => v.image_url && !v.is_custom
                 )
@@ -115,6 +117,16 @@ function OurBags() {
               })}
             </div>
           </div>
+          {products.length > HOMEPAGE_COLLECTION_LIMIT && (
+            <div className="mt-10 text-center">
+              <Link
+                to="/shop"
+                className="text-sm font-semibold uppercase tracking-wide text-burgundy underline-offset-4 hover:underline"
+              >
+                See all collections
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </section>
