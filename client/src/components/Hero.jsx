@@ -80,7 +80,7 @@ function Hero() {
               to="/shop"
               className="rounded-full border-2 border-white px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-burgundy"
             >
-              Shop Bag Ivy
+              Shop All Bags
             </Link>
             <Link
               to="/shop"
@@ -131,7 +131,7 @@ function Hero() {
                 to="/shop"
                 className="rounded-full border-2 border-white px-8 py-3 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-burgundy"
               >
-                Shop Bag Ivy
+                Shop All Bags
               </Link>
               <Link
                 to="/shop"
