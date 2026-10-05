@@ -159,3 +159,45 @@ export async function sendPasswordResetEmail({ email, fullName, resetUrl }) {
     html,
   })
 }
+
+const STATUS_EMAILS = {
+  processing: {
+    subject: (reference) => `Your LAPRITEL order ${reference} is being prepared`,
+    message: 'Your bag is being hand-beaded and prepared for you.',
+  },
+  shipped: {
+    subject: (reference) => `Your LAPRITEL order ${reference} is on its way`,
+    message: 'Your order has been shipped and is on its way to you.',
+  },
+  delivered: {
+    subject: (reference) => `Your LAPRITEL order ${reference} has been delivered`,
+    message: 'Your order has been delivered. We hope you love it.',
+  },
+}
+
+export async function sendOrderStatusEmail({ reference, customer, status }) {
+  const template = STATUS_EMAILS[status]
+  if (!template) return
+
+  if (!process.env.EMAIL_HOST || !process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+    console.warn('Email not configured — skipping order status email.')
+    return
+  }
+
+  const html = `
+    <div style="font-family:Georgia,serif;color:#1a1a1a;max-width:560px;margin:0 auto;padding:24px;">
+      <h1 style="color:#580D0D;font-size:22px;letter-spacing:2px;">LAPRITEL</h1>
+      <p>Hi ${escapeHtml(customer.fullName.split(' ')[0])},</p>
+      <p>${escapeHtml(template.message)}</p>
+      <p style="color:#666;font-size:13px;">Order reference: ${escapeHtml(reference)}</p>
+      <p style="margin-top:24px;color:#666;font-size:13px;">— The LAPRITEL Team</p>
+    </div>
+  `
+
+  await getTransporter().sendMail({
+    from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
+    to: customer.email,
+    subject: template.subject(reference),
+    html,
+  })
+}

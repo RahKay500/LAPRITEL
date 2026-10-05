@@ -1,4 +1,5 @@
 import { getAllOrders, getOrderByReference, updateOrderStatusByReference } from '../models/orders.js'
+import { sendOrderStatusEmail } from '../utils/email.js'
 
 const PAID_ONLY_STATUSES = ['processing', 'shipped', 'delivered']
 
@@ -21,5 +22,11 @@ export async function setOrderStatus(req, res) {
   }
 
   await updateOrderStatusByReference(reference, status)
+
+  try {
+    await sendOrderStatusEmail({ reference, customer: { fullName: order.customer_name, email: order.customer_email }, status })
+  } catch (emailError) {
+    console.error('Failed to send order status email:', emailError.message)
+  }
   res.json({ message: 'Order status updated' })
 }
