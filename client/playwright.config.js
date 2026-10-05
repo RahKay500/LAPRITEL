@@ -16,6 +16,7 @@ export default defineConfig({
   ],
   webServer: {
     command: 'npm run build && npm run preview -- --port 4173 --strictPort',
+    env: { VITE_PAYSTACK_PUBLIC_KEY: 'pk_test_e2e_placeholder' },
     url: 'http://localhost:4173',
     reuseExistingServer: !process.env.CI,
   },
