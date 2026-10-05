@@ -6,17 +6,22 @@ import {
   findValidResetToken,
   invalidateResetTokensForUser,
 } from '../models/passwordResetTokens.js'
-import { claimOrdersByEmail } from '../models/orders.js'
 import { sendPasswordResetEmail } from '../utils/email.js'
 
-// Best-effort: links any guest checkouts made under this email to the
-// account, so they show up under "My Orders". Never blocks login/register
-// on failure -- worst case the order just stays unlinked.
-async function claimGuestOrders(user) {
-  try {
-    await claimOrdersByEmail(user.id, user.email)
-  } catch (error) {
-    console.error('Failed to claim guest orders:', error.message)
+const USER_PAGE_SIZE = 1000
+
+async function findUserByEmail(email) {
+  const target = email.toLowerCase()
+
+  for (let page = 1; ; page += 1) {
+    const { data, error } = await supabase.auth.admin.listUsers({ page, perPage: USER_PAGE_SIZE })
+    if (error) {
+      throw new Error(`Failed to look up user: ${error.message}`)
+    }
+
+    const match = data.users.find((u) => u.email?.toLowerCase() === target)
+    if (match) return match
+    if (data.users.length < USER_PAGE_SIZE) return null
   }
 }
 
@@ -74,8 +79,6 @@ export async function register(req, res) {
     return res.status(status).json({ message: error.message })
   }
 
-  await claimGuestOrders(data.user)
-
   const token = signToken(data.user)
   setAuthCookie(res, token)
   res.status(201).json({ user: toPublicUser(data.user) })
@@ -92,8 +95,6 @@ export async function login(req, res) {
   if (error || !data.user) {
     return res.status(401).json({ message: 'Invalid email or password' })
   }
-
-  await claimGuestOrders(data.user)
 
   const token = signToken(data.user)
   setAuthCookie(res, token)
@@ -135,12 +136,7 @@ export async function requestPasswordReset(req, res) {
     message: "If an account exists for that email, we've sent a reset link.",
   }
 
-  const { data, error } = await supabase.auth.admin.listUsers()
-  if (error) {
-    throw new Error(`Failed to look up user: ${error.message}`)
-  }
-
-  const user = data.users.find((u) => u.email?.toLowerCase() === email.toLowerCase())
+  const user = await findUserByEmail(email)
   if (!user) {
     return res.json(genericResponse)
   }
