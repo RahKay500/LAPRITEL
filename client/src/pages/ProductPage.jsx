@@ -10,6 +10,7 @@ import ColourPicker from '../components/product/ColourPicker'
 import CustomColourPicker from '../components/product/CustomColourPicker'
 import ProductDetails from '../components/product/ProductDetails'
 import RelatedBags from '../components/product/RelatedBags'
+import ProductReviews from '../components/product/ProductReviews'
 
 function ProductPage() {
   const { slug } = useParams()
@@ -288,6 +289,7 @@ function ProductPage() {
         </div>
 
         {relatedVariants.length > 0 && <RelatedBags relatedVariants={relatedVariants} product={product} />}
+        {product && <ProductReviews productSlug={product.slug} />}
       </div>
     </div>
   )

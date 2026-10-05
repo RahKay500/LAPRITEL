@@ -7,6 +7,7 @@ const tabs = [
   { label: 'Customers', to: '/admin/customers' },
   { label: 'Messages', to: '/admin/messages' },
   { label: 'Featured', to: '/admin/featured' },
+  { label: 'Reviews', to: '/admin/reviews' },
 ]
 
 function AdminLayout() {

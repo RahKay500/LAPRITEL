@@ -4,6 +4,7 @@ import { body, param, query, validationResult } from 'express-validator'
 import { requireAdmin } from '../middleware/auth.js'
 import { listOrders, setOrderStatus } from '../controllers/adminOrdersController.js'
 import { listCustomers } from '../controllers/adminCustomersController.js'
+import { listAdminReviews, updateReviewStatus } from '../controllers/reviewsController.js'
 import { listContactMessages } from '../controllers/adminContactController.js'
 import {
   listAdminFeaturedCustomers,
@@ -66,6 +67,14 @@ router.patch(
 )
 
 router.get('/customers', listCustomers)
+
+router.get('/reviews', [query('status').optional().isIn(['pending', 'approved', 'hidden'])], validate, listAdminReviews)
+router.patch(
+  '/reviews/:id',
+  [param('id').isUUID(), body('status').isIn(['pending', 'approved', 'hidden'])],
+  validate,
+  updateReviewStatus
+)
 
 router.get('/contact-messages', listContactMessages)
 

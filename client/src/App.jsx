@@ -36,6 +36,7 @@ const AdminProductsPage = lazy(() => import('./pages/admin/AdminProductsPage'))
 const AdminCustomersPage = lazy(() => import('./pages/admin/AdminCustomersPage'))
 const AdminMessagesPage = lazy(() => import('./pages/admin/AdminMessagesPage'))
 const AdminFeaturedPage = lazy(() => import('./pages/admin/AdminFeaturedPage'))
+const AdminReviewsPage = lazy(() => import('./pages/admin/AdminReviewsPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
 function App() {
@@ -98,6 +99,7 @@ function App() {
               <Route path="customers" element={<AdminCustomersPage />} />
               <Route path="messages" element={<AdminMessagesPage />} />
               <Route path="featured" element={<AdminFeaturedPage />} />
+              <Route path="reviews" element={<AdminReviewsPage />} />
               <Route path="*" element={<Navigate to="orders" replace />} />
             </Route>
             <Route path="*" element={<NotFoundPage />} />

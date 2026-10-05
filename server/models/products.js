@@ -192,3 +192,16 @@ export async function deleteVariant(id) {
     }
   }
 }
+
+export async function getVariantProductSlug(colorSlug) {
+  const { data, error } = await supabase
+    .from('product_variants')
+    .select('products(slug)')
+    .eq('color_slug', colorSlug)
+    .maybeSingle()
+
+  if (error) {
+    throw new Error(`Failed to look up colour: ${error.message}`)
+  }
+  return data?.products?.slug ?? null
+}

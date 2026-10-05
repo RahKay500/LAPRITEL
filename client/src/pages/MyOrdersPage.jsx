@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { api } from '../services/api'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { fetchMyReviews } from '../services/reviews'
+import ReviewForm from '../components/reviews/ReviewForm'
 
 function MyOrdersPage() {
   usePageMeta('My Orders', 'View your past LAPRITEL orders and their status.')
@@ -9,8 +11,18 @@ function MyOrdersPage() {
   const [orders, setOrders] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
+  const [myReviews, setMyReviews] = useState([])
+  const [openReviewKey, setOpenReviewKey] = useState(null)
+  const [reviewNotice, setReviewNotice] = useState('')
+
+  function loadMyReviews() {
+    fetchMyReviews()
+      .then(setMyReviews)
+      .catch(() => {})
+  }
 
   useEffect(() => {
+    loadMyReviews()
     api
       .get('/orders')
       .then(setOrders)
@@ -66,14 +78,49 @@ function MyOrdersPage() {
                 </div>
 
                 <div className="mt-4 space-y-2">
-                  {order.order_items.map((item) => (
-                    <div key={item.id} className="flex justify-between text-sm">
-                      <span className="text-ink/70">
-                        {item.product_name} ({item.color_name}) x{item.quantity}
-                      </span>
-                      <span className="text-ink">GHS {item.line_total}</span>
-                    </div>
-                  ))}
+                  {order.order_items.map((item) => {
+                    const key = `${order.reference}:${item.color_slug}`
+                    const review = myReviews.find(
+                      (r) => r.reference === order.reference && r.colorSlug === item.color_slug
+                    )
+                    return (
+                      <div key={item.id}>
+                        <div className="flex justify-between text-sm">
+                          <span className="text-ink/70">
+                            {item.product_name} ({item.color_name}) x{item.quantity}
+                          </span>
+                          <span className="text-ink">GHS {item.line_total}</span>
+                        </div>
+                        {order.status === 'delivered' && !review && openReviewKey !== key && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setReviewNotice('')
+                              setOpenReviewKey(key)
+                            }}
+                            className="mt-1 text-xs font-semibold uppercase tracking-wide text-burgundy underline-offset-4 hover:underline"
+                          >
+                            Leave a review
+                          </button>
+                        )}
+                        {review && (
+                          <p className="mt-1 text-xs text-ink/60">Review {review.status === 'approved' ? 'published' : 'awaiting approval'}</p>
+                        )}
+                        {openReviewKey === key && (
+                          <ReviewForm
+                            orderReference={order.reference}
+                            colorSlug={item.color_slug}
+                            onSubmitted={(message) => {
+                              setOpenReviewKey(null)
+                              setReviewNotice(message)
+                              loadMyReviews()
+                            }}
+                          />
+                        )}
+                      </div>
+                    )
+                  })}
+                  {reviewNotice && <p className="text-xs text-burgundy">{reviewNotice}</p>}
                 </div>
 
                 <div className="mt-4 flex justify-between border-t border-black/10 pt-3 text-sm font-medium">
