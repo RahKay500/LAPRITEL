@@ -29,14 +29,13 @@ describe('FeaturedCustomers', () => {
     expect(container).toBeEmptyDOMElement()
   })
 
-  it('shows each featured customer with their quote and first name', async () => {
+  it('shows each featured customer as a photo with their first name', async () => {
     fetchFeaturedCustomers.mockResolvedValue([
       { id: '1', first_name: 'Ama', quote: 'I wear it everywhere.', image_url: 'https://example.com/ama.jpg' },
     ])
     render(<MemoryRouter><FeaturedCustomers /></MemoryRouter>)
 
     expect(await screen.findByText('Ama')).toBeInTheDocument()
-    expect(screen.getByText(/I wear it everywhere\./)).toBeInTheDocument()
     expect(screen.getByAltText('A LAPRITEL bag carried by Ama')).toHaveAttribute(
       'src',
       'https://example.com/ama.jpg'
