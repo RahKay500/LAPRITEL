@@ -12,7 +12,7 @@ import {
 const emptyVariantForm = {
   colorName: '',
   colorSlug: '',
-  hex: '#800020',
+  hex: '#580D0D',
   price: '',
   imageUrl: '',
   isCustom: false,
