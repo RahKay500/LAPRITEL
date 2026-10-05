@@ -8,6 +8,7 @@ import RequireAuth from './components/RequireAuth'
 import RequireAdmin from './components/RequireAdmin'
 import HomePage from './pages/HomePage'
 import ShopPage from './pages/ShopPage'
+import CollectionsPage from './pages/CollectionsPage'
 import ProductPage from './pages/ProductPage'
 import CartPage from './pages/CartPage'
 import WishlistPage from './pages/WishlistPage'
@@ -44,6 +45,7 @@ function App() {
       <main className="flex-1">
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/collections" element={<CollectionsPage />} />
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/shop/:slug" element={<ProductPage />} />
           <Route path="/cart" element={<CartPage />} />

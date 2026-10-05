@@ -120,7 +120,7 @@ function OurBags() {
           {products.length > HOMEPAGE_COLLECTION_LIMIT && (
             <div className="mt-10 text-center">
               <Link
-                to="/shop"
+                to="/collections"
                 className="text-sm font-semibold uppercase tracking-wide text-burgundy underline-offset-4 hover:underline"
               >
                 See all collections

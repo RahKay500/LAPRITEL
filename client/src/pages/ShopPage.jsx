@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { Check, ChevronDown, Filter } from 'lucide-react'
+import { Check, ChevronDown, Filter, Heart } from 'lucide-react'
 import { fetchProducts } from '../services/products'
 import { useCart } from '../context/useCart'
+import { useWishlist } from '../context/useWishlist'
 import { usePageMeta } from '../hooks/usePageMeta'
 
 function toCartVariant(variant, productName) {
@@ -27,6 +28,7 @@ function ShopPage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const filterRef = useRef(null)
   const { addItem } = useCart()
+  const { isWishlisted, toggleWishlist } = useWishlist()
   const [addedSlug, setAddedSlug] = useState(null)
 
   useEffect(() => {
@@ -112,9 +114,21 @@ function ShopPage() {
     gridContent = <p className="mt-16 text-center text-ink/60">No bags match that colour right now.</p>
   } else {
     gridContent = (
-      <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
+      <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
         {visibleVariants.map((variant) => (
-          <div key={variant.slug}>
+          <div key={variant.slug} className="relative">
+            <button
+              type="button"
+              aria-label={isWishlisted(selectedCollection.slug, variant.slug) ? 'Remove from wishlist' : 'Add to wishlist'}
+              onClick={() => toggleWishlist(selectedCollection.slug, variant.slug)}
+              className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white text-burgundy shadow-sm"
+            >
+              <Heart
+                size={16}
+                strokeWidth={1.75}
+                className={isWishlisted(selectedCollection.slug, variant.slug) ? 'fill-burgundy text-burgundy' : ''}
+              />
+            </button>
             <Link to={`/shop/${selectedCollection.slug}?color=${variant.slug}`}>
               {variant.image ? (
                 <div className="flex aspect-square w-full items-center justify-center bg-burgundy-tint/40">
@@ -166,21 +180,26 @@ function ShopPage() {
           <h1 className="text-3xl font-extrabold uppercase tracking-tight text-ink sm:text-4xl">
             Collections
           </h1>
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-            {collections.map((item) => (
-              <button
-                key={item.slug}
-                type="button"
-                onClick={() => selectCollection(item.slug)}
-                className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
-                  item.slug === selectedCollection?.slug
-                    ? 'border-burgundy bg-burgundy text-white'
-                    : 'border-black/10 text-ink hover:border-burgundy hover:text-burgundy'
-                }`}
-              >
-                {item.name}
-              </button>
-            ))}
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+            <select
+              value={selectedCollection?.slug || ''}
+              onChange={(event) => selectCollection(event.target.value)}
+              disabled={collections.length === 0}
+              aria-label="Choose a collection"
+              className="rounded-full border border-black/10 px-4 py-1.5 text-sm font-medium text-ink outline-none focus:border-burgundy"
+            >
+              {collections.map((item) => (
+                <option key={item.slug} value={item.slug}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
+            <Link
+              to="/collections"
+              className="text-sm font-medium text-burgundy underline-offset-4 hover:underline"
+            >
+              All collections
+            </Link>
           </div>
         </div>
 
@@ -190,14 +209,6 @@ function ShopPage() {
               <h2 className="text-2xl font-extrabold uppercase tracking-tight text-ink sm:text-3xl">
                 {selectedCollection.name}
               </h2>
-              {hasCustomVariants && (
-                <Link
-                  to={`/shop/${selectedCollection.slug}#custom-colors`}
-                  className="text-sm font-medium text-burgundy underline-offset-4 hover:underline"
-                >
-                  + Custom colours available
-                </Link>
-              )}
             </div>
 
             <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -255,6 +266,17 @@ function ShopPage() {
               </div>
             </div>
           </>
+        )}
+
+        {hasCustomVariants && selectedCollection && (
+          <div className="mt-4 text-right">
+            <Link
+              to={`/shop/${selectedCollection.slug}#custom-colors`}
+              className="text-sm font-medium text-burgundy underline-offset-4 hover:underline"
+            >
+              + Custom colours available
+            </Link>
+          </div>
         )}
 
         {gridContent}
