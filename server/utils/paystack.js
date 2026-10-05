@@ -29,5 +29,7 @@ export function isValidWebhookSignature(rawBody, signature) {
     .update(rawBody)
     .digest('hex')
 
-  return hash === signature
+  const expected = Buffer.from(hash, 'utf8')
+  const received = Buffer.from(String(signature), 'utf8')
+  return expected.length === received.length && crypto.timingSafeEqual(expected, received)
 }
