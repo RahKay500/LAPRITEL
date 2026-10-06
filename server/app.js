@@ -17,6 +17,7 @@ import paymentsRouter from './routes/payments.js'
 import ordersRouter from './routes/orders.js'
 import buyRequestsRouter from './routes/buyRequests.js'
 import reviewsRouter from './routes/reviews.js'
+import newsletterRouter from './routes/newsletter.js'
 import authRouter from './routes/auth.js'
 import productsRouter from './routes/products.js'
 import adminRouter from './routes/admin.js'
@@ -76,6 +77,7 @@ app.use('/api/payments', paymentsRouter)
 app.use('/api/orders', ordersRouter)
 app.use('/api/buy-requests', buyRequestsRouter)
 app.use('/api/reviews', reviewsRouter)
+app.use('/api/newsletter', newsletterRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/featured-customers', featuredCustomersRouter)
