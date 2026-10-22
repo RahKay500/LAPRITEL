@@ -56,8 +56,83 @@
         rel="stylesheet"
       />
     </noscript>
+
+    <style>
+      /*
+        Plain CSS, no Tailwind or React dependency, so this paints on the
+        very first frame -- including inside Instagram's in-app browser,
+        where the JS bundle can take a moment to warm up. main.jsx removes
+        this once the app has actually painted (see #splash-screen there).
+      */
+      #splash-screen {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: #f5e6ea;
+        transition: opacity 0.4s ease;
+      }
+      #splash-screen.splash-hide {
+        opacity: 0;
+        pointer-events: none;
+      }
+      #splash-screen .splash-mark {
+        font-family: "Karla", sans-serif;
+        font-weight: 800;
+        font-size: clamp(2rem, 8vw, 3rem);
+        letter-spacing: 0.12em;
+        color: #580d0d;
+      }
+      #splash-screen .splash-label {
+        margin-top: 0.75rem;
+        font-family: "Karla", sans-serif;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: rgba(88, 13, 13, 0.6);
+      }
+      #splash-screen .splash-track {
+        margin-top: 1.25rem;
+        width: 140px;
+        height: 2px;
+        background: rgba(88, 13, 13, 0.15);
+        overflow: hidden;
+        border-radius: 999px;
+      }
+      #splash-screen .splash-bar {
+        width: 40%;
+        height: 100%;
+        background: #580d0d;
+        animation: splash-slide 1.1s ease-in-out infinite;
+      }
+      @keyframes splash-slide {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(350%);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #splash-screen .splash-bar {
+          animation: none;
+          width: 100%;
+        }
+      }
+    </style>
   </head>
   <body>
+    <div id="splash-screen" aria-hidden="true">
+      <p class="splash-mark">LAPRITEL</p>
+      <p class="splash-label">Loading</p>
+      <div class="splash-track">
+        <div class="splash-bar"></div>
+      </div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

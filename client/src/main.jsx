@@ -25,3 +25,19 @@ createRoot(document.getElementById('root')).render(
     </ErrorBoundary>
   </StrictMode>,
 )
+
+// Fades out the static splash screen from index.html once the app has
+// actually painted (two rAFs, so the browser has drawn the committed
+// frame). A fallback timeout guarantees it's gone even if something keeps
+// the app from mounting, so a broken render can never leave it stuck.
+let splashDismissed = false
+function dismissSplash() {
+  if (splashDismissed) return
+  splashDismissed = true
+  const splash = document.getElementById('splash-screen')
+  if (!splash) return
+  splash.classList.add('splash-hide')
+  setTimeout(() => splash.remove(), 400)
+}
+requestAnimationFrame(() => requestAnimationFrame(dismissSplash))
+setTimeout(dismissSplash, 4000)
