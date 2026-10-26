@@ -45,9 +45,11 @@ function setAuthCookie(res, token) {
   const isProduction = process.env.NODE_ENV?.trim() === 'production'
   res.cookie('token', token, {
     httpOnly: true,
-    // Client (Vercel) and server (Render) live on different domains in
-    // production, so the cookie must be SameSite=None to be sent on
-    // cross-origin API calls — which itself requires Secure (HTTPS).
+    // The client's vercel.json rewrites /api/* to this API's own Vercel
+    // project server-side, so the browser only ever talks to the client's
+    // own origin -- the API domain never appears to it. That keeps this
+    // same-site, so SameSite=Lax is sent on every request without needing
+    // SameSite=None (which would require third-party-cookie support).
     secure: isProduction,
     sameSite: 'lax',
     maxAge: COOKIE_MAX_AGE,

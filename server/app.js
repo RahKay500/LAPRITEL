@@ -49,13 +49,12 @@ app.use('/api/payments/webhook', paymentWebhookRouter)
 app.use(express.json())
 
 // Registered before apiLimiter so it's never subject to rate limiting.
-// A scheduled GitHub Actions job pings this on a cron (see
-// .github/workflows/keep-alive.yml) to stop Vercel from cold-starting this
-// function after idle periods, and touching the database here keeps
-// Supabase's free-tier project from auto-pausing after a week of inactivity.
-// GitHub Actions runners share IP pools with countless unrelated jobs, so if
-// this sat behind the limiter, other traffic on the same shared IP could
-// exhaust the quota and silently break the keep-alive ping.
+// An external cron (cron-job.org) pings this every few minutes to stop
+// Vercel from cold-starting this function after idle periods, and touching
+// the database here keeps Supabase's free-tier project from auto-pausing
+// after a week of inactivity. If this sat behind the limiter, other traffic
+// sharing the limiter's key could exhaust the quota and silently break the
+// keep-alive ping.
 const HEALTH_PING_TTL_MS = 30 * 1000
 let lastHealthPing = 0
 
@@ -69,6 +68,18 @@ app.get('/api/health', async (req, res) => {
     }
   }
   res.json({ status: 'ok' })
+})
+
+// TEMPORARY — IP-resolution diagnostic for the trust-proxy audit, removed
+// before this commit's follow-up.
+app.get('/api/_diag_ip', (req, res) => {
+  res.json({
+    reqIp: req.ip,
+    ips: req.ips,
+    xForwardedFor: req.headers['x-forwarded-for'] || null,
+    xVercelForwardedFor: req.headers['x-vercel-forwarded-for'] || null,
+    xRealIp: req.headers['x-real-ip'] || null,
+  })
 })
 
 app.use('/api', apiLimiter)
