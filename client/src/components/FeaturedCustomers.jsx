@@ -7,15 +7,15 @@ const HOMEPAGE_LIMIT = 6
 function FeaturedCard({ customer }) {
   const quote = customer.quote.replace(/^[“"]\s*|\s*[”"]$/g, '')
   return (
-    <figure className="bg-burgundy-tint/30">
+    <figure className="flex h-full flex-col bg-burgundy-tint/30">
       <img
         src={customer.image_url}
         alt={`A LAPRITEL bag carried by ${customer.first_name}`}
-        className="mx-auto block max-h-120 w-auto max-w-full"
+        className="aspect-4/5 w-full object-cover"
         loading="lazy"
         decoding="async"
       />
-      <figcaption className="p-6">
+      <figcaption className="flex flex-1 flex-col p-6">
         <blockquote className="text-sm leading-relaxed text-ink/80">
           &ldquo;{quote}&rdquo;
         </blockquote>
@@ -29,11 +29,9 @@ function FeaturedCard({ customer }) {
 
 export function FeaturedGrid({ customers }) {
   return (
-    <div className="columns-1 gap-6 sm:columns-2 lg:columns-3">
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {customers.map((customer) => (
-        <div key={customer.id} className="mb-6 break-inside-avoid">
-          <FeaturedCard customer={customer} />
-        </div>
+        <FeaturedCard key={customer.id} customer={customer} />
       ))}
     </div>
   )
