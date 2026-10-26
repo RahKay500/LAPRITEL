@@ -22,18 +22,21 @@
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
-    "express": "^5.2.1",
+    "express": "^5.3.0",
     "express-validator": "^7.3.2",
     "helmet": "^8.2.0",
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.11.0",
-    "multer": "^2.2.0",
-    "nodemailer": "^10.0.15",
+    "multer": "^2.5.0",
+    "nodemailer": "^10.2.1",
     "sharp": "^0.35.5",
     "ws": "^8.21.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.14",
     "vitest": "^4.1.11"
+  },
+  "overrides": {
+    "body-parser": "^2.4.0"
   }
 }
