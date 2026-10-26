@@ -1,81 +1,69 @@
 import { ghanaRegions } from '../../utils/checkout'
 
-export default function DeliveryDetails({ form, setForm, errors, onChange }) {
+export default function DeliveryDetails({ form, mode, errors, onChange }) {
+  const isGift = mode === 'gift'
   return (
     <fieldset>
       <legend className="text-sm font-semibold uppercase tracking-wide text-ink">
         Delivery Address
       </legend>
       <div className="mt-4 space-y-4">
-        <div className="space-y-3">
-          <label className="flex items-start gap-2 text-sm text-ink/70">
-            <input
-              type="checkbox"
-              checked={form.sendToSomeone}
-              onChange={(event) =>
-                setForm((current) => ({
-                  ...current,
-                  sendToSomeone: event.target.checked,
-                  recipientName: event.target.checked ? current.recipientName : '',
-                  recipientPhone: event.target.checked ? current.recipientPhone : '',
-                }))
-              }
-              className="mt-1 h-4 w-4 accent-burgundy"
-            />
-            <span>Send this order to someone else</span>
-          </label>
-
-          {form.sendToSomeone && (
-            <div className="space-y-4 border-l-2 border-burgundy/30 pl-4">
-              <p className="text-xs text-ink/60">
-                Enter the recipient's details and their delivery address below. You still
-                pay and receive the receipt.
-              </p>
-              <div>
-                <label htmlFor="recipientName" className="text-sm text-ink/70">
-                  Recipient's Full Name
-                </label>
-                <input
-                  id="recipientName"
-                  name="recipientName"
-                  type="text"
-                  value={form.recipientName}
-                  onChange={onChange}
-                  aria-invalid={Boolean(errors.recipientName)}
-                  className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
-                />
-                {errors.recipientName && (
-                  <p role="alert" className="mt-1 text-xs text-burgundy">
-                    {errors.recipientName}
-                  </p>
-                )}
-              </div>
-              <div>
-                <label htmlFor="recipientPhone" className="text-sm text-ink/70">
-                  Recipient's Phone Number
-                </label>
-                <input
-                  id="recipientPhone"
-                  name="recipientPhone"
-                  type="tel"
-                  value={form.recipientPhone}
-                  onChange={onChange}
-                  aria-invalid={Boolean(errors.recipientPhone)}
-                  className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
-                />
-                {errors.recipientPhone && (
-                  <p role="alert" className="mt-1 text-xs text-burgundy">
-                    {errors.recipientPhone}
-                  </p>
-                )}
-              </div>
+        {isGift && (
+          <div className="space-y-4 border-l-2 border-burgundy/30 pl-4">
+            <p className="text-xs text-ink/60">
+              Enter the recipient's details and their delivery address below. You still pay
+              and receive the receipt.
+            </p>
+            <div>
+              <label htmlFor="recipientName" className="text-sm text-ink/70">
+                Recipient's Full Name
+              </label>
+              <input
+                id="recipientName"
+                name="recipientName"
+                type="text"
+                value={form.recipientName}
+                onChange={onChange}
+                aria-invalid={Boolean(errors.recipientName)}
+                className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+              />
+              {errors.recipientName && (
+                <p role="alert" className="mt-1 text-xs text-burgundy">
+                  {errors.recipientName}
+                </p>
+              )}
             </div>
-          )}
-        </div>
+            <div>
+              <label htmlFor="recipientPhone" className="text-sm text-ink/70">
+                Recipient's Phone Number
+              </label>
+              <input
+                id="recipientPhone"
+                name="recipientPhone"
+                type="tel"
+                value={form.recipientPhone}
+                onChange={onChange}
+                aria-invalid={Boolean(errors.recipientPhone)}
+                className="mt-1 w-full border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-burgundy"
+              />
+              {errors.recipientPhone && (
+                <p role="alert" className="mt-1 text-xs text-burgundy">
+                  {errors.recipientPhone}
+                </p>
+              )}
+            </div>
+          </div>
+        )}
+
+        {mode === 'link' && (
+          <p className="text-xs text-ink/60">
+            This order ships to you once someone else pays using your link.
+          </p>
+        )}
 
         <div>
           <label htmlFor="address" className="text-sm text-ink/70">
-            {form.sendToSomeone ? "Recipient's Street Address" : 'Street Address'}
+            {isGift ? "Recipient's Street Address" : 'Street Address'}
           </label>
           <input
             id="address"

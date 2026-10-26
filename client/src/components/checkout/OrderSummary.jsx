@@ -1,6 +1,7 @@
 import LeadTimeNote from '../LeadTimeNote'
 
 export default function OrderSummary({
+  mode,
   checkoutItems,
   subtotal,
   totalToPay,
@@ -13,6 +14,7 @@ export default function OrderSummary({
   buyLink,
   onBuyForMe,
 }) {
+  const isLinkMode = mode === 'link'
   return (
     <div>
       <div className="border border-black/10 p-6">
@@ -57,7 +59,7 @@ export default function OrderSummary({
           <span>Save my details on this device for next time</span>
         </label>
 
-        {!publicKey && (
+        {!isLinkMode && !publicKey && (
           <p className="mt-4 text-xs text-burgundy">
             Online payment is unavailable right now. Please try again shortly.
           </p>
@@ -69,22 +71,24 @@ export default function OrderSummary({
           </p>
         )}
 
-        <button
-          type="submit"
-          disabled={!publicKey || isProcessing}
-          className="mt-6 w-full rounded-full border-2 border-burgundy px-8 py-3 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          {isProcessing ? 'Processing...' : 'Checkout'}
-        </button>
-
-        <button
-          type="button"
-          onClick={onBuyForMe}
-          disabled={isCreatingLink || checkoutItems.length === 0}
-          className="mt-3 w-full rounded-full px-8 py-3 text-sm font-semibold uppercase tracking-widest text-burgundy underline-offset-4 hover:underline disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          {isCreatingLink ? 'Creating link...' : 'Buy for me'}
-        </button>
+        {isLinkMode ? (
+          <button
+            type="button"
+            onClick={onBuyForMe}
+            disabled={isCreatingLink || checkoutItems.length === 0}
+            className="mt-6 w-full rounded-full border-2 border-burgundy px-8 py-3 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {isCreatingLink ? 'Creating link...' : 'Create payment link'}
+          </button>
+        ) : (
+          <button
+            type="submit"
+            disabled={!publicKey || isProcessing}
+            className="mt-6 w-full rounded-full border-2 border-burgundy px-8 py-3 text-sm font-bold uppercase tracking-widest text-burgundy transition-colors hover:bg-burgundy hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {isProcessing ? 'Processing...' : 'Checkout'}
+          </button>
+        )}
 
         {buyLink && (
           <div className="mt-4 space-y-3 border border-black/10 p-4 text-left text-sm">

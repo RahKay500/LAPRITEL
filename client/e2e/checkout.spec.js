@@ -33,8 +33,9 @@ test('an empty checkout form shows field errors instead of paying', async ({ pag
 
 test('buy for me creates a shareable link from the checkout details', async ({ page }) => {
   await page.goto('/checkout')
+  await page.getByRole('button', { name: 'Someone else pays' }).click()
   await fillDelivery(page)
-  await page.getByRole('button', { name: 'Buy for me' }).click()
+  await page.getByRole('button', { name: 'Create payment link' }).click()
 
   await expect(page.getByText(`/buy-for-me/${buyToken}`)).toBeVisible()
   await expect(page.getByRole('button', { name: 'Copy link' })).toBeVisible()

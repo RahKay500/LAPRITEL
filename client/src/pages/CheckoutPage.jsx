@@ -7,6 +7,7 @@ import { createBuyRequest } from '../services/buyRequests'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { sanitizeField } from '../utils/sanitizeField'
 import { initialForm, readSavedDetails, persistDetails, validate } from '../utils/checkout'
+import CheckoutModeSelector from '../components/checkout/CheckoutModeSelector'
 import CustomerDetails from '../components/checkout/CustomerDetails'
 import DeliveryDetails from '../components/checkout/DeliveryDetails'
 import OrderSummary from '../components/checkout/OrderSummary'
@@ -18,6 +19,7 @@ function CheckoutPage() {
   const navigate = useNavigate()
   const [savedDetails] = useState(readSavedDetails)
   const [form, setForm] = useState(savedDetails ?? initialForm)
+  const [mode, setMode] = useState('self')
   const [saveDetails, setSaveDetails] = useState(Boolean(savedDetails))
   const [errors, setErrors] = useState({})
   const [isProcessing, setIsProcessing] = useState(false)
@@ -34,6 +36,17 @@ function CheckoutPage() {
   function handleChange(event) {
     const { name, value } = event.target
     setForm((current) => ({ ...current, [name]: sanitizeField(name, value) }))
+  }
+
+  function handleModeChange(nextMode) {
+    setMode(nextMode)
+    setPaymentError('')
+    setForm((current) => ({
+      ...current,
+      sendToSomeone: nextMode === 'gift',
+      recipientName: nextMode === 'gift' ? current.recipientName : '',
+      recipientPhone: nextMode === 'gift' ? current.recipientPhone : '',
+    }))
   }
 
   async function handleBuyForMe() {
@@ -58,6 +71,10 @@ function CheckoutPage() {
 
   function handlePayment(event) {
     event.preventDefault()
+    if (mode === 'link') {
+      handleBuyForMe()
+      return
+    }
     const validationErrors = validate(form)
     setErrors(validationErrors)
     if (Object.keys(validationErrors).length > 0) return
@@ -157,12 +174,15 @@ function CheckoutPage() {
           className="mt-8 grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:gap-16"
         >
           <div className="space-y-8">
+          <CheckoutModeSelector mode={mode} onChange={handleModeChange} />
+
           <CustomerDetails form={form} errors={errors} onChange={handleChange} />
 
-          <DeliveryDetails form={form} setForm={setForm} errors={errors} onChange={handleChange} />
+          <DeliveryDetails form={form} mode={mode} errors={errors} onChange={handleChange} />
           </div>
 
           <OrderSummary
+            mode={mode}
             checkoutItems={checkoutItems}
             subtotal={subtotal}
             totalToPay={totalToPay}
