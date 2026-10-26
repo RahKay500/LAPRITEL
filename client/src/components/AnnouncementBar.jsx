@@ -21,7 +21,7 @@ function AnnouncementBar() {
   }
 
   return (
-    <div className="grid grid-cols-[auto_1fr_auto] items-center gap-3 bg-burgundy px-4 py-2.5 text-white sm:gap-4">
+    <div className="flex items-center justify-center gap-2 bg-burgundy px-4 py-2.5 text-white sm:gap-3">
       <button
         type="button"
         aria-label="Previous announcement"
