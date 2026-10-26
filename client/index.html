@@ -86,6 +86,15 @@
         letter-spacing: 0.12em;
         color: #580d0d;
       }
+      #splash-screen .splash-track {
+        position: relative;
+        margin-top: 1.25rem;
+        width: 140px;
+        height: 2px;
+        background: rgba(88, 13, 13, 0.15);
+        overflow: hidden;
+        border-radius: 999px;
+      }
       #splash-screen .splash-label {
         margin-top: 0.75rem;
         font-family: "Karla", sans-serif;
@@ -95,14 +104,28 @@
         text-transform: uppercase;
         color: rgba(88, 13, 13, 0.6);
       }
-      #splash-screen .splash-track {
-        position: relative;
-        margin-top: 1.25rem;
-        width: 140px;
-        height: 2px;
-        background: rgba(88, 13, 13, 0.15);
+      /* Cycles the dots after "Loading" by clipping a fixed "..." string. */
+      #splash-screen .splash-label::after {
+        content: "...";
+        display: inline-block;
+        width: 1em;
         overflow: hidden;
-        border-radius: 999px;
+        vertical-align: bottom;
+        animation: splash-dots 1.4s steps(4, end) infinite;
+      }
+      @keyframes splash-dots {
+        0% {
+          width: 0;
+        }
+        100% {
+          width: 1em;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #splash-screen .splash-label::after {
+          animation: none;
+          width: 1em;
+        }
       }
       /*
         The standard two-segment indeterminate bar: each segment eases
@@ -162,11 +185,11 @@
   <body>
     <div id="splash-screen" aria-hidden="true">
       <p class="splash-mark">LAPRITEL</p>
-      <p class="splash-label">Loading</p>
       <div class="splash-track">
         <div class="splash-bar splash-bar--1"></div>
         <div class="splash-bar splash-bar--2"></div>
       </div>
+      <p class="splash-label">Loading</p>
     </div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
