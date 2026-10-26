@@ -27,9 +27,13 @@ import featuredCustomersRouter from './routes/featuredCustomers.js'
 const app = express()
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173'
 
-// Vercel and Render both sit behind a reverse proxy — without this, req.ip
-// resolves to the proxy's address instead of the real client, which breaks
-// per-client rate limiting.
+// Vercel sits in front of this function as a reverse proxy -- without this,
+// req.ip resolves to Vercel's own address instead of the real client, which
+// breaks per-client rate limiting. Verified this also holds for requests
+// that reach this API via the client project's vercel.json rewrite
+// (lapritel.vercel.app/api/* -> this project): that rewrite is edge-
+// transparent and doesn't add an extra proxy hop, so trust proxy=1 (not 2)
+// is correct on both paths.
 app.set('trust proxy', 1)
 
 app.use(helmet())
@@ -68,18 +72,6 @@ app.get('/api/health', async (req, res) => {
     }
   }
   res.json({ status: 'ok' })
-})
-
-// TEMPORARY — IP-resolution diagnostic for the trust-proxy audit, removed
-// before this commit's follow-up.
-app.get('/api/_diag_ip', (req, res) => {
-  res.json({
-    reqIp: req.ip,
-    ips: req.ips,
-    xForwardedFor: req.headers['x-forwarded-for'] || null,
-    xVercelForwardedFor: req.headers['x-vercel-forwarded-for'] || null,
-    xRealIp: req.headers['x-real-ip'] || null,
-  })
 })
 
 app.use('/api', apiLimiter)
