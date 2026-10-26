@@ -41,8 +41,8 @@ function OurBags() {
                 <span className="text-burgundy">Bags.</span>
               </h2>
               <p className="mt-4 max-w-md text-ink/60">
-                Fully beaded, hand-stitched over 48 hours. Three signature
-                designs, each made to order.
+                Fully beaded, hand-stitched over 48 hours. Signature designs,
+                each made to order.
               </p>
             </Reveal>
 
