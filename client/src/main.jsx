@@ -26,10 +26,17 @@ createRoot(document.getElementById('root')).render(
   </StrictMode>,
 )
 
-// Fades out the static splash screen from index.html once the app has
-// actually painted (two rAFs, so the browser has drawn the committed
-// frame). A fallback timeout guarantees it's gone even if something keeps
-// the app from mounting, so a broken render can never leave it stuck.
+// Fades out the static splash screen from index.html. It's a deliberate
+// brand moment, not just a loading indicator, so it stays up for at least
+// SPLASH_MIN_MS even when the app paints instantly -- but never longer than
+// it has to: it still waits for the app to actually paint (two rAFs, so the
+// browser has drawn the committed frame) before dismissing once that
+// minimum has passed. A hard fallback guarantees it's gone even if
+// something keeps the app from mounting at all, so a broken render can
+// never leave it stuck on screen.
+const SPLASH_MIN_MS = 2200
+const SPLASH_MAX_MS = 6000
+
 let splashDismissed = false
 function dismissSplash() {
   if (splashDismissed) return
@@ -39,5 +46,10 @@ function dismissSplash() {
   splash.classList.add('splash-hide')
   setTimeout(() => splash.remove(), 400)
 }
-requestAnimationFrame(() => requestAnimationFrame(dismissSplash))
-setTimeout(dismissSplash, 4000)
+
+const appPainted = new Promise((resolve) => {
+  requestAnimationFrame(() => requestAnimationFrame(resolve))
+})
+const minimumShown = new Promise((resolve) => setTimeout(resolve, SPLASH_MIN_MS))
+Promise.all([appPainted, minimumShown]).then(dismissSplash)
+setTimeout(dismissSplash, SPLASH_MAX_MS)
